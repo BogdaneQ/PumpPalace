@@ -1,0 +1,6 @@
+@PumpPalace_HostAddress = http://localhost:5155
+
+GET {{PumpPalace_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
