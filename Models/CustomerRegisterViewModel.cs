@@ -30,6 +30,6 @@ namespace PumpPalace.Models
         [Phone(ErrorMessage = "Podaj poprawny numer telefonu.")]
         public string Phone { get; set; }
 
-        public bool IsSubscribedToNewsletter { get; set; }
+        public bool IsSubscribedToNewsletter { get; set; } = false;
     }
 }

@@ -19,7 +19,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Product/ProductList">Products</a>
                     </li>
-
                     <!-- Categories with Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,9 +32,13 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Admin/AdminPanel">Admin Panel</a>
-                    </li>
+                    <!-- Admin Panel link visible only for Admins -->
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/AdminPanel">Admin Panel</a>
+                        </li>
+                    }
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
@@ -47,13 +50,24 @@
                         <a class="nav-link" href="/Customer/MyAccount">My Account</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Authentication/LoginPage">Login</a>
-                    </li>
+                    <!-- If user is not logged in -->
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Authentication/LoginPage">Login</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Authentication/RegisterPage">Register</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Authentication/RegisterPage">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <!-- Show Logout if user is logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Authentication/Logout">Logout</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

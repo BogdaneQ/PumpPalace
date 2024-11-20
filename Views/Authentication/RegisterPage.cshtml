@@ -51,14 +51,6 @@
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
 
-    <div>
-        <label for="isSubscribedToNewsletter">
-            <input type="checkbox" id="isSubscribedToNewsletter" name="IsSubscribedToNewsletter"
-            @(Model?.IsSubscribedToNewsletter == true ? "checked" : "") />
-            Zapisz się na newsletter
-        </label>
-    </div>
-
     <button type="submit">Zarejestruj się</button>
 </form>
 

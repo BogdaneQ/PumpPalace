@@ -2,11 +2,6 @@
 
 namespace PumpPalace.Models
 {
-    public enum UserRole
-    {
-        Customer,
-        Admin,
-    }
     public class Customer
     {
         [Key]
@@ -35,7 +30,7 @@ namespace PumpPalace.Models
         public bool IsSubscribedToNewsletter { get; set; }
 
         [Required]
-        public UserRole Role { get; set; }
+        public bool IsAdmin { get; set; }
 
         public List<Order> Orders { get; set; } = new List<Order>();
     }

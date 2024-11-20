@@ -1,9 +1,27 @@
-﻿@{
-    Layout = "Layout";
-}
+﻿@model PumpPalace.Models.LoginViewModel
 
 <h2>Logowanie</h2>
 
-    <button type="submit">Zaloguj się</button>
+<form method="post">
+    <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="Email" value="@Model?.Email" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
 
-    <a href="/Authentication/ForgotPasswordPage">Forgot Passwod?</a>
+    <div>
+        <label for="password">Hasło</label>
+        <input type="password" id="password" name="Password" required />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <button type="submit">Zaloguj się</button>
+</form>
+
+<div>
+    <a href="@Url.Action("ForgotPasswordPage", "Authentication")">Zapomniałeś hasła?</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

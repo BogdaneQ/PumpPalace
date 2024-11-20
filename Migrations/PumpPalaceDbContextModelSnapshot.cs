@@ -153,6 +153,9 @@ namespace PumpPalace.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsSubscribedToNewsletter")
                         .HasColumnType("boolean");
 
@@ -167,9 +170,6 @@ namespace PumpPalace.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .IsRequired()
