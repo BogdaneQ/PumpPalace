@@ -1,0 +1,59 @@
+﻿<header>
+
+    <div class="logo-container text-center py-4">
+        <span class="logo-text-left">PUMP</span>
+        <img src="~/Images/Logo.png" alt="PumpPalace Logo" class="logo-image">
+        <span class="logo-text-right">PALACE</span>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">PumpPalace</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Left Side Links -->
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="/ProductList">Products</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Categories">Categories</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/AdminPanel">Admin Panel</a>
+
+                    </li>
+
+
+                </ul>
+
+                <!-- Right Side Links (Login, Logout, Cart) -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Cart">Cart</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MyAccount">My Account</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Login">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "Layout";
+}
+
+<h2>Akcesoria</h2>
+
+<div>
+    <ul>
+        @foreach (var accessory in Model.Accessories)
+        {
+            <li>@accessory.Name - @accessory.Price</li>
+        }
+    </ul>
+</div>

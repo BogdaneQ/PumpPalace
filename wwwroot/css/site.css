@@ -1,0 +1,48 @@
+﻿/* Stylowanie kontenera obrazka */
+.header-image {
+    width: 100%; /* Rozciąga kontener na całą szerokość strony */
+    height: auto; /* Zachowuje proporcje obrazka */
+    overflow: hidden; /* Ukrywa nadmiar obrazu, jeśli jest */
+}
+
+    /* Stylowanie obrazka */
+    .header-image img {
+        width: 100%; /* Rozciąga obrazek na całą szerokość kontenera */
+        height: auto; /* Zachowuje proporcje obrazka */
+        object-fit: cover; /* Obrazek wypełnia kontener, zachowując proporcje */
+    }
+
+/* Stylowanie logo i tekstu */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Odstęp między tekstem a logo */
+    width: 100%;
+}
+
+.logo-image {
+    max-width: 230px; /* Maksymalna szerokość logo */
+    height: auto;
+}
+
+.logo-text-left, .logo-text-right {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333; /* Kolor tekstu */
+}
+
+/* Dodatkowe marginesy i wyśrodkowanie */
+.text-center {
+    text-align: center;
+}
+
+.py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.nav-link {
+    pointer-events: auto; /* Pozwala na kliknięcie */
+}
+

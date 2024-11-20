@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Pump Palace!";
+    Layout = "Layout";
+    <link rel="stylesheet" href="~/css/site.css" />
+
+}
+<div class="header-image">
+    <img src="~/Images/Header.png" class="img-fluid w-100" alt="Pump Palace Header">
+</div>
+
+<h1>Welcome to PumpPalace!</h1>
+<p>This is the homepage of the PumpPalace website.</p>
+
+<!-- Sekcja Promocje -->
+<section class="promo-section bg-light py-5">
+    <div class="container">
+        <h2 class="text-center">Special Promotions</h2>
+        <p class="text-center mb-4">Don't miss out on our amazing deals and discounts!</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Promo 1">
+                    <div class="card-body">
+                        <h5 class="card-title">50% Off on All Pumps</h5>
+                        <p class="card-text">Get a 50% discount on all our pump products for a limited time!</p>
+                        <a href="/Products" class="btn btn-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Promo 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Buy 2, Get 1 Free!</h5>
+                        <p class="card-text">Buy two of any product and get the third one for free. Hurry, while supplies last!</p>
+                        <a href="/Products" class="btn btn-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Promo 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Seasonal Sale</h5>
+                        <p class="card-text">Enjoy huge discounts on seasonal products during our special sale!</p>
+                        <a href="/Products" class="btn btn-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sekcja Najnowsze Produkty -->
+<section class="new-products py-5">
+    <div class="container">
+        <h2 class="text-center">New Arrivals</h2>
+        <p class="text-center mb-4">Check out our latest products and make sure you're getting the best!</p>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="New Product 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Name 1</h5>
+                        <p class="card-text">$99.99</p>
+                        <a href="/Products" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="New Product 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Name 2</h5>
+                        <p class="card-text">$149.99</p>
+                        <a href="/Products" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="New Product 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Name 3</h5>
+                        <p class="card-text">$199.99</p>
+                        <a href="/Products" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="New Product 4">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Name 4</h5>
+                        <p class="card-text">$249.99</p>
+                        <a href="/Products" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sekcja Galeria -->
+<section class="gallery-section py-5">
+    <div class="container">
+        <h2 class="text-center">Our Gallery</h2>
+        <p class="text-center mb-4">Take a look at our products in action!</p>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="https://via.placeholder.com/350x200" class="img-fluid mb-4" alt="Gallery Image 1">
+            </div>
+            <div class="col-md-4">
+                <img src="https://via.placeholder.com/350x200" class="img-fluid mb-4" alt="Gallery Image 2">
+            </div>
+            <div class="col-md-4">
+                <img src="https://via.placeholder.com/350x200" class="img-fluid mb-4" alt="Gallery Image 3">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sekcja Kontakt -->
+<section class="contact-section bg-light py-5">
+    <div class="container">
+        <h2 class="text-center">Get in Touch</h2>
+        <p class="text-center mb-4">Have any questions? We'd love to hear from you!</p>
+        <form>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Your Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Your Message</label>
+                <textarea class="form-control" id="message" rows="4" placeholder="Write your message here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+</section>

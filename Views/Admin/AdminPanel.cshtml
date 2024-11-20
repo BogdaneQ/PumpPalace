@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "Layout";
+}
+
+<h2>Admin Panel</h2>
+
+<div>
+    <p>Witaj w panelu administracyjnym.</p>
+    <ul>
+        <li><a href="@Url.Action("ManageProducts", "Admin")">Zarządzaj produktami</a></li>
+        <li><a href="@Url.Action("Statistics", "Admin")">Statystyki</a></li>
+    </ul>
+</div>

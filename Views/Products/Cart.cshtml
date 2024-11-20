@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "Layout";
+}
+
+<h2>Twój koszyk</h2>
+
+<div>
+    <ul>
+        @foreach (var item in Model.CartItems)
+        {
+            <li>@item.ProductName - @item.Quantity x @item.Price</li>
+        }
+    </ul>
+    <p>Total: @Model.TotalPrice</p>
+    <button>Przejdź do kasy</button>
+</div>
