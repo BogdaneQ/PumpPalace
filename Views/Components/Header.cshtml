@@ -1,59 +1,80 @@
 ﻿<header>
-
     <div class="logo-container text-center py-4">
         <span class="logo-text-left">PUMP</span>
         <img src="~/Images/Logo.png" alt="PumpPalace Logo" class="logo-image">
         <span class="logo-text-right">PALACE</span>
     </div>
-    
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">PumpPalace</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <!-- Left Side Links -->
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="/ProductList">Products</a>
+                        <a class="nav-link" href="/Product/ProductList">Products</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Categories">Categories</a>
+                    <!-- Categories with Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="/Category/AccesoriesPage">Accesories</a></li>
+                            <li><a class="dropdown-item" href="/Category/ForHimPage">For Him</a></li>
+                            <li><a class="dropdown-item" href="/Category/ForHerPage">For Her</a></li>
+                            <li><a class="dropdown-item" href="/Category/NewDropPage">New Drop</a></li>
+                        </ul>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/AdminPanel">Admin Panel</a>
-
                     </li>
-
-
                 </ul>
 
-                <!-- Right Side Links (Login, Logout, Cart) -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/Cart">Cart</a>
+                        <a class="nav-link" href="/Cart/Cart">Cart</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/MyAccount">My Account</a>
+                        <a class="nav-link" href="/Customer/MyAccount">My Account</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/Login">Login</a>
+                        <a class="nav-link" href="/Authentication/LoginPage">Login</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/Logout">Logout</a>
+                        <a class="nav-link" href="/Authentication/RegisterPage">Register</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdown = document.querySelectorAll('.dropdown');
+
+        dropdown.forEach(item => {
+            item.addEventListener('mouseover', function () {
+                const menu = item.querySelector('.dropdown-menu');
+                menu.classList.add('show');
+            });
+
+            item.addEventListener('mouseout', function () {
+                const menu = item.querySelector('.dropdown-menu');
+                menu.classList.remove('show');
+            });
+        });
+    });
+</script>
+

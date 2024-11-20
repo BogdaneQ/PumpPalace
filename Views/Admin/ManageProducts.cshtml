@@ -2,30 +2,5 @@
     Layout = "Layout";
 }
 
-<h2>Zarządzanie produktami</h2>
+<h2>Manage Products</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Nazwa produktu</th>
-            <th>Cena</th>
-            <th>Akcje</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Dynamically filled with products -->
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>
-                    <a href="@Url.Action("Edit", "Admin", new { id = product.Id })">Edytuj</a>
-                    <a href="@Url.Action("Delete", "Admin", new { id = product.Id })">Usuń</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a href="@Url.Action("Add", "Admin")">Dodaj nowy produkt</a>

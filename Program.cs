@@ -9,6 +9,7 @@ builder.Services.AddDbContext<PumpPalaceDbContext>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {

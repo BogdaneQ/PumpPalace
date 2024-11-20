@@ -45,4 +45,14 @@
 .nav-link {
     pointer-events: auto; /* Pozwala na kliknięcie */
 }
+.navbar .dropdown-menu {
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .navbar .dropdown-menu .dropdown-item:hover {
+        background-color: #f8f9fa; /* Lekko podświetlaj elementy w menu */
+        color: #333;
+    }
+
 

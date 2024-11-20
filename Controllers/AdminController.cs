@@ -8,5 +8,15 @@ namespace PumpPalace.Controllers
         {
             return View();
         }
+
+        public IActionResult ManageProducts()
+        {
+            return View();
+        }
+
+        public IActionResult Statistics()
+        {
+            return View();
+        }
     }
 }

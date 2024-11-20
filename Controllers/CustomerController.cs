@@ -4,7 +4,7 @@ namespace PumpPalace.Controllers
 {
     public class CustomerController : Controller
     {
-        public IActionResult Index()
+        public IActionResult MyAccount()
         {
             return View();
         }
