@@ -154,7 +154,7 @@ namespace PumpPalace.Migrations
                     VAT = table.Column<decimal>(type: "numeric", nullable: false),
                     Currency = table.Column<string>(type: "text", nullable: false),
                     PictureUrl = table.Column<string>(type: "text", nullable: false),
-                    InStock = table.Column<string>(type: "text", nullable: false),
+                    InStock = table.Column<int>(type: "integer", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     IsNew = table.Column<bool>(type: "boolean", nullable: false),
                     IsPromotion = table.Column<bool>(type: "boolean", nullable: false)

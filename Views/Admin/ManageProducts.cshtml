@@ -1,6 +1,79 @@
-﻿@{
-    Layout = "Layout";
-}
-
+﻿@model PumpPalace.Models.Product
+<link rel="stylesheet" href="~/css/site.css" />
 <h2>Manage Products</h2>
 
+<form asp-action="ManageProducts" asp-controller="Admin" method="post">
+    <div>
+        <label asp-for="Name"></label>
+        <input type="text" id="Name" name="Name" placeholder="Enter product name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description"></label>
+        <textarea type="text" id="Description" name="Description" placeholder="Enter product description"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div>
+        <label asp-for="Price"></label>
+        <input type="number" id="Price" name="Price" placeholder="Enter product price (e.g., 19.99)" />
+        <span asp-validation-for="Price"></span>
+    </div>
+
+    <div>
+        <label asp-for="DiscountPrice"></label>
+        <input type="number" id="DiscountPrice" name="DiscountPrice" placeholder="Enter discounted price (optional)" />
+        <span asp-validation-for="DiscountPrice"></span>
+    </div>
+
+    <div>
+        <label asp-for="VAT"></label>
+        <input type="number" id="VAT" name="VAT" placeholder="Enter VAT as a decimal (e.g., 0.23 for 23%)" />
+        <span asp-validation-for="VAT"></span>
+    </div>
+
+    <div>
+        <label asp-for="Currency"></label>
+        <input type="text" id="Currency" name="Currency" placeholder="Enter currency code (e.g., USD, EUR)" />
+        <span asp-validation-for="Currency"></span>
+    </div>
+
+    <div>
+        <label asp-for="PictureUrl"></label>
+        <input type="text" id="PictureUrl" name="PictureUrl" placeholder="Enter URL for product image" />
+        <span asp-validation-for="PictureUrl"></span>
+    </div>
+
+    <div>
+        <label asp-for="InStock"></label>
+        <input type="number" id="InStock" name="InStock" placeholder="Enter quantity in stock" />
+        <span asp-validation-for="InStock"></span>
+    </div>
+
+    <div>
+        <label asp-for="CategoryId"></label>
+        <input type="number" id="CategoryId" name="CategoryId" placeholder="Enter category ID" />
+        <span asp-validation-for="CategoryId"></span>
+    </div>
+
+    <div>
+        <label asp-for="IsNew"></label>
+        <!-- Ukryte pole domyślnie ustawiające wartość na false -->
+        <input type="hidden" name="IsNew" value="false" />
+        <input asp-for="IsNew" type="checkbox" value="true" /> <span>Is this product new?</span>
+    </div>
+
+    <div>
+        <label asp-for="IsPromotion"></label>
+        <!-- Ukryte pole domyślnie ustawiające wartość na false -->
+        <input type="hidden" name="IsPromotion" value="false" />
+        <input asp-for="IsPromotion" type="checkbox" value="true" /> <span>Is this product on promotion?</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Product</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

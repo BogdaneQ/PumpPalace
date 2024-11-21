@@ -1,6 +1,31 @@
-﻿@{
-    Layout = "Layout";
-}
+﻿@model IEnumerable<PumpPalace.Models.Product>
+<link rel="stylesheet" href="~/css/site.css" />
+<h2>Product List</h2>
 
-<h2>Lista produktów</h2>
-
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Discount Price</th>
+            <th>VAT</th>
+            <th>Currency</th>
+            <th>In Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td>@product.DiscountPrice</td>
+                    <td>@product.VAT</td>
+                    <td>@product.Currency</td>
+                    <td>@product.InStock</td>
+                </tr>
+        }
+    </tbody>
+</table>

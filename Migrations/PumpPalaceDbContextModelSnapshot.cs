@@ -314,9 +314,8 @@ namespace PumpPalace.Migrations
                     b.Property<decimal?>("DiscountPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("InStock")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("InStock")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsNew")
                         .HasColumnType("boolean");

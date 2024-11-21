@@ -12,7 +12,7 @@ using PumpPalace.Models;
 namespace PumpPalace.Migrations
 {
     [DbContext(typeof(PumpPalaceDbContext))]
-    [Migration("20241120210233_Migracja1")]
+    [Migration("20241121095908_Migracja1")]
     partial class Migracja1
     {
         /// <inheritdoc />
@@ -317,9 +317,8 @@ namespace PumpPalace.Migrations
                     b.Property<decimal?>("DiscountPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("InStock")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("InStock")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsNew")
                         .HasColumnType("boolean");

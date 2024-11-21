@@ -21,7 +21,7 @@ namespace PumpPalace.Models
         public string Currency { get; set; }
         public string PictureUrl { get; set; }
         [Range(0, int.MaxValue)]
-        public string InStock { get; set; }
+        public int InStock { get; set; }
         [Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
