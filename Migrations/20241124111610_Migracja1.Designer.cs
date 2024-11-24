@@ -12,7 +12,7 @@ using PumpPalace.Models;
 namespace PumpPalace.Migrations
 {
     [DbContext(typeof(PumpPalaceDbContext))]
-    [Migration("20241121095908_Migracja1")]
+    [Migration("20241124111610_Migracja1")]
     partial class Migracja1
     {
         /// <inheritdoc />

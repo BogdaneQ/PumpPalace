@@ -19,8 +19,10 @@ namespace PumpPalace.Controllers
 
         public IActionResult ManageProducts()
         {
-            return View(new Product()); // Przekazujemy pusty model, aby formularz działał poprawnie
+            var products = _context.Products.ToList();
+            return View(products);
         }
+
 
         [HttpPost]
         public IActionResult ManageProducts(Product product)
@@ -29,11 +31,24 @@ namespace PumpPalace.Controllers
             {
                 _context.Products.Add(product);
                 _context.SaveChanges();
-                return RedirectToAction("AdminPanel", "Admin");
+                return RedirectToAction("ManageProducts");
             }
-            
-            return View(product); // Wróć do widoku z błędami walidacji
+            return View(); // Jeśli coś poszło nie tak
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteProduct(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ManageProducts");
+        }
+
 
         public IActionResult Statistics()
         {
