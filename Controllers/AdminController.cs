@@ -22,8 +22,10 @@ namespace PumpPalace.Controllers
 
         public IActionResult ManageProducts()
         {
-            return View(new Product()); // Przekazujemy pusty model, aby formularz działał poprawnie
+            var products = _context.Products.ToList();
+            return View(products);
         }
+
 
         [HttpPost]
         public IActionResult ManageProducts(Product product)
@@ -32,45 +34,13 @@ namespace PumpPalace.Controllers
             {
                 _context.Products.Add(product);
                 _context.SaveChanges();
-                return RedirectToAction("AdminPanel", "Admin");
+                return RedirectToAction("ManageProducts");
             }
-
+            
             return View(product); // Wróć do widoku z błędami walidacji
         }
 
-
-        // Zarządzanie zamówieniami
-        public IActionResult OrderManagement()
-        {
-            return View(); // Wyświetlamy widok zarządzania zamówieniami
-        }
-
-        // Zarządzanie użytkownikami
-        public IActionResult UserManagement()
-        {
-            return View(); // Wyświetlamy widok zarządzania użytkownikami
-        }
-
-        // Zarządzanie rabatami
-        public IActionResult Discounts()
-        {
-            return View(); // Wyświetlamy widok zarządzania rabatami
-        }
-
-        // Zarządzanie stanem magazynowym
-        public IActionResult InventoryManagement()
-        {
-            return View(); // Wyświetlamy widok zarządzania stanem magazynowym
-        }
-
-        // Statystyki użytkowników
-        public IActionResult UserStatistics()
-        {
-            return View(); // Wyświetlamy widok statystyk użytkowników
-        }
-
-        // Raport sprzedaży
-        public IActionResult SalesReport()
+        public IActionResult Statistics()
         {
             return View(); // Wyświetlamy widok raportu sprzedaży
         }

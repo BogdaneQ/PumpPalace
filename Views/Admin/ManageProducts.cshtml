@@ -1,78 +1,127 @@
-﻿@model PumpPalace.Models.Product
+﻿@model IEnumerable<PumpPalace.Models.Product>
 <link rel="stylesheet" href="~/css/site.css" />
 <h2>Manage Products</h2>
 
 <form asp-action="ManageProducts" asp-controller="Admin" method="post">
     <div>
-        <label asp-for="Name"></label>
-        <input type="text" id="Name" name="Name" placeholder="Enter product name" />
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" name="Name" placeholder="Enter product name" required />
         <span asp-validation-for="Name"></span>
     </div>
 
     <div>
-        <label asp-for="Description"></label>
-        <textarea type="text" id="Description" name="Description" placeholder="Enter product description"></textarea>
+        <label for="Description">Description:</label>
+        <textarea id="Description" name="Description" placeholder="Enter product description" required></textarea>
         <span asp-validation-for="Description"></span>
     </div>
 
     <div>
-        <label asp-for="Price"></label>
-        <input type="number" id="Price" name="Price" placeholder="Enter product price (e.g., 19.99)" />
+        <label for="Price">Price:</label>
+        <input type="number" id="Price" name="Price" placeholder="Enter product price (e.g., 19.99)" step="0.01" required />
         <span asp-validation-for="Price"></span>
     </div>
 
     <div>
-        <label asp-for="DiscountPrice"></label>
-        <input type="number" id="DiscountPrice" name="DiscountPrice" placeholder="Enter discounted price (optional)" />
+        <label for="DiscountPrice">Discount Price:</label>
+        <input type="number" id="DiscountPrice" name="DiscountPrice" placeholder="Enter discounted price (optional)" step="0.01" />
         <span asp-validation-for="DiscountPrice"></span>
     </div>
 
     <div>
-        <label asp-for="VAT"></label>
-        <input type="number" id="VAT" name="VAT" placeholder="Enter VAT as a decimal (e.g., 0.23 for 23%)" />
+        <label for="VAT">VAT:</label>
+        <select id="VAT" name="VAT" required>
+            <option value="0">0%</option>
+            <option value="0.23">23%</option>
+        </select>
         <span asp-validation-for="VAT"></span>
     </div>
 
     <div>
-        <label asp-for="Currency"></label>
-        <input type="text" id="Currency" name="Currency" placeholder="Enter currency code (e.g., USD, EUR)" />
+        <label for="Currency">Currency:</label>
+        <input type="text" id="Currency" name="Currency" placeholder="Enter currency code (e.g., USD, EUR)" required />
         <span asp-validation-for="Currency"></span>
     </div>
 
     <div>
-        <label asp-for="PictureUrl"></label>
-        <input type="text" id="PictureUrl" name="PictureUrl" placeholder="Enter URL for product image" />
+        <label for="PictureUrl">Picture URL:</label>
+        <input type="text" id="PictureUrl" name="PictureUrl" placeholder="Enter URL for product image (optional)" />
         <span asp-validation-for="PictureUrl"></span>
     </div>
 
     <div>
-        <label asp-for="InStock"></label>
-        <input type="number" id="InStock" name="InStock" placeholder="Enter quantity in stock" />
+        <label for="InStock">In Stock:</label>
+        <input type="number" id="InStock" name="InStock" placeholder="Enter quantity in stock" required />
         <span asp-validation-for="InStock"></span>
     </div>
 
     <div>
-        <label asp-for="CategoryId"></label>
-        <input type="number" id="CategoryId" name="CategoryId" placeholder="Enter category ID" />
+        <label for="CategoryId">Category ID:</label>
+        <input type="number" id="CategoryId" name="CategoryId" placeholder="Enter category ID" required />
         <span asp-validation-for="CategoryId"></span>
     </div>
 
     <div>
-        <label asp-for="IsNew"></label>
-        <!-- Ukryte pole domyślnie ustawiające wartość na false -->
+        <label for="IsNew">Is New:</label>
         <input type="hidden" name="IsNew" value="false" />
-        <input asp-for="IsNew" type="checkbox" value="true" /> <span>Is this product new?</span>
+        <input type="checkbox" id="IsNew" name="IsNew" value="true" /> <span>Is this product new?</span>
     </div>
 
     <div>
-        <label asp-for="IsPromotion"></label>
-        <!-- Ukryte pole domyślnie ustawiające wartość na false -->
+        <label for="IsPromotion">Is Promotion:</label>
         <input type="hidden" name="IsPromotion" value="false" />
-        <input asp-for="IsPromotion" type="checkbox" value="true" /> <span>Is this product on promotion?</span>
+        <input type="checkbox" id="IsPromotion" name="IsPromotion" value="true" /> <span>Is this product on promotion?</span>
     </div>
 
     <button type="submit" class="btn btn-primary">Add Product</button>
 </form>
+
+<!-- Tabela z listą produktów -->
+<h2>Product List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Discount Price</th>
+            <th>VAT</th>
+            <th>Currency</th>
+            <th>In Stock</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.Price</td>
+                <td>@product.DiscountPrice</td>
+                <td>@product.VAT</td>
+                <td>@product.Currency</td>
+                <td>@product.InStock</td>
+                <td>
+                    <!-- Edit Button -->
+                    <form asp-action="ManageProducts" asp-controller="Admin" method="get" style="display:inline;">
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                    </form>
+
+                    <!-- Delete Button -->
+                    <form asp-action="DeleteProduct" asp-controller="Admin" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Przycisk powrotu do menu głównego -->
+<a href="/Admin/AdminPanel" class="btn btn-secondary">Return to Main Menu</a>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

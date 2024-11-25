@@ -7,21 +7,29 @@ namespace PumpPalace.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
+
         [Required]
         public string Description { get; set; }
+
         [Range(0, double.MaxValue)]
         public decimal Price { get; set; }
+
         [Range(0, double.MaxValue)]
         public decimal? DiscountPrice { get; set; }
-        [Range(0, 1)]
-        public decimal VAT {  get; set; }
+
+        [Range(0, 0.23, ErrorMessage = "VAT must be either 0 or 0.23.")]
+        public decimal VAT { get; set; }
+
         [Required]
         public string Currency { get; set; }
         public string PictureUrl { get; set; }
+
         [Range(0, int.MaxValue)]
         public int InStock { get; set; }
+
         [Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
