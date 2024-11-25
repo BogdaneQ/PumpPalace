@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PumpPalace.Models;
 
 namespace PumpPalace.Models
@@ -15,7 +16,6 @@ namespace PumpPalace.Models
         public DbSet<ContactForm> ContactForms { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Customer> Users { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Newsletter> Newsletters { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -26,8 +26,30 @@ namespace PumpPalace.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            // Definiowanie globalnej konwersji dla wszystkich DateTime/DateTime? w modelu
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var properties = entityType.ClrType.GetProperties()
+                    .Where(p => p.PropertyType == typeof(DateTime) || p.PropertyType == typeof(DateTime?));
 
+                foreach (var property in properties)
+                {
+                    var converter = new ValueConverter<DateTime, DateTime>(
+                        v => v.ToUniversalTime().AddHours(1), // Konwersja do UTC i dodanie jednej godziny przy zapisie
+                        v => DateTime.SpecifyKind(v.AddHours(1), DateTimeKind.Utc) // Dodanie jednej godziny i ustawienie UTC przy odczycie
+                    );
+
+
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property(property.Name)
+                        .HasConversion(converter);
+                }
+            }
+
+            base.OnModelCreating(modelBuilder);
         }
+
+
+
     }
 }

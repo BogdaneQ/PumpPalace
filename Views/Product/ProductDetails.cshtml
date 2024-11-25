@@ -1,5 +1,7 @@
 ﻿@model PumpPalace.Models.ProductDetailsViewModel
-<h2>@Model.Name</h2>
-<p>@Model.Description</p>
-<p>Price: @Model.Price</p>
-<a href="@Url.Action("AddToCart", "Cart", new { id = Model.ProductId })">Add to Cart</a>
+
+@{
+    Layout = "Layout";
+}
+
+<h2>Prod.details</h2>

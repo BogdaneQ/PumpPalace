@@ -54,7 +54,7 @@ namespace PumpPalace.Controllers
             var customer = _mapper.Map<Customer>(model);
             customer.Password = BCrypt.Net.BCrypt.HashPassword(model.Password); // Hashowanie hasła
 
-            
+
             // Dodanie nowego użytkownika do bazy
             _dbContext.Customers.Add(customer);
             _dbContext.SaveChanges();

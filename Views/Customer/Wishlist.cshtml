@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<PumpPalace.Models.WishlistItemViewModel>
+
+@{
+    Layout = "Layout";
+}
+
 <h2>Wishlist</h2>
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>
-            @item.ProductName - @item.Price
-            <a href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">Add to Cart</a>
-        </li>
-    }
-</ul>
+

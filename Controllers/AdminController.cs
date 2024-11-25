@@ -44,5 +44,14 @@ namespace PumpPalace.Controllers
         {
             return View(); // Wyświetlamy widok raportu sprzedaży
         }
+
+        public IActionResult OrderManagement()
+        {
+            var orders = _context.Orders
+                .Include(o => o.CustomerId) // Dołączenie danych klienta
+                .ToList();
+
+            return View(orders);
+        }
     }
 }
