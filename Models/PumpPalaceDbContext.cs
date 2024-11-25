@@ -15,6 +15,7 @@ namespace PumpPalace.Models
         public DbSet<ContactForm> ContactForms { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Users { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Newsletter> Newsletters { get; set; }
         public DbSet<Order> Orders { get; set; }

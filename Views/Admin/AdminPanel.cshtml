@@ -1,17 +1,15 @@
 ﻿@{
-    Layout = "Layout";
+    ViewData["Title"] = "Admin Panel";
 }
 
 <h2>Admin Panel</h2>
 
-<div>
-    <p>Witaj w panelu administracyjnym.</p>
-    <ul>
-        <li class="nav-item">
-            <a class="nav-link" href="/Admin/ManageProducts">ManageProducts</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/Admin/Statistics">Statistics</a>
-        </li>
-    </ul>
-</div>
+<ul>
+    <li><a href="@Url.Action("ManageProducts", "Admin")">Manage Products</a></li>
+    <li><a href="@Url.Action("OrderManagement", "Admin")">Order Management</a></li>
+    <li><a href="@Url.Action("UserManagement", "Admin")">User Management</a></li>
+    <li><a href="@Url.Action("Discounts", "Admin")">Discounts</a></li>
+    <li><a href="@Url.Action("InventoryManagement", "Admin")">Inventory Management</a></li>
+    <li><a href="@Url.Action("UserStatistics", "Admin")">User Statistics</a></li>
+    <li><a href="@Url.Action("SalesReport", "Admin")">Sales Report</a></li>
+</ul>

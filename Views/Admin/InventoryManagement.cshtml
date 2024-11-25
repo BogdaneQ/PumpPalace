@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PumpPalace.Models.ProductInventoryViewModel>
+
+@{
+    ViewData["Title"] = "Inventory Management";
+}
+
+<h2>Inventory Management</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductId</td>
+                <td>@item.ProductName</td>
+                <td>@item.Stock</td>
+            </tr>
+        }
+    </tbody>
+</table>

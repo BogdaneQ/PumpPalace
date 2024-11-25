@@ -119,5 +119,11 @@ namespace PumpPalace.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult ChangePasswordPage()
+        {
+            var viewModel = new ChangePasswordViewModel();
+            return View(viewModel);
+        }
     }
 }

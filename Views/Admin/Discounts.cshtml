@@ -1,0 +1,29 @@
+﻿@model IEnumerable<PumpPalace.Models.Discount>
+
+@{
+    ViewData["Title"] = "Discounts";
+}
+
+<h2>Discounts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Percentage</th>
+            <th>Expiry Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var discount in Model)
+        {
+            <tr>
+                <td>@discount.Id</td>
+                <td>@discount.UserId</td>
+                <td>@discount.Percentage</td>
+                <td>@(discount.ExpiryDate.HasValue ? discount.ExpiryDate.Value.ToShortDateString() : "N/A")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,13 @@
+﻿@model PumpPalace.Models.SalesReportViewModel
+
+@{
+    ViewData["Title"] = "Sales Report";
+}
+
+<h2>Sales Report</h2>
+
+<ul>
+    <li>Total Sales: @Model.TotalSales</li>
+    <li>Orders Completed: @Model.OrdersCompleted</li>
+    <li>Total Revenue: @Model.TotalRevenue.ToString("C")</li>
+</ul>

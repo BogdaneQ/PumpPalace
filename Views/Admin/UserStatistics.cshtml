@@ -1,0 +1,13 @@
+﻿@model PumpPalace.Models.UserStatisticsViewModel
+
+@{
+    ViewData["Title"] = "User Statistics";
+}
+
+<h2>User Statistics</h2>
+
+<ul>
+    <li>Total Users: @Model.TotalUsers</li>
+    <li>Active Users: @Model.ActiveUsers</li>
+    <li>New Users (last month): @Model.NewUsers</li>
+</ul>

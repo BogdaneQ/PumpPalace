@@ -1,0 +1,18 @@
+﻿@model PumpPalace.Models.ProfileSettingsViewModel
+
+<h2>Profile Settings</h2>
+<form asp-action="UpdateProfile" method="post">
+    <div>
+        <label>Name</label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" />
+    </div>
+    <div>
+        <label>Phone</label>
+        <input asp-for="Phone" />
+    </div>
+    <button type="submit">Save</button>
+</form>

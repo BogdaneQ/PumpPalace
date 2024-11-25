@@ -1,7 +1,36 @@
-﻿@{
-    Layout = "Layout";
-}
+﻿@model PumpPalace.Models.CartViewModel
 
 <h2>Twój koszyk</h2>
 
+@if (Model.Items.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Nazwa Produktu</th>
+                <th>Ilość</th>
+                <th>Cena</th>
+                <th>Łączna Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.TotalPrice.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
+    <h3>Łączna cena: @Model.TotalPrice.ToString("C")</h3>
+
+    <a href="@Url.Action("OrderSummary", "Cart", new { orderId = 123 })">Przejdź do podsumowania zamówienia</a>
+}
+else
+{
+    <p>Twój koszyk jest pusty.</p>
+}

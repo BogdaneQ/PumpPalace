@@ -1,0 +1,26 @@
+﻿@model PumpPalace.Models.OrderSummaryViewModel
+
+<h2>Order Summary</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price</td>
+                <td>@item.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>Total: @Model.GrandTotal</p>
+<a href="@Url.Action("Checkout", "Cart")">Proceed to Checkout</a>

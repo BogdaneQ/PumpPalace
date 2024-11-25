@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PumpPalace.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace PumpPalace.Controllers
 {
@@ -31,13 +34,45 @@ namespace PumpPalace.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("AdminPanel", "Admin");
             }
-            
+
             return View(product); // Wróć do widoku z błędami walidacji
         }
 
-        public IActionResult Statistics()
+
+        // Zarządzanie zamówieniami
+        public IActionResult OrderManagement()
         {
-            return View();
+            return View(); // Wyświetlamy widok zarządzania zamówieniami
+        }
+
+        // Zarządzanie użytkownikami
+        public IActionResult UserManagement()
+        {
+            return View(); // Wyświetlamy widok zarządzania użytkownikami
+        }
+
+        // Zarządzanie rabatami
+        public IActionResult Discounts()
+        {
+            return View(); // Wyświetlamy widok zarządzania rabatami
+        }
+
+        // Zarządzanie stanem magazynowym
+        public IActionResult InventoryManagement()
+        {
+            return View(); // Wyświetlamy widok zarządzania stanem magazynowym
+        }
+
+        // Statystyki użytkowników
+        public IActionResult UserStatistics()
+        {
+            return View(); // Wyświetlamy widok statystyk użytkowników
+        }
+
+        // Raport sprzedaży
+        public IActionResult SalesReport()
+        {
+            return View(); // Wyświetlamy widok raportu sprzedaży
         }
     }
 }
