@@ -3,78 +3,52 @@
 <link rel="stylesheet" href="~/css/site.css" />
 
 @{
-    Layout = "Layout"; // Jeśli używasz innego layoutu
+    Layout = "Layout";
 }
 
 <h2>Product List</h2>
 
-<!-- Możesz dodać opcje sortowania i filtrowania -->
-<div class="filter-sort">
-    <!-- Dodaj elementy, takie jak dropdowny lub formularze do filtrowania produktów -->
+<!-- Filter or sort options could go here -->
+<div class="filter-sort mb-3">
+    <!-- Możesz dodać opcje sortowania lub filtrowania produktów -->
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Discount Price</th>
-            <th>VAT</th>
-            <th>Currency</th>
-            <th>In Stock</th>
-            <th>Action</th> <!-- Dodanie kolumny do akcji (dodanie do koszyka) -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Description</td>
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <!-- Product Image -->
+                <img src="@Url.Content("~/images/" + product.PictureUrl)" class="card-img-top" alt="@product.Name" />
 
-                <!-- Display regular price or discounted price if available -->
-                <td>
-                    @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
-                    {
-                        <span class="text-danger"><del>@product.Price.ToString("C2")</del></span>
-                        <span class="text-success">@product.DiscountPrice.Value.ToString("C2")</span>
-                    }
-                    else
-                    {
-                        <span>@product.Price.ToString("C2")</span>
-                    }
-                </td>
+                <div class="card-body">
+                    <!-- Product Name -->
+                    <h5 class="card-title">@product.Name</h5>
 
-                <td>
-                    @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
-                    {
-                        <span>@product.DiscountPrice.Value.ToString("C2")</span>
-                    }
-                    else
-                    {
-                        <span>-</span> <!-- If no discount, show "-" -->
-                    }
-                </td>
+                    <!-- Product Description -->
+                    <p class="card-text">@product.Description</p>
 
-                <td>@product.VAT</td>
-                <td>@product.Currency</td>
-                <td>@product.InStock</td>
-                <td>
-                    <!-- Formularz do dodawania produktów do koszyka -->
-                    <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                    <!-- Price and Discount Price -->
+                    <div class="price">
+                        @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
+                        {
+                            <span class="text-danger"><del>@product.Price.ToString("C2")</del></span>
+                            <span class="text-success">@product.DiscountPrice.Value.ToString("C2")</span>
+                        }
+                        else
+                        {
+                            <span>@product.Price.ToString("C2")</span>
+                        }
+                    </div>
+
+                    <!-- Add to Cart Button -->
+                    <form action="@Url.Action("AddToCart", "Cart")" method="post" class="mt-3">
                         <input type="hidden" name="productId" value="@product.Id" />
-                        <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 60px; display: inline-block;" />
-                        <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                        <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 80px; display: inline-block;" />
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Add to Cart</button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<!-- Możesz dodać paginację, jeśli lista produktów jest zbyt długa -->
-@* Paginacja (opcjonalnie, jeśli chcesz obsługiwać dużą liczbę produktów) *@
-<div class="pagination">
-    @* Możesz tutaj dodać kod do wyświetlania stron, jeśli masz paginację w kontrolerze *@
+                </div>
+            </div>
+        </div>
+    }
 </div>

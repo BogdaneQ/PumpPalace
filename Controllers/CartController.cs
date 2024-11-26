@@ -36,7 +36,7 @@ namespace PumpPalace.Controllers
 
             var cart = await _dbContext.Carts
                 .Include(c => c.Items)
-                .ThenInclude(i => i.Product) // Załadowanie produktów z koszyka
+                .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart != null)
@@ -47,24 +47,15 @@ namespace PumpPalace.Controllers
                     ProductId = item.ProductId,
                     ProductName = item.Product.Name,
                     Price = item.Product.Price,
-                    DiscountPrice = item.Product.DiscountPrice, // Załadowanie ceny po rabacie
-                    Quantity = item.Quantity
+                    DiscountPrice = item.Product.DiscountPrice,
+                    Quantity = item.Quantity,
+                    InStock = item.Product.InStock // Add stock information
                 }).ToList();
 
                 return View(cartViewModel);
             }
 
             return View(new List<CartItemViewModel>());
-        }
-
-
-        public IActionResult OrderSummary(int orderId)
-        {
-            return View();
-        }
-        public IActionResult Payment(int orderId)
-        {
-            return View();
         }
 
         [HttpPost]
@@ -77,7 +68,20 @@ namespace PumpPalace.Controllers
 
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            // Pobranie koszyka użytkownika
+            // Find product in the database to check available stock
+            var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (quantity > product.InStock) // Check if quantity is greater than stock
+            {
+                TempData["ErrorMessage"] = $"Cannot add more than {product.InStock} units of {product.Name} to the cart.";
+                return RedirectToAction("Cart");
+            }
+
+            // Get or create the cart
             var cart = await _dbContext.Carts.Include(c => c.Items)
                                              .FirstOrDefaultAsync(c => c.UserId == userId);
 
@@ -92,10 +96,19 @@ namespace PumpPalace.Controllers
                 await _dbContext.SaveChangesAsync();
             }
 
+            // Check if the product is already in the cart
             var existingCartItem = cart.Items.FirstOrDefault(i => i.ProductId == productId);
             if (existingCartItem != null)
             {
-                existingCartItem.Quantity += quantity;
+                int newQuantity = existingCartItem.Quantity + quantity;
+
+                if (newQuantity > product.InStock)
+                {
+                    TempData["ErrorMessage"] = $"Cannot add more than {product.InStock} units of {product.Name} to the cart.";
+                    return RedirectToAction("Cart");
+                }
+
+                existingCartItem.Quantity = newQuantity;
             }
             else
             {
@@ -123,29 +136,71 @@ namespace PumpPalace.Controllers
 
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            // Find the cart for the logged-in user
             var cart = await _dbContext.Carts
                                        .Include(c => c.Items)
                                        .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart != null)
             {
-                // Find the cart item to remove
                 var cartItem = cart.Items.FirstOrDefault(item => item.CartItemId == cartItemId);
 
                 if (cartItem != null)
                 {
-                    // Remove the item from the cart
                     cart.Items.Remove(cartItem);
-
-                    // Save changes to the database
                     await _dbContext.SaveChangesAsync();
                 }
             }
 
-            // Redirect to the Cart page after removal
             return RedirectToAction("Cart");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateQuantity(int cartItemId, int quantity)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var cart = await _dbContext.Carts
+                                       .Include(c => c.Items)
+                                       .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            var cartItem = cart?.Items.FirstOrDefault(item => item.CartItemId == cartItemId);
+            if (cartItem != null)
+            {
+                var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == cartItem.ProductId);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                if (quantity > product.InStock) // Ensure quantity does not exceed available stock
+                {
+                    TempData["ErrorMessage"] = $"Cannot set quantity to {quantity} for {product.Name}. Only {product.InStock} units are available.";
+                    return RedirectToAction("Cart");
+                }
+
+                cartItem.Quantity = quantity;
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Cart");
+        }
+
+        public IActionResult OrderSummary(int orderId)
+        {
+            return View();
+        }
+
+        public IActionResult Payment(int orderId)
+        {
+            return View();
+        }
     }
+
+
+
 }

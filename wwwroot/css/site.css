@@ -1,41 +1,36 @@
-﻿/* Zmniejszenie logo */
-.logo-image {
-    width: 200px; /* Dostosuj szerokość logo, jeśli potrzebujesz */
-    height: auto;
+﻿/* Karty produktów */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
 }
 
-/* Pogrubienie i powiększenie tekstów "PUMP" i "PALACE" */
-.logo-text-left,
-.logo-text-right {
-    font-size: 3rem; /* Zwiększenie rozmiaru czcionki */
-    font-weight: bold; /* Pogrubienie tekstu */
-    color: #000; /* Kolor tekstu, możesz dostosować */
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+/* Stylizacja tabeli w koszyku */
+.table-bordered {
+    border: 1px solid #ddd;
 }
 
-/* Opcjonalnie, jeśli chcesz, aby logo było wyrównane do środka */
-.logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .table-bordered th, .table-bordered td {
+        padding: 10px;
+        text-align: center;
+    }
 
-.logo-text-left {
-    margin-right: 10px; /* Odstęp między tekstem a logo */
-}
-
-.logo-text-right {
-    margin-left: 10px; /* Odstęp między tekstem a logo */
-}
 .text-danger {
     color: red;
-    font-weight: bold;
 }
 
 .text-success {
     color: green;
-    font-weight: bold;
 }
 
-.del {
-    text-decoration: line-through;
+/* Przycisk usuwania */
+.btn-danger {
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
 }

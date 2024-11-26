@@ -12,8 +12,9 @@
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
-        public decimal? DiscountPrice { get; set; }  // Nullable decimal, ponieważ może być rabat lub brak
+        public decimal? DiscountPrice { get; set; }
         public int Quantity { get; set; }
+        public int InStock { get; set; }
 
         public decimal TotalPrice => (DiscountPrice.HasValue && DiscountPrice < Price)
                                     ? DiscountPrice.Value * Quantity
