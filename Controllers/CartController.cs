@@ -25,20 +25,18 @@ namespace PumpPalace.Controllers
             string value = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(value))
             {
-                Console.WriteLine("User ID is missing.");
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
             int userId;
             if (!int.TryParse(value, out userId))
             {
-                Console.WriteLine($"Failed to parse User ID: {value}");
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
             var cart = await _dbContext.Carts
                 .Include(c => c.Items)
-                .ThenInclude(i => i.Product)
+                .ThenInclude(i => i.Product) // Załadowanie produktów z koszyka
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart != null)
@@ -49,6 +47,7 @@ namespace PumpPalace.Controllers
                     ProductId = item.ProductId,
                     ProductName = item.Product.Name,
                     Price = item.Product.Price,
+                    DiscountPrice = item.Product.DiscountPrice, // Załadowanie ceny po rabacie
                     Quantity = item.Quantity
                 }).ToList();
 
@@ -57,7 +56,6 @@ namespace PumpPalace.Controllers
 
             return View(new List<CartItemViewModel>());
         }
-
 
 
         public IActionResult OrderSummary(int orderId)
@@ -83,7 +81,6 @@ namespace PumpPalace.Controllers
             var cart = await _dbContext.Carts.Include(c => c.Items)
                                              .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            // Jeżeli koszyk nie istnieje, tworzymy nowy
             if (cart == null)
             {
                 cart = new Cart
@@ -95,16 +92,13 @@ namespace PumpPalace.Controllers
                 await _dbContext.SaveChangesAsync();
             }
 
-            // Sprawdzanie, czy produkt już jest w koszyku
             var existingCartItem = cart.Items.FirstOrDefault(i => i.ProductId == productId);
             if (existingCartItem != null)
             {
-                // Jeśli produkt już jest w koszyku, aktualizujemy ilość
                 existingCartItem.Quantity += quantity;
             }
             else
             {
-                // Dodawanie nowego produktu do koszyka
                 var cartItem = new CartItem
                 {
                     ProductId = productId,
@@ -114,11 +108,44 @@ namespace PumpPalace.Controllers
                 cart.Items.Add(cartItem);
             }
 
-            // Zapisanie zmian w bazie danych
             await _dbContext.SaveChangesAsync();
 
-            // Po dodaniu przekierowanie do widoku koszyka
             return RedirectToAction("Cart");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromCart(int cartItemId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            // Find the cart for the logged-in user
+            var cart = await _dbContext.Carts
+                                       .Include(c => c.Items)
+                                       .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart != null)
+            {
+                // Find the cart item to remove
+                var cartItem = cart.Items.FirstOrDefault(item => item.CartItemId == cartItemId);
+
+                if (cartItem != null)
+                {
+                    // Remove the item from the cart
+                    cart.Items.Remove(cartItem);
+
+                    // Save changes to the database
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
+
+            // Redirect to the Cart page after removal
+            return RedirectToAction("Cart");
+        }
+
     }
 }

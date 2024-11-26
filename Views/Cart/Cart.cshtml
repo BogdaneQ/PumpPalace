@@ -3,6 +3,7 @@
 @{
     Layout = "Layout";
 }
+
 <h2>Your Cart</h2>
 
 @if (Model == null || !Model.Any())
@@ -18,6 +19,7 @@ else
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Total</th>
+                <th>Actions</th> <!-- New column for actions -->
             </tr>
         </thead>
         <tbody>
@@ -26,14 +28,51 @@ else
                 <tr>
                     <td>@item.ProductName</td>
                     <td>@item.Quantity</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@item.TotalPrice.ToString("C")</td>
+
+                    <!-- Display price: show discount price if available -->
+                    <td>
+                        @if (item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price)
+                        {
+                            <span class="text-danger"><del>@item.Price.ToString("C")</del></span>
+                            <span class="text-success">@item.DiscountPrice.Value.ToString("C")</span>
+                        }
+                        else
+                        {
+                            <span>@item.Price.ToString("C")</span>
+                        }
+                    </td>
+
+                    <td>
+                        @{
+                            var totalPrice = item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price
+                            ? item.Quantity * item.DiscountPrice.Value
+                            : item.Quantity * item.Price;
+
+                            var formattedPrice = totalPrice.ToString("C");
+                        }
+                        <span>@formattedPrice</span>
+                    </td>
+
+                    <!-- Add delete button -->
+                    <td>
+                        <form action="@Url.Action("RemoveFromCart", "Cart")" method="post" style="display:inline;">
+                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+
                 </tr>
             }
         </tbody>
     </table>
 
-    <h3>Total: @Model.Sum(item => item.TotalPrice).ToString("C")</h3>
+    <!-- Display total price for all items, considering discount -->
+    <h3>
+        Total:
+        @Model.Sum(item => item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price
+                ? item.Quantity * item.DiscountPrice.Value
+                : item.Quantity * item.Price).ToString("C")
+    </h3>
 
     <a href="@Url.Action("OrderSummary", "Cart")" class="btn btn-primary">Proceed to Checkout</a>
 }

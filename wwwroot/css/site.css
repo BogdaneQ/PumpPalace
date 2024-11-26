@@ -26,3 +26,16 @@
 .logo-text-right {
     margin-left: 10px; /* Odstęp między tekstem a logo */
 }
+.text-danger {
+    color: red;
+    font-weight: bold;
+}
+
+.text-success {
+    color: green;
+    font-weight: bold;
+}
+
+.del {
+    text-decoration: line-through;
+}

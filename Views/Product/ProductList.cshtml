@@ -1,13 +1,19 @@
 ﻿@model IEnumerable<PumpPalace.Models.Product>
+
 <link rel="stylesheet" href="~/css/site.css" />
 
 @{
-    Layout = "Layout";
+    Layout = "Layout"; // Jeśli używasz innego layoutu
 }
 
 <h2>Product List</h2>
 
-<table class="table">
+<!-- Możesz dodać opcje sortowania i filtrowania -->
+<div class="filter-sort">
+    <!-- Dodaj elementy, takie jak dropdowny lub formularze do filtrowania produktów -->
+</div>
+
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Name</th>
@@ -17,20 +23,58 @@
             <th>VAT</th>
             <th>Currency</th>
             <th>In Stock</th>
+            <th>Action</th> <!-- Dodanie kolumny do akcji (dodanie do koszyka) -->
         </tr>
     </thead>
     <tbody>
         @foreach (var product in Model)
         {
-                <tr>
-                    <td>@product.Name</td>
-                    <td>@product.Description</td>
-                    <td>@product.Price</td>
-                    <td>@product.DiscountPrice</td>
-                    <td>@product.VAT</td>
-                    <td>@product.Currency</td>
-                    <td>@product.InStock</td>
-                </tr>
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+
+                <!-- Display regular price or discounted price if available -->
+                <td>
+                    @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
+                    {
+                        <span class="text-danger"><del>@product.Price.ToString("C2")</del></span>
+                        <span class="text-success">@product.DiscountPrice.Value.ToString("C2")</span>
+                    }
+                    else
+                    {
+                        <span>@product.Price.ToString("C2")</span>
+                    }
+                </td>
+
+                <td>
+                    @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
+                    {
+                        <span>@product.DiscountPrice.Value.ToString("C2")</span>
+                    }
+                    else
+                    {
+                        <span>-</span> <!-- If no discount, show "-" -->
+                    }
+                </td>
+
+                <td>@product.VAT</td>
+                <td>@product.Currency</td>
+                <td>@product.InStock</td>
+                <td>
+                    <!-- Formularz do dodawania produktów do koszyka -->
+                    <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                        <input type="hidden" name="productId" value="@product.Id" />
+                        <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 60px; display: inline-block;" />
+                        <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                    </form>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+<!-- Możesz dodać paginację, jeśli lista produktów jest zbyt długa -->
+@* Paginacja (opcjonalnie, jeśli chcesz obsługiwać dużą liczbę produktów) *@
+<div class="pagination">
+    @* Możesz tutaj dodać kod do wyświetlania stron, jeśli masz paginację w kontrolerze *@
+</div>
