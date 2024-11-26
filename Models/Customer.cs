@@ -35,5 +35,8 @@ namespace PumpPalace.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public List<Order> Orders { get; set; } = new List<Order>();
+
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiry { get; set; }
     }
 }

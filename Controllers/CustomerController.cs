@@ -1,31 +1,106 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using PumpPalace.Models;
 
 namespace PumpPalace.Controllers
 {
     public class CustomerController : Controller
     {
-        // Akcja do wyświetlania strony "Moje konto"
+
+        private readonly PumpPalaceDbContext _dbContext;
+
+        public CustomerController(PumpPalaceDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         public IActionResult MyAccount()
         {
-            return View(); // Wyświetlamy widok MyAccount
+            var user = GetLoggedInUser();
+            if (user == null)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            var model = new ProfileSettingsViewModel
+            {
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Phone = user.Phone,
+                Address = user.Address
+            };
+
+            return View(model);
         }
 
-        // Akcja do wyświetlania historii zamówień
         public IActionResult OrderHistory()
         {
-            return View(); // Wyświetlamy widok OrderHistory
+            return View();
         }
 
-        // Akcja do wyświetlania ustawień profilu
         public IActionResult ProfileSettings()
         {
-            return View(); // Wyświetlamy widok ProfileSettings
+            var user = GetLoggedInUser();
+            if (user == null)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            var model = new ProfileSettingsViewModel
+            {
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Phone = user.Phone,
+                Address = user.Address
+            };
+
+            return View(model);
         }
 
-        // Akcja do wyświetlania listy życzeń
+        [HttpPost]
+        public IActionResult UpdateProfile(ProfileSettingsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ProfileSettings", model);
+            }
+
+            var user = GetLoggedInUser();
+            if (user == null)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Aktualizacja danych użytkownika w bazie danych
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.Phone = model.Phone;
+            user.Address = model.Address;
+
+            _dbContext.SaveChanges();
+
+            TempData["SuccessMessage"] = "Profil został zaktualizowany!";
+            return RedirectToAction("MyAccount");
+        }
+
         public IActionResult Wishlist()
         {
             return View(); // Wyświetlamy widok Wishlist
+        }
+
+        private Customer GetLoggedInUser()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            if (string.IsNullOrEmpty(email))
+            {
+                return null;
+            }
+
+            return _dbContext.Customers.FirstOrDefault(c => c.Email == email);
         }
     }
 }

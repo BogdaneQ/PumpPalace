@@ -1,12 +1,22 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PumpPalace.Models;
+using PumpPalace.Models.ViewModels;
+using SendGrid;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Dodanie DbContext z connection string z appsettings.json
 builder.Services.AddDbContext<PumpPalaceDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSingleton<EmailSender>();
+builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
+builder.Services.AddSingleton<ISendGridClient>(x =>
+        new SendGridClient(builder.Configuration["SendGridSettings:ApiKey"]));
+
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();

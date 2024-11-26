@@ -1,7 +1,19 @@
-﻿@{
+﻿@model PumpPalace.Models.ProfileSettingsViewModel
+@{
+    ViewData["Title"] = "Moje konto";
     Layout = "Layout";
+    <link rel="stylesheet" href="~/css/site.css" />
 }
 
-<h2>Moje konto</h2>
+<h2>Moje Konto</h2>
 
+<div>
+    <p><strong>Nazwa użytkownika:</strong> @Model.Username</p>
+    <p><strong>Imię:</strong> @Model.FirstName</p>
+    <p><strong>Nazwisko:</strong> @Model.LastName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Telefon:</strong> @Model.Phone</p>
+    <p><strong>Adres:</strong> @Model.Address</p>
+</div>
 
+<a class="btn btn-primary" href="@Url.Action("ProfileSettings", "Customer")">Edytuj Profil</a>

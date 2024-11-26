@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PumpPalace.Models;
@@ -11,9 +12,11 @@ using PumpPalace.Models;
 namespace PumpPalace.Migrations
 {
     [DbContext(typeof(PumpPalaceDbContext))]
-    partial class PumpPalaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241126151656_Migracja4")]
+    partial class Migracja4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
