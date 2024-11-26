@@ -81,6 +81,10 @@ namespace PumpPalace.Controllers
             return View();
         }
 
+
+
+
+
         // Logowanie - Przetwarzanie formularza
         [HttpPost]
         public async Task<IActionResult> LoginPage(LoginViewModel model)
@@ -101,9 +105,10 @@ namespace PumpPalace.Controllers
             // Tworzenie listy claims
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, customer.Username),
-                new Claim(ClaimTypes.Email, customer.Email),
-                new Claim(ClaimTypes.Role, customer.IsAdmin ? "Admin" : "User") // Rola użytkownika
+                new Claim(ClaimTypes.Name, customer.Username),                  // Nazwa użytkownika
+                new Claim(ClaimTypes.Email, customer.Email),                    // Email użytkownika
+                new Claim(ClaimTypes.Role, customer.IsAdmin ? "Admin" : "User"), // Rola użytkownika
+                new Claim(ClaimTypes.NameIdentifier, customer.Id.ToString())    // Dodanie identyfikatora użytkownika
             };
 
             // Tworzenie identity i principal
@@ -116,6 +121,15 @@ namespace PumpPalace.Controllers
             // Przekierowanie na stronę główną po zalogowaniu
             return RedirectToAction("Index", "Home");
         }
+
+
+
+
+
+
+
+
+
 
         // ForgotPassword - Strona widoku
         [HttpGet]

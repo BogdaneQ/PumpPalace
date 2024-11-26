@@ -1,8 +1,39 @@
-﻿@model PumpPalace.Models.CartViewModel
-
+﻿@model List<CartItemViewModel>
+@using PumpPalace.Models
 @{
     Layout = "Layout";
 }
+<h2>Your Cart</h2>
 
-<h2>Twój koszyk</h2>
+@if (Model == null || !Model.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.TotalPrice.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
+    <h3>Total: @Model.Sum(item => item.TotalPrice).ToString("C")</h3>
+
+    <a href="@Url.Action("OrderSummary", "Cart")" class="btn btn-primary">Proceed to Checkout</a>
+}
