@@ -1,58 +1,60 @@
 ﻿@model PumpPalace.Models.CustomerRegisterViewModel
-
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
 
 <h2>Rejestracja</h2>
 
 <form method="post">
-    <div>
+    <div class="form-group">
         <label for="username">Nazwa użytkownika</label>
-        <input type="text" id="username" name="Username" value="@Model?.Username" required />
+        <input type="text" id="username" name="Username" class="form-control" value="@Model?.Username" required />
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="firstName">Imię</label>
-        <input type="text" id="firstName" name="FirstName" value="@Model?.FirstName" required />
+        <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model?.FirstName" required />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="lastName">Nazwisko</label>
-        <input type="text" id="lastName" name="LastName" value="@Model?.LastName" required />
+        <input type="text" id="lastName" name="LastName" class="form-control" value="@Model?.LastName" required />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="Email" value="@Model?.Email" required />
+        <input type="email" id="email" name="Email" class="form-control" value="@Model?.Email" required />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="password">Hasło</label>
-        <input type="password" id="password" name="Password" required />
+        <input type="password" id="password" name="Password" class="form-control" required />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="confirmPassword">Potwierdź hasło</label>
-        <input type="password" id="confirmPassword" name="ConfirmPassword" required />
+        <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="address">Adres</label>
-        <input type="text" id="address" name="Address" value="@Model?.Address" />
+        <input type="text" id="address" name="Address" class="form-control" value="@Model?.Address" />
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="phone">Telefon</label>
-        <input type="tel" id="phone" name="Phone" value="@Model?.Phone" />
+        <input type="tel" id="phone" name="Phone" class="form-control" value="@Model?.Phone" />
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
 
-    <button type="submit">Zarejestruj się</button>
+    <button type="submit" class="btn btn-primary">Zarejestruj się</button>
 </form>
 
 @section Scripts {

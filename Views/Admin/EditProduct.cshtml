@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PumpPalace.Models.Product>
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<h2>Edit Product</h2>
+
+<form asp-action="EditProduct" asp-controller="Admin" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Name:</label>
+        <input type="text" asp-for="Name" required />
+    </div>
+
+    <div>
+        <label>Description:</label>
+        <textarea asp-for="Description" required></textarea>
+    </div>
+
+    <div>
+        <label>Price:</label>
+        <input type="number" asp-for="Price" step="0.01" required />
+    </div>
+
+    <div>
+        <label>Discount Price:</label>
+        <input type="number" asp-for="DiscountPrice" step="0.01" />
+    </div>
+
+    <div>
+        <label>VAT:</label>
+        <select asp-for="VAT" required>
+            <option value="0">0%</option>
+            <option value="0.23">23%</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Currency:</label>
+        <input type="text" asp-for="Currency" required />
+    </div>
+
+    <div>
+        <label>Picture URL:</label>
+        <input type="text" asp-for="PictureUrl" />
+    </div>
+
+    <div>
+        <label>In Stock:</label>
+        <input type="number" asp-for="InStock" required />
+    </div>
+
+    <div>
+        <label>Category ID:</label>
+        <input type="number" asp-for="CategoryId" required />
+    </div>
+
+    <div>
+        <label>Is New:</label>
+        <input type="checkbox" asp-for="IsNew" />
+    </div>
+
+    <div>
+        <label>Is Promotion:</label>
+        <input type="checkbox" asp-for="IsPromotion" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

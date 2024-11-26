@@ -32,12 +32,59 @@ namespace PumpPalace.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (product.VAT == 0)
+                {
+                    product.VAT = 0.23M;
+                }
                 _context.Products.Add(product);
                 _context.SaveChanges();
-                return RedirectToAction("ManageProducts");
+                return RedirectToAction("ManageProducts"); // Odśwież widok po dodaniu
             }
-            
-            return View(product); // Wróć do widoku z błędami walidacji
+
+            // Jeśli walidacja nie przeszła, przekazujemy obecne produkty do widoku
+            var products = _context.Products.ToList();
+            ViewData["Products"] = products;
+            return View(products);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(int id)
+        {
+            // Znajdujemy produkt na podstawie Id
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("ManageProducts"); // Powrót do listy produktów
+        }
+
+        public IActionResult EditProduct(int id)
+        {
+            // Pobieramy produkt do edycji
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return NotFound(); // Zwróć 404, jeśli produkt nie istnieje
+            }
+
+            return View(product); // Przekazujemy produkt do widoku edycji
+        }
+
+        [HttpPost]
+        public IActionResult EditProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                // Aktualizujemy produkt
+                _context.Products.Update(product);
+                _context.SaveChanges();
+                return RedirectToAction("ManageProducts"); // Powrót do widoku zarządzania
+            }
+
+            return View(product); // Powrót do widoku edycji w przypadku błędów
         }
 
         public IActionResult Statistics()
@@ -47,11 +94,31 @@ namespace PumpPalace.Controllers
 
         public IActionResult OrderManagement()
         {
-            var orders = _context.Orders
-                .Include(o => o.CustomerId) // Dołączenie danych klienta
-                .ToList();
+            return View();
+        }
 
-            return View(orders);
+        public IActionResult UserManagement()
+        {
+            return View();
+        }
+
+        public IActionResult Discounts()
+        {
+            return View();
+        }
+
+        public IActionResult InventoryManagement()
+        {
+            return View();
+        }
+
+        public IActionResult UserStatistics()
+        {
+            return View();
+        }
+        public IActionResult SalesReport()
+        {
+            return View();
         }
     }
 }

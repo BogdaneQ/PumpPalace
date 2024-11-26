@@ -1,1 +1,28 @@
-﻿
+﻿/* Zmniejszenie logo */
+.logo-image {
+    width: 200px; /* Dostosuj szerokość logo, jeśli potrzebujesz */
+    height: auto;
+}
+
+/* Pogrubienie i powiększenie tekstów "PUMP" i "PALACE" */
+.logo-text-left,
+.logo-text-right {
+    font-size: 3rem; /* Zwiększenie rozmiaru czcionki */
+    font-weight: bold; /* Pogrubienie tekstu */
+    color: #000; /* Kolor tekstu, możesz dostosować */
+}
+
+/* Opcjonalnie, jeśli chcesz, aby logo było wyrównane do środka */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-text-left {
+    margin-right: 10px; /* Odstęp między tekstem a logo */
+}
+
+.logo-text-right {
+    margin-left: 10px; /* Odstęp między tekstem a logo */
+}

@@ -18,6 +18,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Authentication/LoginPage";
         options.LogoutPath = "/Authentication/Logout";
         options.AccessDeniedPath = "/Authentication/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
     });
 
 builder.Services.AddSwaggerGen();

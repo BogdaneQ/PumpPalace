@@ -20,8 +20,8 @@ namespace PumpPalace.Models
         [Range(0, double.MaxValue)]
         public decimal? DiscountPrice { get; set; }
 
-        [Range(0, 0.23, ErrorMessage = "VAT must be either 0 or 0.23.")]
-        public decimal VAT { get; set; }
+        [Required]
+        public decimal VAT { get; set; } = 0.23M;
 
         [Required]
         public string Currency { get; set; }

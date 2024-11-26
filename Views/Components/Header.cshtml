@@ -1,8 +1,13 @@
 ﻿<header>
+    <link rel="stylesheet" href="~/css/site.css" />
     <div class="logo-container text-center py-4">
+        
         <span class="logo-text-left">PUMP</span>
-        <img src="~/Images/Logo.png" alt="PumpPalace Logo" class="logo-image">
-        <span class="logo-text-right">PALACE</span>
+        <a href="/">
+            <img src="~/Images/Logo.png" alt="PumpPalace Logo" class="logo-image">
+        </a>
+		<span class="logo-text-right">PALACE</span>
+        
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -73,7 +78,6 @@
         </div>
     </nav>
 </header>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const dropdown = document.querySelectorAll('.dropdown');
@@ -91,4 +95,3 @@
         });
     });
 </script>
-
