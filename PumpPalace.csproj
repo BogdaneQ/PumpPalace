@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\Images\Accesories.jpg" />
-    <None Include="wwwroot\Images\ForgotPassBG.png" />
     <None Include="wwwroot\Images\ForHer.jpg" />
     <None Include="wwwroot\Images\ForHim.jpg" />
     <None Include="wwwroot\Images\LoginBG.jpg" />

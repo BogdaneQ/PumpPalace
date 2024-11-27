@@ -2,11 +2,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Odstęp między elementami */
+    gap: 20px; /* Odstęp między elementami */
+    backdrop-filter: blur(3px); /* Lekkie rozmycie tła */
+    background-color: rgba(255, 255, 255, 0.5); /* Lekki przezroczysty kolor tła, aby efekt blur był bardziej widoczny */
 }
 
+
 .logo-image {
-    max-width: 200px;
+    max-width: 250px;
     height: auto;
     margin: 0;
     padding: 0;
@@ -15,8 +18,31 @@
 
 .logo-text-left, .logo-text-right {
     font-weight: bold;
-    font-size: 2em;
+    font-size: 5em;
 }
+body {
+    margin: 0; /* Usuń marginesy */
+    overflow-x: hidden; /* Ukryj przewijanie w poziomie */
+    background-image: url('../Images/SiteBG.jpg'); /* Ścieżka do obrazu */
+    background-size: cover; /* Skalowanie obrazu, aby wypełnił ekran */
+    background-position: center; /* Wyśrodkowanie obrazu */
+    background-repeat: no-repeat; /* Zapobiega powtarzaniu obrazu */
+    background-attachment: fixed; /* Tło pozostaje w miejscu podczas przewijania */
+}
+.header-image {
+    position: relative; /* Pozwala na użycie przesunięć */
+    left: 0; /* Zapewnia rozpoczęcie od lewej krawędzi */
+    width: 100vw; /* Zajmuje całą szerokość widoku okna */
+    margin-left: calc(-50vw + 50%); /* Przesunięcie do lewej strony */
+    overflow: hidden; /* Ukrycie elementów wystających */
+}
+
+    .header-image img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%; /* Dopasowanie szerokości */
+        height: auto; /* Zachowanie proporcji */
+    }
 
 
 /* Karty produktów */
@@ -55,3 +81,63 @@
     border: none;
     color: white;
 }
+
+/* Stylizacja kontenerów formularzy */
+.form-container {
+    display: flex;
+    align-items: stretch; /* Rozciąga zawartość w pionie */
+    justify-content: center;
+    margin: 50px auto;
+    max-width: 900px; /* Stała szerokość formularza */
+    height: 700px; /* Stała wysokość formularza */
+    border: 1px solid #ddd;
+    border-radius: 0; /* Ostre rogi */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Wewnątrz kontenera formularza */
+.form-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column; /* Układ w kolumnie */
+    justify-content: center; /* Centrowanie w pionie */
+}
+
+.image-container {
+    display: flex; /* Ustawia obrazy w jednym wierszu */
+    gap: 10px; /* Odstęp między obrazami */
+    justify-content: space-between; /* Równomierne rozmieszczenie obrazów */
+}
+
+.form-image {
+    flex: 1; /* Zapewnia, że każdy obraz zajmie równą ilość miejsca */
+    height: 100%;
+    width: 420px; /* Stała wysokość */
+    background-size: contain; /* Obraz zachowuje proporcje */
+    background-position: center; /* Obraz jest wyśrodkowany */
+    background-repeat: no-repeat; /* Zapobiega powtarzaniu obrazu */
+}
+
+/* Formularz */
+form {
+    width: 100%;
+}
+
+/* Przyciski */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 0;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }

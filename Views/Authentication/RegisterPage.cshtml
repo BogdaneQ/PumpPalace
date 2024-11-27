@@ -3,59 +3,67 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h2>Rejestracja</h2>
 
-<form method="post">
-    <div class="form-group">
-        <label for="username">Nazwa użytkownika</label>
-        <input type="text" id="username" name="Username" class="form-control" value="@Model?.Username" required />
-        <span asp-validation-for="Username" class="text-danger"></span>
+<div class="form-container">
+    <div class="form-content">
+        <h2 class="text-center">Rejestracja</h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Nazwa użytkownika</label>
+                <input type="text" id="username" name="Username" class="form-control" value="@Model?.Username" required />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="firstName">Imię</label>
+                <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model?.FirstName" required />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Nazwisko</label>
+                <input type="text" id="lastName" name="LastName" class="form-control" value="@Model?.LastName" required />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="Email" class="form-control" value="@Model?.Email" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Hasło</label>
+                <input type="password" id="password" name="Password" class="form-control" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Potwierdź hasło</label>
+                <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Adres</label>
+                <input type="text" id="address" name="Address" class="form-control" value="@Model?.Address" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Telefon</label>
+                <input type="tel" id="phone" name="Phone" class="form-control" value="@Model?.Phone" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+        </form>
+        <div class="mt-3 text-center">
+            <a href="@Url.Action("LoginPage", "Authentication")" class="link-primary">Masz już konto?</a>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="firstName">Imię</label>
-        <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model?.FirstName" required />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
+    <img src="~/Images/RegisterBG.jpg" class="form-image" style="background-image">
     </div>
-
-    <div class="form-group">
-        <label for="lastName">Nazwisko</label>
-        <input type="text" id="lastName" name="LastName" class="form-control" value="@Model?.LastName" required />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="Email" class="form-control" value="@Model?.Email" required />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label for="password">Hasło</label>
-        <input type="password" id="password" name="Password" class="form-control" required />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label for="confirmPassword">Potwierdź hasło</label>
-        <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label for="address">Adres</label>
-        <input type="text" id="address" name="Address" class="form-control" value="@Model?.Address" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label for="phone">Telefon</label>
-        <input type="tel" id="phone" name="Phone" class="form-control" value="@Model?.Phone" />
-        <span asp-validation-for="Phone" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Zarejestruj się</button>
-</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
