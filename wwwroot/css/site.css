@@ -1,4 +1,25 @@
-﻿/* Karty produktów */
+﻿.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Odstęp między elementami */
+}
+
+.logo-image {
+    max-width: 200px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.logo-text-left, .logo-text-right {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+
+/* Karty produktów */
 .card {
     border: 1px solid #ddd;
     border-radius: 5px;
