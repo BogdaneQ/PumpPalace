@@ -45,5 +45,25 @@ namespace PumpPalace.Controllers
             return View(viewModel);
         }
 
+        public IActionResult NewDropPage()
+        {
+            return View();
+        }
+
+        public IActionResult AccessoriesPage()
+        {
+            return View();
+        }
+
+        public IActionResult ForHimPage()
+        {
+            return View();
+        }
+
+        public IActionResult ForHerPage()
+        {
+            return View();
+        }
+
     }
 }
