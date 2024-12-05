@@ -30,9 +30,10 @@ namespace PumpPalace.Models
         [Range(0, int.MaxValue)]
         public int InStock { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Category is required.")]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
+
         public bool IsNew { get; set; }
         public bool IsPromotion { get; set; }
     }

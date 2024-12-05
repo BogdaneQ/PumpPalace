@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PumpPalace.Models;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PumpPalace.Controllers
 {
@@ -23,69 +24,157 @@ namespace PumpPalace.Controllers
         public IActionResult ManageProducts()
         {
             var products = _context.Products.ToList();
+            var categories = _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToList();
+
+            ViewBag.Categories = categories;
+
+            var currencies = _context.Currencies
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Code,
+                    Text = c.Code
+                })
+                .ToList();
+
+            ViewBag.Currencies = currencies;
+
             return View(products);
         }
 
 
+
         [HttpPost]
-        public IActionResult ManageProducts(Product product)
+        public async Task<IActionResult> ManageProducts(Product product)
         {
             if (ModelState.IsValid)
             {
+                // Walidacja kategorii
+                if (!_context.Categories.Any(c => c.Id == product.CategoryId))
+                {
+                    ModelState.AddModelError("CategoryId", "Invalid category selected.");
+                }
+
+                // Walidacja waluty
+                if (!_context.Currencies.Any(c => c.Code == product.Currency))
+                {
+                    ModelState.AddModelError("Currency", "Invalid currency selected.");
+                }
+
+                // Jeżeli model zawiera błędy, wróć do widoku
+                if (ModelState.ErrorCount > 0)
+                {
+                    var products = await _context.Products.ToListAsync();
+
+                    ViewBag.Categories = _context.Categories
+                        .Select(c => new SelectListItem
+                        {
+                            Value = c.Id.ToString(),
+                            Text = c.Name
+                        })
+                        .ToList();
+
+                    ViewBag.Currencies = _context.Currencies
+                        .Select(c => new SelectListItem
+                        {
+                            Value = c.Code,
+                            Text = c.Code
+                        })
+                        .ToList();
+
+                    return View(products);
+                }
+
+                // Ustaw domyślną wartość VAT, jeśli jest zero
                 if (product.VAT == 0)
                 {
                     product.VAT = 0.23M;
                 }
-                _context.Products.Add(product);
-                _context.SaveChanges();
-                return RedirectToAction("ManageProducts"); // Odśwież widok po dodaniu
+
+                // Dodanie produktu
+                await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(ManageProducts));
             }
 
-            // Jeśli walidacja nie przeszła, przekazujemy obecne produkty do widoku
-            var products = _context.Products.ToList();
-            ViewData["Products"] = products;
-            return View(products);
+            // Przy błędnym modelu, wypełnij dane do widoku
+            var productsError = await _context.Products.ToListAsync();
+
+            ViewBag.Categories = _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToList();
+
+            ViewBag.Currencies = _context.Currencies
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Code,
+                    Text = c.Code
+                })
+                .ToList();
+
+            return View(productsError);
         }
 
+
+
+
         [HttpPost]
-        public IActionResult DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            // Znajdujemy produkt na podstawie Id
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
                 _context.Products.Remove(product);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("ManageProducts"); // Powrót do listy produktów
+            return RedirectToAction("ManageProducts");
         }
 
-        public IActionResult EditProduct(int id)
+        // Edycja produktu - formularz
+        public async Task<IActionResult> EditProduct(int id)
         {
-            // Pobieramy produkt do edycji
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                return NotFound(); // Zwróć 404, jeśli produkt nie istnieje
+                return NotFound(); // Produkt nie znaleziony
             }
 
-            return View(product); // Przekazujemy produkt do widoku edycji
+            return View(product);
         }
 
+        // Edycja produktu - zapis
         [HttpPost]
-        public IActionResult EditProduct(Product product)
+        public async Task<IActionResult> EditProduct(Product product)
         {
             if (ModelState.IsValid)
             {
-                // Aktualizujemy produkt
-                _context.Products.Update(product);
-                _context.SaveChanges();
-                return RedirectToAction("ManageProducts"); // Powrót do widoku zarządzania
+                try
+                {
+                    _context.Products.Update(product);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(ManageProducts));
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Error while updating product. Try again.");
+                }
             }
 
-            return View(product); // Powrót do widoku edycji w przypadku błędów
+            return View(product); // Powrót do edycji w przypadku błędu
         }
+
 
         public IActionResult Statistics()
         {

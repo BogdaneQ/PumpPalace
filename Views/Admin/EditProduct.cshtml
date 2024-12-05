@@ -1,69 +1,67 @@
-﻿@model IEnumerable<PumpPalace.Models.Product>
+﻿@model PumpPalace.Models.Product
 
 <link rel="stylesheet" href="~/css/site.css" />
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
 
 <h2>Edit Product</h2>
 
 <form asp-action="EditProduct" asp-controller="Admin" method="post">
+    @Html.AntiForgeryToken()
+
     <input type="hidden" asp-for="Id" />
 
     <div>
-        <label>Name:</label>
-        <input type="text" asp-for="Name" required />
+        <label for="Name">Name:</label>
+        <input type="text" asp-for="Name" class="form-control" required />
     </div>
 
     <div>
-        <label>Description:</label>
-        <textarea asp-for="Description" required></textarea>
+        <label for="Description">Description:</label>
+        <textarea asp-for="Description" class="form-control" required></textarea>
     </div>
 
     <div>
-        <label>Price:</label>
-        <input type="number" asp-for="Price" step="0.01" required />
+        <label for="Price">Price:</label>
+        <input type="number" asp-for="Price" step="0.01" class="form-control" required />
     </div>
 
     <div>
-        <label>Discount Price:</label>
-        <input type="number" asp-for="DiscountPrice" step="0.01" />
+        <label for="DiscountPrice">Discount Price:</label>
+        <input type="number" asp-for="DiscountPrice" step="0.01" class="form-control" />
     </div>
 
     <div>
-        <label>VAT:</label>
-        <select asp-for="VAT" required>
-            <option value="0">0%</option>
-            <option value="0.23">23%</option>
-        </select>
+        <label for="Currency">Currency:</label>
+        <input type="text" asp-for="Currency" class="form-control" required />
     </div>
 
     <div>
-        <label>Currency:</label>
-        <input type="text" asp-for="Currency" required />
+        <label for="PictureUrl">Picture URL:</label>
+        <input type="text" asp-for="PictureUrl" class="form-control" />
     </div>
 
     <div>
-        <label>Picture URL:</label>
-        <input type="text" asp-for="PictureUrl" />
+        <label for="InStock">In Stock:</label>
+        <input type="number" asp-for="InStock" class="form-control" required />
     </div>
 
     <div>
-        <label>In Stock:</label>
-        <input type="number" asp-for="InStock" required />
+        <label for="CategoryId">Category ID:</label>
+        <input type="number" asp-for="CategoryId" class="form-control" required />
     </div>
 
     <div>
-        <label>Category ID:</label>
-        <input type="number" asp-for="CategoryId" required />
-    </div>
-
-    <div>
-        <label>Is New:</label>
+        <label for="IsNew">Is New:</label>
         <input type="checkbox" asp-for="IsNew" />
     </div>
 
     <div>
-        <label>Is Promotion:</label>
+        <label for="IsPromotion">Is Promotion:</label>
         <input type="checkbox" asp-for="IsPromotion" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
 </form>

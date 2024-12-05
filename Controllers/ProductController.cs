@@ -19,9 +19,31 @@ namespace PumpPalace.Controllers
             return View(products);
         }
 
-        public IActionResult ProductDetails()
+        public IActionResult ProductDetails(int id)
         {
-            return View();
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ProductDetailsViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                DiscountPrice = product.DiscountPrice,
+                VAT = product.VAT,
+                Currency = product.Currency,
+                PictureUrl = product.PictureUrl,
+                InStock = product.InStock,
+                IsNew = product.IsNew,
+                IsPromotion = product.IsPromotion
+            };
+
+            return View(viewModel);
         }
+
     }
 }
