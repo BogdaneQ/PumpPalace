@@ -21,25 +21,6 @@ namespace PumpPalace.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CleanExpiredNewProducts()
-        {
-            var expiredProducts = _context.Products
-                .Where(p => p.NewUntil.HasValue && p.NewUntil.Value <= DateTime.UtcNow)
-                .ToList();
-
-            foreach (var product in expiredProducts)
-            {
-                product.IsNew = false;
-                product.NewUntil = null;
-            }
-
-            _context.SaveChanges();
-
-            TempData["Message"] = "Expired 'New' products have been cleaned successfully.";
-            return RedirectToAction("Index"); // Powrót do głównej strony panelu admina
-        }
-
         public IActionResult ManageProducts()
         {
             var products = _context.Products.ToList();
@@ -117,7 +98,7 @@ namespace PumpPalace.Controllers
 
                 if (product.IsNew)
                 {
-                    product.NewUntil = DateTime.UtcNow.AddDays(7);
+                    product.NewUntil = DateTime.UtcNow.AddDays(3);
                 }
                 else
                 {
