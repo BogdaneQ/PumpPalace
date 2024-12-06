@@ -45,25 +45,42 @@ namespace PumpPalace.Controllers
             return View(viewModel);
         }
 
-        public IActionResult NewDropPage()
-        {
-            return View();
-        }
-
-        public IActionResult AccessoriesPage()
-        {
-            return View();
-        }
-
         public IActionResult ForHimPage()
         {
-            return View();
+            int categoryIdForHim = _context.Categories.FirstOrDefault(c => c.Name == "ForHim")?.Id ?? 0;
+            var products = _context.Products
+                .Where(p => p.CategoryId == categoryIdForHim)
+                .ToList();
+            return View(products);
         }
 
         public IActionResult ForHerPage()
         {
-            return View();
+            int categoryIdForHer = _context.Categories.FirstOrDefault(c => c.Name == "ForHer")?.Id ?? 0;
+            var products = _context.Products
+                .Where(p => p.CategoryId == categoryIdForHer)
+                .ToList();
+            return View(products);
         }
+
+        public IActionResult AccessoriesPage()
+        {
+            int categoryIdAccessories = _context.Categories.FirstOrDefault(c => c.Name == "Accessories")?.Id ?? 0;
+            var products = _context.Products
+                .Where(p => p.CategoryId == categoryIdAccessories)
+                .ToList();
+            return View(products);
+        }
+
+        public IActionResult NewDropPage()
+        {
+            int categoryIdNewDrop = _context.Categories.FirstOrDefault(c => c.Name == "NewDrop")?.Id ?? 0;
+            var products = _context.Products
+                .Where(p => p.CategoryId == categoryIdNewDrop)
+                .ToList();
+            return View(products);
+        }
+
 
     }
 }
