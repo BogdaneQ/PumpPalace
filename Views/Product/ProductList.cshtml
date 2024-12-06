@@ -32,6 +32,12 @@
                         </a>
                     </h5>
 
+                    <!-- Token nowości -->
+                    @if (product.NewUntil.HasValue && product.NewUntil.Value > DateTime.UtcNow)
+                    {
+                        <span class="badge bg-success">New!</span>
+                    }
+
                     <!-- Product Description -->
                     <p class="card-text">@product.Description</p>
 

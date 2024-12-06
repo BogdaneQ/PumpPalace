@@ -74,11 +74,11 @@ namespace PumpPalace.Controllers
 
         public IActionResult NewDropPage()
         {
-            int categoryIdNewDrop = _context.Categories.FirstOrDefault(c => c.Name == "NewDrop")?.Id ?? 0;
-            var products = _context.Products
-                .Where(p => p.CategoryId == categoryIdNewDrop)
+            var newProducts = _context.Products
+                .Where(p => p.IsNew && p.NewUntil.HasValue && p.NewUntil.Value > DateTime.UtcNow)
                 .ToList();
-            return View(products);
+
+            return View(newProducts);
         }
 
 

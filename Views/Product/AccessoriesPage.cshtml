@@ -23,6 +23,13 @@
                             @product.Name
                         </a>
                     </h5>
+
+                    <!-- Token nowości -->
+                    @if (product.NewUntil.HasValue && product.NewUntil.Value > DateTime.UtcNow)
+                    {
+                        <span class="badge bg-success">New!</span>
+                    }
+
                     <p class="card-text">@product.Description</p>
 
                     <div class="price">

@@ -35,6 +35,7 @@ namespace PumpPalace.Models
         public int CategoryId { get; set; }
 
         public bool IsNew { get; set; }
+        public DateTime? NewUntil { get; set; }
         public bool IsPromotion { get; set; }
     }
 }

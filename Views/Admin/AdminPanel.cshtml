@@ -2,7 +2,10 @@
     ViewData["Title"] = "Admin Panel";
     Layout = "Layout";
 }
-
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
 <h2>Admin Panel</h2>
 
 <ul>
@@ -14,3 +17,7 @@
     <li><a href="@Url.Action("UserStatistics", "Admin")">User Statistics</a></li>
     <li><a href="@Url.Action("SalesReport", "Admin")">Sales Report</a></li>
 </ul>
+
+<form asp-action="CleanExpiredNewProducts" asp-controller="Admin" method="post">
+    <button type="submit" class="btn btn-danger">Clean Expired 'New' Products</button>
+</form>
