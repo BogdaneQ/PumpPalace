@@ -44,6 +44,20 @@ body {
         height: auto; /* Zachowanie proporcji */
     }
 
+/* Stylizacja sekcji filtrów */
+.filter-box {
+    position: sticky;
+    top: 10px; /* Przyklejenie do góry podczas przewijania */
+    max-width: 100%; /* Dopasowanie do szerokości kolumny */
+}
+
+    /* Przyciski w filtrach */
+    .filter-box button,
+    .filter-box a {
+        width: 48%; /* Równomierny rozkład przycisków */
+        text-align: center;
+    }
+
 /* Karty produktów */
 .card {
     border: 1px solid #ddd;
@@ -70,6 +84,19 @@ body {
     position: absolute;
     top: 15px; /* Pozycja od góry */
     left: 10px; /* Pozycja od lewej */
+    background-color: green; /* Kolor tła */
+    color: white; /* Kolor tekstu */
+    padding: 5px 10px; /* Odstępy wewnętrzne */
+    font-size: 12px; /* Rozmiar tekstu */
+    font-weight: bold; /* Pogrubienie tekstu */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+    z-index: 1; /* Wyższy priorytet, aby znajdować się nad zdjęciem */
+}
+/* Znaczek promocji */
+.badge-promo {
+    position: absolute;
+    top: 15px; /* Pozycja od góry */
+    right: 10px; /* Pozycja od lewej */
     background-color: red; /* Kolor tła */
     color: white; /* Kolor tekstu */
     padding: 5px 10px; /* Odstępy wewnętrzne */

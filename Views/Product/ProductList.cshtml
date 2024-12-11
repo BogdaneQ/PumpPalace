@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PumpPalace.Models.Product>
+﻿@model PumpPalace.Models.ProductFilterViewModel
 
 <link rel="stylesheet" href="~/css/site.css" />
 
@@ -8,57 +8,103 @@
 
 <h2>Product List</h2>
 
-<!-- Filter or sort options could go here -->
-<div class="filter-sort mb-3">
-    <!-- Możesz dodać opcje sortowania lub filtrowania produktów -->
-</div>
-
+<!-- Sekcja filtrów i lista produktów w jednej linii -->
 <div class="row">
-    @foreach (var product in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <!-- Znaczek nowości -->
-                @if (product.NewUntil.HasValue && product.NewUntil.Value > DateTime.UtcNow)
-                {
-                    <div class="new-badge">New</div>
-                }
+    <!-- Sekcja filtrów po lewej stronie -->
+    <div class="col-md-3">
+        <div class="filter-box p-3 bg-light border rounded">
+            <h4>Filters</h4>
+            <form method="get" action="@Url.Action("ProductList", "Product")">
+                <!-- Cena minimalna -->
+                <div class="mb-3">
+                    <label for="MinPrice" class="form-label">Min Price</label>
+                    <input type="number" id="MinPrice" name="MinPrice" class="form-control" value="@Model.MinPrice" />
+                </div>
 
-                <!-- Zdjęcie produktu -->
-                <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })">
-                    <img src="@product.PictureUrl" class="card-img-top" alt="@product.Name" />
-                </a>
+                <!-- Cena maksymalna -->
+                <div class="mb-3">
+                    <label for="MaxPrice" class="form-label">Max Price</label>
+                    <input type="number" id="MaxPrice" name="MaxPrice" class="form-control" value="@Model.MaxPrice" />
+                </div>
 
-                <div class="card-body">
-                    <!-- Tytuł produktu -->
-                    <h5 class="card-title">
-                        <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })">
-                            @product.Name
-                        </a>
-                    </h5>
+                <!-- Produkty na promocji -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="OnDiscount" name="OnDiscount" class="form-check-input"
+                           value="true" @(Model.OnDiscount == true ? "checked" : "") />
+                    <label for="OnDiscount" class="form-check-label">On Discount</label>
+                </div>
 
-                    <!-- Cena -->
-                    <div class="price">
+
+                <!-- Produkty w magazynie -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="InStock" name="InStock" class="form-check-input" @(Model.InStock == true ? "checked" : "") />
+                    <label for="InStock" class="form-check-label">In Stock</label>
+                </div>
+
+                <!-- Przyciski -->
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="@Url.Action("ProductList", "Product")" class="btn btn-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sekcja produktów po prawej stronie -->
+    <div class="col-md-9">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <!-- Znaczek nowości -->
+                        @if (product.NewUntil.HasValue && product.NewUntil.Value > DateTime.UtcNow)
+                        {
+                            <div class="new-badge">New</div>
+                        }
+                        <!-- Token promocji -->
                         @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
                         {
-                            <span class="text-danger"><del>@product.Price</del> @product.Currency</span>
-                            <span class="text-success">@product.DiscountPrice.Value @product.Currency</span>
+                            <span class="badge-promo position-absolute">Promo!</span>
                         }
-                        else
-                        {
-                            <span>@product.Price @product.Currency</span>
-                        }
+
+                        <!-- Zdjęcie produktu -->
+                        <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })">
+                            <img src="@product.PictureUrl" class="card-img-top" alt="@product.Name" />
+                        </a>
+
+                        <div class="card-body">
+                            <!-- Tytuł produktu -->
+                            <h5 class="card-title">
+                                <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })">
+                                    @product.Name
+                                </a>
+                            </h5>
+
+                            <!-- Cena -->
+                            <div class="price">
+                                @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
+                                {
+                                    <span class="text-danger"><del>@product.Price</del> @product.Currency</span>
+                                    <span class="text-success">@product.DiscountPrice.Value @product.Currency</span>
+                                }
+                                else
+                                {
+                                    <span>@product.Price @product.Currency</span>
+                                }
+                            </div>
+
+                            <!-- Przycisk dodawania do koszyka -->
+                            <form action="@Url.Action("AddToCart", "Cart")" method="post" class="mt-3">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 80px; display: inline-block;" />
+                                <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                            </form>
+                        </div>
                     </div>
-
-                    <!-- Przycisk dodawania do koszyka -->
-                    <form action="@Url.Action("AddToCart", "Cart")" method="post" class="mt-3">
-                        <input type="hidden" name="productId" value="@product.Id" />
-                        <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 80px; display: inline-block;" />
-                        <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
-                    </form>
                 </div>
-            </div>
+            }
         </div>
-
-    }
+    </div>
 </div>
+

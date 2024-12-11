@@ -135,8 +135,6 @@ namespace PumpPalace.Controllers
         }
 
 
-
-
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int id)
         {

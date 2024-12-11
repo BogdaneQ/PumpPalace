@@ -29,6 +29,11 @@
                     {
                         <span class="new-badge">New!</span>
                     }
+                    <!-- Token promocji -->
+                    @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)
+                    {
+                        <span class="badge-promo position-absolute">Promo!</span>
+                    }
 
                     <p class="card-text">@product.Description</p>
 

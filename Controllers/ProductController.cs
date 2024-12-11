@@ -13,11 +13,48 @@ namespace PumpPalace.Controllers
             _context = context;
         }
 
-        public IActionResult ProductList()
+        public IActionResult ProductList(ProductFilterViewModel filters)
         {
-            var products = _context.Products.ToList();
-            return View(products);
+            // Jeśli filtr jest pusty, inicjalizujemy nowy obiekt
+            if (filters == null)
+            {
+                filters = new ProductFilterViewModel();
+            }
+
+            // Pobieramy wszystkie produkty
+            var products = _context.Products.AsQueryable();
+
+            // Filtracja po cenie minimalnej
+            if (filters.MinPrice.HasValue)
+            {
+                products = products.Where(p => p.Price >= filters.MinPrice.Value);
+            }
+
+            // Filtracja po cenie maksymalnej
+            if (filters.MaxPrice.HasValue)
+            {
+                products = products.Where(p => p.Price <= filters.MaxPrice.Value);
+            }
+
+            // Filtracja po promocji 
+            if (filters.OnDiscount.HasValue)
+            {
+                products = products.Where(p => p.DiscountPrice.HasValue);
+            }
+
+            // Filtracja po dostępności
+            if (filters.InStock.HasValue && filters.InStock.Value)
+            {
+                products = products.Where(p => p.InStock > 0);
+            }
+
+            // Ustawiamy przefiltrowane produkty w modelu
+            filters.Products = products.ToList();
+
+            // Przekazujemy model do widoku
+            return View(filters);
         }
+
 
         public IActionResult ProductDetails(int id)
         {
