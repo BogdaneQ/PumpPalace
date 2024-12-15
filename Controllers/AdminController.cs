@@ -148,38 +148,109 @@ namespace PumpPalace.Controllers
             return RedirectToAction("ManageProducts");
         }
 
-        // Edycja produktu - formularz
+        [HttpGet]
         public async Task<IActionResult> EditProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (product == null)
             {
-                return NotFound(); // Produkt nie znaleziony
+                return NotFound();
             }
+
+            // Przygotowanie listy kategorii i walut
+            ViewBag.Categories = _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToList();
+
+            ViewBag.Currencies = _context.Currencies
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Code,
+                    Text = c.Code
+                })
+                .ToList();
 
             return View(product);
         }
 
-        // Edycja produktu - zapis
+
+
         [HttpPost]
         public async Task<IActionResult> EditProduct(Product product)
         {
             if (ModelState.IsValid)
             {
-                try
+                // Walidacja kategorii
+                if (!_context.Categories.Any(c => c.Id == product.CategoryId))
                 {
-                    _context.Products.Update(product);
-                    await _context.SaveChangesAsync();
+                    ModelState.AddModelError("CategoryId", "Invalid category selected.");
+                }
 
-                    return RedirectToAction(nameof(ManageProducts));
-                }
-                catch (DbUpdateException)
+                // Walidacja waluty
+                if (!_context.Currencies.Any(c => c.Code == product.Currency))
                 {
-                    ModelState.AddModelError("", "Error while updating product. Try again.");
+                    ModelState.AddModelError("Currency", "Invalid currency selected.");
                 }
+
+                // Jeżeli model zawiera błędy, wróć do widoku
+                if (ModelState.ErrorCount > 0)
+                {
+                    ViewBag.Categories = _context.Categories
+                        .Select(c => new SelectListItem
+                        {
+                            Value = c.Id.ToString(),
+                            Text = c.Name
+                        })
+                        .ToList();
+
+                    ViewBag.Currencies = _context.Currencies
+                        .Select(c => new SelectListItem
+                        {
+                            Value = c.Code,
+                            Text = c.Code
+                        })
+                        .ToList();
+
+                    return View(product);
+                }
+
+                // Ustaw domyślną wartość VAT, jeśli jest zero
+                if (product.VAT == 0)
+                {
+                    product.VAT = 0.23M;
+                }
+
+                // Zaktualizowanie danych produktu
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(ManageProducts));
             }
 
-            return View(product); // Powrót do edycji w przypadku błędu
+            // Przy błędnym modelu, wypełnij dane do widoku
+            ViewBag.Categories = _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToList();
+
+            ViewBag.Currencies = _context.Currencies
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Code,
+                    Text = c.Code
+                })
+                .ToList();
+
+            return View(product);
         }
 
 

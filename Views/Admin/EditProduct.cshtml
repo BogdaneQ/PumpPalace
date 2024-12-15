@@ -1,82 +1,76 @@
 ﻿@model PumpPalace.Models.Product
 
-<link rel="stylesheet" href="~/css/site.css" />
-
 @{
     Layout = "~/Views/Shared/Layout.cshtml";
 }
+
+<link rel="stylesheet" href="~/css/site.css" />
 
 <h2>Edit Product</h2>
 
 <form asp-action="EditProduct" asp-controller="Admin" method="post">
     <div>
+        <input type="hidden" name="Id" value="@Model.Id" />
         <label for="Name">Name:</label>
-        <input asp-for="Name" id="Name" placeholder="Enter product name" required />
-        <span asp-validation-for="Name"></span> <!-- Wyświetlanie błędów walidacji -->
+        <input type="text" id="Name" name="Name" value="@Model.Name" placeholder="Enter product name" required />
     </div>
 
     <div>
         <label for="Description">Description:</label>
-        <textarea asp-for="Description" id="Description" placeholder="Enter product description" required></textarea>
-        <span asp-validation-for="Description"></span> <!-- Wyświetlanie błędów walidacji -->
+        <textarea id="Description" name="Description" placeholder="Enter product description" required>@Model.Description</textarea>
     </div>
 
     <div>
         <label for="Price">Price:</label>
-        <input asp-for="Price" type="number" id="Price" step="0.01" placeholder="Enter product price" required />
-        <span asp-validation-for="Price"></span> <!-- Wyświetlanie błędów walidacji -->
+        <input type="number" id="Price" name="Price" value="@Model.Price" step="0.01" placeholder="Enter product price" required />
     </div>
 
     <div>
         <label for="DiscountPrice">Discount Price:</label>
-        <input asp-for="DiscountPrice" type="number" id="DiscountPrice" step="0.01" placeholder="Enter discounted price (optional)" />
-        <span asp-validation-for="DiscountPrice"></span> <!-- Wyświetlanie błędów walidacji -->
+        <input type="number" id="DiscountPrice" name="DiscountPrice" value="@Model.DiscountPrice" step="0.01" placeholder="Enter discounted price (optional)" />
     </div>
 
     <div>
         <label for="Currency">Currency:</label>
-        <select asp-for="Currency" id="Currency" required>
+        <select id="Currency" name="Currency" required>
             <option value="">-- Select a currency --</option>
-            @foreach (var currency in ViewBag.Currencies)
+            @foreach (var currency in ViewBag.Currencies as List<SelectListItem>)
             {
-                <option value="@currency.Value" @(currency.Value == Model?.Currency ? "selected" : "")>@currency.Text</option>
+                <option value="@currency.Value" @(currency.Value == Model.Currency ? "selected" : "")>@currency.Text</option>
             }
         </select>
     </div>
 
     <div>
         <label for="PictureUrl">Picture URL:</label>
-        <input asp-for="PictureUrl" id="PictureUrl" placeholder="Enter picture URL" />
-        <span asp-validation-for="PictureUrl"></span> <!-- Wyświetlanie błędów walidacji -->
+        <input type="text" id="PictureUrl" name="PictureUrl" value="@Model.PictureUrl" placeholder="Enter picture URL" />
     </div>
 
     <div>
         <label for="InStock">In Stock:</label>
-        <input asp-for="InStock" type="number" id="InStock" placeholder="Enter stock quantity" required />
-        <span asp-validation-for="InStock"></span> <!-- Wyświetlanie błędów walidacji -->
+        <input type="number" id="InStock" name="InStock" value="@Model.InStock" placeholder="Enter stock quantity" required />
     </div>
 
     <div>
         <label for="CategoryId">Category:</label>
-        <select asp-for="CategoryId" id="CategoryId" required>
+        <select id="CategoryId" name="CategoryId" required>
             <option value="">-- Select a category --</option>
-            @foreach (var category in ViewBag.Categories)
+            @foreach (var category in ViewBag.Categories as List<SelectListItem>)
             {
-                <option value="@category.Value" @(category.Value == Model.CategoryId ? "selected" : "")>@category.Text</option>
+                <option value="@category.Value" @(category.Value == Model.CategoryId.ToString() ? "selected" : "")>@category.Text</option>
             }
         </select>
-        <span asp-validation-for="CategoryId"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="IsNew">Is New:</label>
-        <input asp-for="IsNew" type="checkbox" id="IsNew" />
+        <input type="checkbox" id="IsNew" name="IsNew" value="true" @(Model.IsNew ? "checked" : "") />
     </div>
 
     <div>
         <label for="IsPromotion">Is Promotion:</label>
-        <input asp-for="IsPromotion" type="checkbox" id="IsPromotion" />
+        <input type="checkbox" id="IsPromotion" name="IsPromotion" value="true" @(Model.IsPromotion ? "checked" : "") />
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary">Update Product</button>
 </form>

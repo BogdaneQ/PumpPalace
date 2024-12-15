@@ -52,6 +52,16 @@ namespace PumpPalace.Controllers
             {
                 products = products.Where(p => p.InStock > 0);
             }
+            if (filters.MinPrice == null)
+            {
+                filters.MinPrice = 0;  // Ustawienie domyślnej wartości 0, jeśli nie podano filtra
+            }
+
+            if (filters.MaxPrice == null)
+            {
+                filters.MaxPrice = 10000;  // Ustawienie domyślnej wartości 10000
+            }
+
 
             // Ustawiamy przefiltrowane produkty w modelu
             filters.Products = products.ToList();
