@@ -18,13 +18,15 @@
                 <!-- Cena minimalna -->
                 <div class="mb-3">
                     <label for="MinPrice" class="form-label">Min Price</label>
-                    <input type="number" id="MinPrice" name="MinPrice" class="form-control" value="@Model.MinPrice" />
+                    <input type="range" id="MinPrice" name="MinPrice" class="form-control-range" min="0" max="10000" value="@Model.MinPrice" />
+                    <input type="number" id="MinPriceInput" name="MinPriceInput" class="form-control" value="@Model.MinPrice" />
                 </div>
 
                 <!-- Cena maksymalna -->
                 <div class="mb-3">
                     <label for="MaxPrice" class="form-label">Max Price</label>
-                    <input type="number" id="MaxPrice" name="MaxPrice" class="form-control" value="@Model.MaxPrice" />
+                    <input type="range" id="MaxPrice" name="MaxPrice" class="form-control-range" min="0" max="10000" value="@Model.MaxPrice" />
+                    <input type="number" id="MaxPriceInput" name="MaxPriceInput" class="form-control" value="@Model.MaxPrice" />
                 </div>
 
                 <!-- Produkty na promocji -->
@@ -33,7 +35,6 @@
                            value="true" @(Model.OnDiscount == true ? "checked" : "") />
                     <label for="OnDiscount" class="form-check-label">On Discount</label>
                 </div>
-
 
                 <!-- Produkty w magazynie -->
                 <div class="mb-3 form-check">
@@ -108,3 +109,25 @@
     </div>
 </div>
 
+<!-- Skrypt do synchronizacji suwaków z polami liczbowymi -->
+<script>
+    document.getElementById('MinPrice').addEventListener('input', function() {
+        document.getElementById('MinPriceInput').value = this.value;
+        document.getElementById('min-price-value').textContent = this.value;
+    });
+
+    document.getElementById('MaxPrice').addEventListener('input', function() {
+        document.getElementById('MaxPriceInput').value = this.value;
+        document.getElementById('max-price-value').textContent = this.value;
+    });
+
+    document.getElementById('MinPriceInput').addEventListener('input', function() {
+        document.getElementById('MinPrice').value = this.value;
+        document.getElementById('min-price-value').textContent = this.value;
+    });
+
+    document.getElementById('MaxPriceInput').addEventListener('input', function() {
+        document.getElementById('MaxPrice').value = this.value;
+        document.getElementById('max-price-value').textContent = this.value;
+    });
+</script>

@@ -27,18 +27,23 @@ namespace PumpPalace.Controllers
             // Filtracja po cenie minimalnej
             if (filters.MinPrice.HasValue)
             {
-                products = products.Where(p => p.Price >= filters.MinPrice.Value);
+                // Filtrowanie po minimalnej cenie - uwzględniamy rabat, jeśli istnieje
+                products = products.Where(p =>
+                    (p.DiscountPrice.HasValue ? p.DiscountPrice.Value : p.Price) >= filters.MinPrice.Value);
             }
 
             // Filtracja po cenie maksymalnej
             if (filters.MaxPrice.HasValue)
             {
-                products = products.Where(p => p.Price <= filters.MaxPrice.Value);
+                // Filtrowanie po maksymalnej cenie - uwzględniamy rabat, jeśli istnieje
+                products = products.Where(p =>
+                    (p.DiscountPrice.HasValue ? p.DiscountPrice.Value : p.Price) <= filters.MaxPrice.Value);
             }
 
-            // Filtracja po promocji 
-            if (filters.OnDiscount.HasValue)
+            // Filtracja po promocji
+            if (filters.OnDiscount.HasValue && filters.OnDiscount.Value)
             {
+                // Produkty z rabatem
                 products = products.Where(p => p.DiscountPrice.HasValue);
             }
 

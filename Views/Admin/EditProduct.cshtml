@@ -9,59 +9,74 @@
 <h2>Edit Product</h2>
 
 <form asp-action="EditProduct" asp-controller="Admin" method="post">
-    @Html.AntiForgeryToken()
-
-    <input type="hidden" asp-for="Id" />
-
     <div>
         <label for="Name">Name:</label>
-        <input type="text" asp-for="Name" class="form-control" required />
+        <input asp-for="Name" id="Name" placeholder="Enter product name" required />
+        <span asp-validation-for="Name"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="Description">Description:</label>
-        <textarea asp-for="Description" class="form-control" required></textarea>
+        <textarea asp-for="Description" id="Description" placeholder="Enter product description" required></textarea>
+        <span asp-validation-for="Description"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="Price">Price:</label>
-        <input type="number" asp-for="Price" step="0.01" class="form-control" required />
+        <input asp-for="Price" type="number" id="Price" step="0.01" placeholder="Enter product price" required />
+        <span asp-validation-for="Price"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="DiscountPrice">Discount Price:</label>
-        <input type="number" asp-for="DiscountPrice" step="0.01" class="form-control" />
+        <input asp-for="DiscountPrice" type="number" id="DiscountPrice" step="0.01" placeholder="Enter discounted price (optional)" />
+        <span asp-validation-for="DiscountPrice"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="Currency">Currency:</label>
-        <input type="text" asp-for="Currency" class="form-control" required />
+        <select asp-for="Currency" id="Currency" required>
+            <option value="">-- Select a currency --</option>
+            @foreach (var currency in ViewBag.Currencies)
+            {
+                <option value="@currency.Value" @(currency.Value == Model?.Currency ? "selected" : "")>@currency.Text</option>
+            }
+        </select>
     </div>
 
     <div>
         <label for="PictureUrl">Picture URL:</label>
-        <input type="text" asp-for="PictureUrl" class="form-control" />
+        <input asp-for="PictureUrl" id="PictureUrl" placeholder="Enter picture URL" />
+        <span asp-validation-for="PictureUrl"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="InStock">In Stock:</label>
-        <input type="number" asp-for="InStock" class="form-control" required />
+        <input asp-for="InStock" type="number" id="InStock" placeholder="Enter stock quantity" required />
+        <span asp-validation-for="InStock"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
-        <label for="CategoryId">Category ID:</label>
-        <input type="number" asp-for="CategoryId" class="form-control" required />
+        <label for="CategoryId">Category:</label>
+        <select asp-for="CategoryId" id="CategoryId" required>
+            <option value="">-- Select a category --</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.Value" @(category.Value == Model.CategoryId ? "selected" : "")>@category.Text</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId"></span> <!-- Wyświetlanie błędów walidacji -->
     </div>
 
     <div>
         <label for="IsNew">Is New:</label>
-        <input type="checkbox" asp-for="IsNew" />
+        <input asp-for="IsNew" type="checkbox" id="IsNew" />
     </div>
 
     <div>
         <label for="IsPromotion">Is Promotion:</label>
-        <input type="checkbox" asp-for="IsPromotion" />
+        <input asp-for="IsPromotion" type="checkbox" id="IsPromotion" />
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
