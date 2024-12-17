@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PumpPalace.Models;
 
 namespace PumpPalace.Controllers
@@ -255,16 +256,16 @@ namespace PumpPalace.Controllers
             return View(orderSummary);
         }
 
-        public IActionResult ProceedToPayment(OrderSummaryViewModel order)
+        public IActionResult ProceedToPayment()
         {
-            if (ModelState.IsValid)
-            {
-                // Przetwarzanie danych zamówienia (zapis do bazy, generowanie zamówienia itp.)
-                return RedirectToAction("PaymentPage", "Cart", order);
-            }
-
-            return View("OrderSummary", order);
+                return RedirectToAction("PaymentPage", "Cart");
         }
+        public IActionResult PaymentPage()
+        {
+            
+            return View();
+        }
+
 
     }
 
