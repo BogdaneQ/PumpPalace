@@ -224,4 +224,73 @@ button[type="submit"] {
     button[type="submit"]:hover {
         background-color: #0056b3;
     }
+/* Styl dla tabeli z białym tłem */
+.table-white {
+    background-color: #fff;
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .table-white th, .table-white td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .table-white th {
+        background-color: #f8f9fa; /* Jasnoszare tło dla nagłówków */
+        font-weight: bold;
+    }
+
+/* Stylizacja dla My Account (dane użytkownika w tabeli) */
+.account-table {
+    margin: 20px 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Koszyk */
+.cart-table {
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Tabela produktów */
+.product-table {
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+/* Przyciski Admin Panelu */
+.admin-panel-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px; /* Stała szerokość przycisków */
+    margin: 20px 0;
+}
+
+    .admin-panel-buttons a {
+        display: inline-block;
+        text-align: center;
+        background-color: #6c757d; /* Szary kolor */
+        color: white;
+        padding: 10px 0;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
+
+        .admin-panel-buttons a:hover {
+            background-color: #5a6268; /* Ciemniejszy szary przy najechaniu */
+        }
+
+/* Tabela Manage Products */
+.manage-products-table {
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
 

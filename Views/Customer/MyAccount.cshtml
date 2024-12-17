@@ -7,13 +7,14 @@
 
 <h2>Moje Konto</h2>
 
-<div>
-    <p><strong>Nazwa użytkownika:</strong> @Model.Username</p>
-    <p><strong>Imię:</strong> @Model.FirstName</p>
-    <p><strong>Nazwisko:</strong> @Model.LastName</p>
-    <p><strong>Email:</strong> @Model.Email</p>
-    <p><strong>Telefon:</strong> @Model.Phone</p>
-    <p><strong>Adres:</strong> @Model.Address</p>
-</div>
+<table class="table-white account-table">
+    <tr><th>Nazwa użytkownika</th><td>@Model.Username</td></tr>
+    <tr><th>Imię</th><td>@Model.FirstName</td></tr>
+    <tr><th>Nazwisko</th><td>@Model.LastName</td></tr>
+    <tr><th>Email</th><td>@Model.Email</td></tr>
+    <tr><th>Telefon</th><td>@Model.Phone</td></tr>
+    <tr><th>Adres</th><td>@Model.Address</td></tr>
+</table>
+
 
 <a class="btn btn-primary" href="@Url.Action("ProfileSettings", "Customer")">Edytuj Profil</a>

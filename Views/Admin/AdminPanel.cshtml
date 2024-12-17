@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Admin Panel";
     Layout = "Layout";
+    <link rel="stylesheet" href="~/css/site.css" />
 }
 @if (TempData["Message"] != null)
 {
@@ -8,14 +9,15 @@
 }
 <h2>Admin Panel</h2>
 
-<ul>
-    <li><a href="@Url.Action("ManageProducts", "Admin")">Manage Products</a></li>
-    <li><a href="@Url.Action("OrderManagement", "Admin")">Order Management</a></li>
-    <li><a href="@Url.Action("UserManagement", "Admin")">User Management</a></li>
-    <li><a href="@Url.Action("Discounts", "Admin")">Discounts</a></li>
-    <li><a href="@Url.Action("InventoryManagement", "Admin")">Inventory Management</a></li>
-    <li><a href="@Url.Action("UserStatistics", "Admin")">User Statistics</a></li>
-    <li><a href="@Url.Action("SalesReport", "Admin")">Sales Report</a></li>
-</ul>
+<div class="admin-panel-buttons">
+    <a href="@Url.Action("ManageProducts", "Admin")">Manage Products</a>
+    <a href="@Url.Action("OrderManagement", "Admin")">Order Management</a>
+    <a href="@Url.Action("UserManagement", "Admin")">User Management</a>
+    <a href="@Url.Action("Discounts", "Admin")">Discounts</a>
+    <a href="@Url.Action("InventoryManagement", "Admin")">Inventory Management</a>
+    <a href="@Url.Action("UserStatistics", "Admin")">User Statistics</a>
+    <a href="@Url.Action("SalesReport", "Admin")">Sales Report</a>
+</div>
+
 
 <button id="cleanExpiredButton" class="btn btn-danger">Clean Expired 'New' Products</button>
