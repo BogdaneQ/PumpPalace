@@ -24,6 +24,13 @@ namespace PumpPalace.Controllers
             // Pobieramy wszystkie produkty
             var products = _context.Products.AsQueryable();
 
+            // Filtracja po nazwie produktu (ignorując wielkość liter)
+            if (!string.IsNullOrEmpty(filters.SearchTerm))
+            {
+                string searchTerm = filters.SearchTerm.ToLower(); // Konwersja frazy na małe litery
+                products = products.Where(p => p.Name.ToLower().Contains(searchTerm));
+            }
+
             // Filtracja po cenie minimalnej
             if (filters.MinPrice.HasValue)
             {

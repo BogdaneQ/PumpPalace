@@ -1,8 +1,7 @@
 ﻿@model PumpPalace.Models.ProfileSettingsViewModel
 @{
-    ViewData["Title"] = "Ustawienia profilu";
+    ViewData["Title"] = "Ustawienia Profilu";
     Layout = "Layout";
-    <link rel="stylesheet" href="~/css/site.css" />
 }
 
 <h2>Ustawienia Profilu</h2>
@@ -14,7 +13,7 @@
     </div>
 }
 
-<form method="post" asp-action="UpdateProfile" asp-controller="Customer">
+<form asp-action="UpdateProfile" asp-controller="Customer" method="post">
     <div class="form-group">
         <label for="firstName">Imię</label>
         <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model.FirstName" required />

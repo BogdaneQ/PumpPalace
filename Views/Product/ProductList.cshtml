@@ -15,6 +15,12 @@
         <div class="filter-box p-3 bg-light border rounded">
             <h4>Filters</h4>
             <form method="get" action="@Url.Action("ProductList", "Product")">
+
+                <!-- Pole do wyszukiwania po nazwie -->
+                <div class="mb-3">
+                    <label for="SearchTerm" class="form-label">Search</label>
+                    <input type="text" id="SearchTerm" name="SearchTerm" class="form-control" value="@Model.SearchTerm" />
+                </div>
                 <!-- Cena minimalna -->
                 <div class="mb-3">
                     <label for="MinPrice" class="form-label">Min Price</label>

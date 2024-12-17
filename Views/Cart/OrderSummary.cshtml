@@ -5,8 +5,72 @@
     Layout = "Layout";
 }
 
+<h2 class="mb-4">Order Summary</h2>
 
+<!-- Szczegóły zamówienia -->
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Order Details</strong>
+    </div>
+    <div class="card-body">
+        <p><strong>Order ID:</strong> @Model.OrderId</p>
+        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy")</p>
+        <p><strong>Order Status:</strong> @Model.OrderStatus</p>
+        <p><strong>Total Price:</strong> @Model.TotalPrice.ToString("C")</p>
+    </div>
+</div>
 
-<h2>Order Summary</h2>
+<!-- Adresy dostawy i rozliczeniowy -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>Shipping Address</strong>
+            </div>
+            <div class="card-body">
+                <p>@Model.ShippingAddress</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>Billing Address</strong>
+            </div>
+            <div class="card-body">
+                <p>@Model.BillingAddress</p>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Lista produktów -->
+<h4 class="mb-3">Ordered Items</h4>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@item.TotalPrice.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
+<!-- Przycisk do płatności -->
+<div class="text-right mt-4">
+    <form method="post" asp-action="ProceedToPayment" asp-controller="Cart">
+        <button type="submit" class="btn btn-success btn-lg">Proceed to Payment</button>
+    </form>
+</div>

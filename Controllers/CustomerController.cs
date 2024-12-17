@@ -65,7 +65,7 @@ namespace PumpPalace.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("ProfileSettings", model);
+                return View("ProfileSettings", model);  // Jeśli formularz nie jest poprawny, ponownie załaduj formularz
             }
 
             var user = GetLoggedInUser();
@@ -83,9 +83,10 @@ namespace PumpPalace.Controllers
 
             _dbContext.SaveChanges();
 
-            TempData["SuccessMessage"] = "Profil został zaktualizowany!";
-            return RedirectToAction("MyAccount");
+            TempData["SuccessMessage"] = "Profil został zaktualizowany!";  // Przekazanie komunikatu sukcesu
+            return RedirectToAction("MyAccount");  // Przekierowanie na stronę "MyAccount"
         }
+
 
         public IActionResult Wishlist()
         {

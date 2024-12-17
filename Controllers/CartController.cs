@@ -190,15 +190,76 @@ namespace PumpPalace.Controllers
             return RedirectToAction("Cart");
         }
 
-        public IActionResult OrderSummary(int orderId)
+        public async Task<IActionResult> OrderSummary()
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Pobierz userId
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            // Pobierz koszyk użytkownika
+            var cart = await _dbContext.Carts
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart == null || !cart.Items.Any())
+            {
+                TempData["ErrorMessage"] = "Your cart is empty.";
+                return RedirectToAction("Cart");
+            }
+
+            // Pobierz dane użytkownika (na potrzeby adresu i profilu)
+            var user = await _dbContext.Customers.FindAsync(userId);
+            if (user == null)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Oblicz łączną cenę
+            decimal totalPrice = cart.Items.Sum(item =>
+                (item.Product.DiscountPrice.HasValue && item.Product.DiscountPrice.Value < item.Product.Price
+                    ? item.Product.DiscountPrice.Value
+                    : item.Product.Price) * item.Quantity
+            );
+
+            // Utwórz ViewModel dla OrderSummary
+            var orderSummary = new OrderSummaryViewModel
+            {
+                OrderId = new Random().Next(10000, 99999), // Tymczasowe generowanie numeru zamówienia
+                OrderDate = DateTime.Now,
+                OrderStatus = "Pending",
+                TotalPrice = totalPrice,
+                ShippingAddress = user.Address, // Pobierz adres użytkownika
+                BillingAddress = user.Address,
+                OrderItems = cart.Items.Select(item => new OrderItemViewModel
+                {
+                    ProductName = item.Product.Name,
+                    Quantity = item.Quantity,
+                    Price = item.Product.DiscountPrice ?? item.Product.Price // Uwzględnij cenę promocyjną
+                }).ToList()
+            };
+
+            return View(orderSummary);
         }
 
-        public IActionResult Payment(int orderId)
+
+
+        [HttpPost]
+        public IActionResult ProceedToPayment(OrderSummaryViewModel order)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                // Przetwarzanie danych zamówienia (zapis do bazy, generowanie zamówienia itp.)
+                return RedirectToAction("PaymentPage", "Cart", order);
+            }
+
+            return View("OrderSummary", order);
         }
+
     }
 
 
