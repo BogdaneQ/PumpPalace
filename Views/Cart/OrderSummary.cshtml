@@ -70,8 +70,6 @@
 </table>
 
 <!-- Przycisk do płatności -->
-<div class="text-right mt-4">
-    <form method="post" asp-action="ProceedToPayment" asp-controller="Cart">
-        <button type="submit" class="btn btn-success btn-lg">Proceed to Payment</button>
-    </form>
-</div>
+<form action="@Url.Action("ProceedToPayment", "Cart")" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Proceed to payment</button>
+</form>

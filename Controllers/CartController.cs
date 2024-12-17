@@ -75,10 +75,10 @@ namespace PumpPalace.Controllers
                 return NotFound();
             }
 
-            if (quantity > product.InStock) // Check if quantity is greater than stock
+            if (quantity > product.InStock)
             {
                 TempData["ErrorMessage"] = $"Cannot add more than {product.InStock} units of {product.Name} to the cart.";
-                return RedirectToAction("Cart");
+                return RedirectToAction("ProductList"); // Powrót do listy produktów
             }
 
             // Get or create the cart
@@ -105,10 +105,11 @@ namespace PumpPalace.Controllers
                 if (newQuantity > product.InStock)
                 {
                     TempData["ErrorMessage"] = $"Cannot add more than {product.InStock} units of {product.Name} to the cart.";
-                    return RedirectToAction("Cart");
+                    return RedirectToAction("ProductList", "Product"); // Powrót do listy produktów
                 }
 
                 existingCartItem.Quantity = newQuantity;
+                TempData["SuccessMessage"] = $"{product.Name} quantity updated in the cart.";
             }
             else
             {
@@ -119,12 +120,15 @@ namespace PumpPalace.Controllers
                     CartId = cart.Id
                 };
                 cart.Items.Add(cartItem);
+                TempData["SuccessMessage"] = $"{product.Name} has been added to the cart.";
             }
 
             await _dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Cart");
+            return RedirectToAction("ProductList", "Product"); // Powrót do listy produktów
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int cartItemId)
@@ -148,11 +152,13 @@ namespace PumpPalace.Controllers
                 {
                     cart.Items.Remove(cartItem);
                     await _dbContext.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Product removed from the cart successfully.";
                 }
             }
 
             return RedirectToAction("Cart");
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateQuantity(int cartItemId, int quantity)
@@ -177,7 +183,7 @@ namespace PumpPalace.Controllers
                     return NotFound();
                 }
 
-                if (quantity > product.InStock) // Ensure quantity does not exceed available stock
+                if (quantity > product.InStock)
                 {
                     TempData["ErrorMessage"] = $"Cannot set quantity to {quantity} for {product.Name}. Only {product.InStock} units are available.";
                     return RedirectToAction("Cart");
@@ -185,10 +191,13 @@ namespace PumpPalace.Controllers
 
                 cartItem.Quantity = quantity;
                 await _dbContext.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = $"{product.Name} quantity updated successfully.";
             }
 
             return RedirectToAction("Cart");
         }
+
 
         public async Task<IActionResult> OrderSummary()
         {
@@ -246,9 +255,6 @@ namespace PumpPalace.Controllers
             return View(orderSummary);
         }
 
-
-
-        [HttpPost]
         public IActionResult ProceedToPayment(OrderSummaryViewModel order)
         {
             if (ModelState.IsValid)
