@@ -2,31 +2,31 @@
 
 @{
     ViewData["Title"] = "Order Summary";
-    Layout = "Layout";
+    Layout = "~/Views/Shared/Layout.cshtml";
     <link rel="stylesheet" href="~/css/site.css" />
 }
 
 <h2 class="mb-4">Order Summary</h2>
 
 <!-- Order Details -->
-<div class="card mb-4">
+<div class="card mb-4 shadow-sm">
     <div class="card-header">
-        <strong>Order Details</strong>
+        <h5><strong>Order Details</strong></h5>
     </div>
     <div class="card-body">
         <p><strong>Order ID:</strong> @Model.OrderId</p>
         <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy")</p>
-        <p><strong>Order Status:</strong> @Model.OrderStatus</p>
-        <p><strong>Total Price:</strong> @Model.TotalPrice.ToString("C")</p>
+        <p><strong>Order Status:</strong> <span class="badge bg-info">@Model.OrderStatus</span></p>
+        <p><strong>Total Price:</strong> <span class="text-success">@Model.TotalPrice.ToString("C")</span></p>
     </div>
 </div>
 
 <!-- Shipping and Billing Address -->
 <div class="row mb-4">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header">
-                <strong>Shipping Address</strong>
+                <h5><strong>Shipping Address</strong></h5>
             </div>
             <div class="card-body">
                 <p>@Model.ShippingAddress</p>
@@ -34,9 +34,9 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header">
-                <strong>Billing Address</strong>
+                <h5><strong>Billing Address</strong></h5>
             </div>
             <div class="card-body">
                 <p>@Model.BillingAddress</p>
@@ -50,8 +50,8 @@
 
 @if (Model.OrderItems != null && Model.OrderItems.Any())
 {
-    <table class="table-white product-table">
-        <thead>
+    <table class="table table-hover table-striped shadow-sm">
+        <thead class="table-dark">
             <tr>
                 <th>Product Name</th>
                 <th>Quantity</th>
@@ -74,10 +74,18 @@
 }
 else
 {
-    <p>No items in the order.</p>  <!-- If no order items exist -->
+    <div class="alert alert-warning" role="alert">
+        <strong>No items found in your order.</strong>
+    </div>
 }
 
-<!-- Proceed to Payment Button -->
-<form action="@Url.Action("ProceedToPayment", "Cart")" method="post" style="display:inline;">
-    <button type="submit" class="btn btn-danger">Proceed to Payment</button>
-</form>
+<!-- Action Buttons -->
+<div class="d-flex justify-content-between mt-4">
+    <!-- Back to Cart -->
+    <a href="@Url.Action("Cart", "Customer")" class="btn btn-secondary">Back to Cart</a>
+
+    <!-- Proceed to Payment -->
+    <form action="@Url.Action("ProceedToPayment", "Cart")" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger">Proceed to Payment</button>
+    </form>
+</div>

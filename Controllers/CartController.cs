@@ -222,39 +222,64 @@ namespace PumpPalace.Controllers
                 return RedirectToAction("Cart");
             }
 
-            // Pobierz dane użytkownika (na potrzeby adresu i profilu)
+            // Pobierz dane użytkownika (adres i profil)
             var user = await _dbContext.Customers.FindAsync(userId);
             if (user == null)
             {
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
-            // Oblicz łączną cenę
-            decimal totalPrice = cart.Items.Sum(item =>
-                (item.Product.DiscountPrice.HasValue && item.Product.DiscountPrice.Value < item.Product.Price
-                    ? item.Product.DiscountPrice.Value
-                    : item.Product.Price) * item.Quantity
-            );
+            // Oblicz wartości zamówienia
+            decimal totalNetPrice = cart.Items.Sum(item =>
+                (item.Product.DiscountPrice ?? item.Product.Price) * item.Quantity);
+            decimal totalVAT = totalNetPrice * 0.23m; // Założenie: VAT 23%
+            decimal totalPrice = totalNetPrice + totalVAT;
+
+            // Utwórz zamówienie w bazie
+            var order = new Order
+            {
+                CustomerId = userId,
+                OrderDate = DateTime.Now,
+                Status = OrderStatus.New,
+                TotalNetPrice = totalNetPrice,
+                TotalVAT = totalVAT,
+                TotalPrice = totalPrice,
+                OrderItems = cart.Items.Select(item => new OrderItem
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.Quantity,
+                    Price = item.Product.DiscountPrice ?? item.Product.Price,
+                    VATAmount = (item.Product.DiscountPrice ?? item.Product.Price) * 0.23m // VAT od każdego produktu
+                }).ToList()
+            };
+
+            _dbContext.Orders.Add(order);
+            await _dbContext.SaveChangesAsync();
+
+            // Wyczyść koszyk
+            _dbContext.Carts.Remove(cart);
+            await _dbContext.SaveChangesAsync();
 
             // Utwórz ViewModel dla OrderSummary
             var orderSummary = new OrderSummaryViewModel
             {
-                OrderId = new Random().Next(10000, 99999), // Tymczasowe generowanie numeru zamówienia
-                OrderDate = DateTime.Now,
-                OrderStatus = "Pending",
-                TotalPrice = totalPrice,
-                ShippingAddress = user.Address, // Pobierz adres użytkownika
+                OrderId = order.Id,
+                OrderDate = order.OrderDate,
+                OrderStatus = order.Status.ToString(),
+                TotalPrice = order.TotalPrice,
+                ShippingAddress = user.Address,
                 BillingAddress = user.Address,
-                OrderItems = cart.Items.Select(item => new OrderItemViewModel
+                OrderItems = order.OrderItems.Select(item => new OrderItemViewModel
                 {
-                    ProductName = item.Product.Name,
+                    ProductName = _dbContext.Products.Find(item.ProductId)?.Name ?? "Unknown Product",
                     Quantity = item.Quantity,
-                    Price = item.Product.DiscountPrice ?? item.Product.Price // Uwzględnij cenę promocyjną
+                    Price = item.Price
                 }).ToList()
             };
 
             return View(orderSummary);
         }
+
 
         public IActionResult ProceedToPayment()
         {
