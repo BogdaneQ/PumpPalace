@@ -30,7 +30,7 @@
                     <td>
                         @if (order.OrderStatus == "New" || order.OrderStatus == "Processing")
                         {
-                            <form action="@Url.Action("CancelOrder", "Cart")" method="post" style="display:inline;">
+                            <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
                                 <input type="hidden" name="orderId" value="@order.OrderId" />
                                 <button type="submit" class="btn btn-danger btn-sm">Cancel Order</button>
                             </form>
