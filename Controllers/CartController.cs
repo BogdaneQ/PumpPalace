@@ -232,8 +232,7 @@ namespace PumpPalace.Controllers
             // Oblicz wartości zamówienia
             decimal totalNetPrice = cart.Items.Sum(item =>
                 (item.Product.DiscountPrice ?? item.Product.Price) * item.Quantity);
-            decimal totalVAT = totalNetPrice * 0.23m; // Założenie: VAT 23%
-            decimal totalPrice = totalNetPrice + totalVAT;
+            decimal totalPrice = totalNetPrice;
 
             // Utwórz zamówienie w bazie
             var order = new Order
@@ -242,7 +241,6 @@ namespace PumpPalace.Controllers
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.New,
                 TotalNetPrice = totalNetPrice,
-                TotalVAT = totalVAT,
                 TotalPrice = totalPrice,
                 OrderItems = cart.Items.Select(item => new OrderItem
                 {
@@ -289,6 +287,66 @@ namespace PumpPalace.Controllers
         {
             
             return View();
+        }
+
+        public async Task<IActionResult> OrderHistory()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Pobierz userId
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            // Pobierz historię zamówień użytkownika
+            var orders = await _dbContext.Orders
+                .Where(o => o.CustomerId == userId)
+                .OrderByDescending(o => o.OrderDate)
+                .Select(o => new OrderHistoryViewModel
+                {
+                    OrderId = o.Id,
+                    OrderDate = o.OrderDate,
+                    OrderStatus = o.Status.ToString(),
+                    TotalPrice = o.TotalPrice
+                })
+                .ToListAsync();
+
+            var viewModel = new OrderHistoryListViewModel
+            {
+                Orders = orders ?? new List<OrderHistoryViewModel>()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult CancelOrder(int orderId)
+        {
+            // Pobierz zamówienie na podstawie ID
+            var order = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Order not found.";
+                return RedirectToAction("OrderHistory");
+            }
+
+            // Sprawdź, czy zamówienie można anulować
+            if (order.Status == OrderStatus.Completed || order.Status == OrderStatus.Canceled)
+            {
+                TempData["ErrorMessage"] = "Order cannot be canceled as it is already completed or canceled.";
+                return RedirectToAction("OrderHistory");
+            }
+
+            // Zmień status zamówienia na Canceled
+            order.Status = OrderStatus.Canceled;
+
+            // Zapisz zmiany w bazie danych
+            _dbContext.SaveChanges();
+
+            TempData["SuccessMessage"] = "Order has been canceled successfully.";
+            return RedirectToAction("OrderHistory");
         }
 
 

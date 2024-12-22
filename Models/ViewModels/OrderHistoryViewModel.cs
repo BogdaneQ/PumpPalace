@@ -10,6 +10,6 @@
 
     public class OrderHistoryListViewModel
     {
-        public List<OrderHistoryViewModel> Orders { get; set; } // Lista zamówień
+        public List<OrderHistoryViewModel> Orders { get; set; } = new List<OrderHistoryViewModel>(); // Zainicjalizowana lista
     }
 }

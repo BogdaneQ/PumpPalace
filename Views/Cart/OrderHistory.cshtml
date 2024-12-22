@@ -1,0 +1,51 @@
+﻿@model PumpPalace.Models.OrderHistoryListViewModel
+
+@{
+    ViewData["Title"] = "Order History";
+    Layout = "Layout";
+}
+
+<h2>Order History</h2>
+
+@if (Model.Orders != null && Model.Orders.Any())
+{
+    <table class="table-white account-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@order.OrderStatus</td>
+                    <td>@order.TotalPrice.ToString("C")</td>
+                    <td>
+                        @if (order.OrderStatus == "New" || order.OrderStatus == "Processing")
+                        {
+                            <form action="@Url.Action("CancelOrder", "Cart")" method="post" style="display:inline;">
+                                <input type="hidden" name="orderId" value="@order.OrderId" />
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel Order</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>You have no orders in your history.</p>
+}
