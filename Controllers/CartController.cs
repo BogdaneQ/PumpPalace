@@ -229,6 +229,61 @@ namespace PumpPalace.Controllers
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
+            // Oblicz wartości zamówienia (ale nie zapisuj w bazie)
+            decimal totalNetPrice = cart.Items.Sum(item =>
+                (item.Product.DiscountPrice ?? item.Product.Price) * item.Quantity);
+            decimal totalPrice = totalNetPrice;
+
+            // Utwórz ViewModel dla OrderSummary
+            var orderSummary = new OrderSummaryViewModel
+            {
+                OrderDate = DateTime.Now,
+                OrderStatus = OrderStatus.New.ToString(),
+                TotalPrice = totalPrice,
+                ShippingAddress = user.Address,
+                BillingAddress = user.Address,
+                OrderItems = cart.Items.Select(item => new OrderItemViewModel
+                {
+                    ProductName = item.Product.Name,
+                    Quantity = item.Quantity,
+                    Price = item.Product.DiscountPrice ?? item.Product.Price
+                }).ToList()
+            };
+
+            return View(orderSummary);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProceedToPayment()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Pobierz userId
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            // Pobierz koszyk użytkownika
+            var cart = await _dbContext.Carts
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cart == null || !cart.Items.Any())
+            {
+                TempData["ErrorMessage"] = "Your cart is empty.";
+                return RedirectToAction("Cart");
+            }
+
+            // Pobierz dane użytkownika
+            var user = await _dbContext.Customers.FindAsync(userId);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User data not found. Please log in again.";
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
             // Oblicz wartości zamówienia
             decimal totalNetPrice = cart.Items.Sum(item =>
                 (item.Product.DiscountPrice ?? item.Product.Price) * item.Quantity);
@@ -239,7 +294,7 @@ namespace PumpPalace.Controllers
             {
                 CustomerId = userId,
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.New,
+                Status = OrderStatus.Processing, // Ustaw status na Processing
                 TotalNetPrice = totalNetPrice,
                 TotalPrice = totalPrice,
                 OrderItems = cart.Items.Select(item => new OrderItem
@@ -254,43 +309,22 @@ namespace PumpPalace.Controllers
             _dbContext.Orders.Add(order);
             await _dbContext.SaveChangesAsync();
 
-            // Wyczyść koszyk
+            // Usuń koszyk użytkownika
             _dbContext.Carts.Remove(cart);
             await _dbContext.SaveChangesAsync();
 
-            // Utwórz ViewModel dla OrderSummary
-            var orderSummary = new OrderSummaryViewModel
-            {
-                OrderId = order.Id,
-                OrderDate = order.OrderDate,
-                OrderStatus = order.Status.ToString(),
-                TotalPrice = order.TotalPrice,
-                ShippingAddress = user.Address,
-                BillingAddress = user.Address,
-                OrderItems = order.OrderItems.Select(item => new OrderItemViewModel
-                {
-                    ProductName = _dbContext.Products.Find(item.ProductId)?.Name ?? "Unknown Product",
-                    Quantity = item.Quantity,
-                    Price = item.Price
-                }).ToList()
-            };
-
-            return View(orderSummary);
+            // Przekierowanie do strony płatności
+            return RedirectToAction("PaymentPage", "Cart");
         }
 
-
-        public IActionResult ProceedToPayment()
-        {
-                return RedirectToAction("PaymentPage", "Cart");
-        }
         public IActionResult PaymentPage()
         {
-            
             return View();
         }
 
-        
-        
+
+
+
 
 
     }

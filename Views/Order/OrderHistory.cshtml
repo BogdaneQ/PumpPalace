@@ -28,6 +28,8 @@
                     <td>@order.OrderStatus</td>
                     <td>@order.TotalPrice.ToString("C")</td>
                     <td>
+                        <a href="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" class="btn btn-primary btn-sm">View Details</a>
+
                         @if (order.OrderStatus == "New" || order.OrderStatus == "Processing")
                         {
                             <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
@@ -40,6 +42,7 @@
                             <span>N/A</span>
                         }
                     </td>
+
                 </tr>
             }
         </tbody>
