@@ -30,7 +30,7 @@
                     <td>
                         <a href="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" class="btn btn-primary btn-sm">View Details</a>
 
-                        @if (order.OrderStatus == "New" || order.OrderStatus == "Processing")
+                        @if (order.OrderStatus == "New" || order.OrderStatus == "Processing" || order.OrderStatus == "Paid")
                         {
                             <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
                                 <input type="hidden" name="orderId" value="@order.OrderId" />

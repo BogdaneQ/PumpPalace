@@ -7,6 +7,7 @@ namespace PumpPalace.Models
     {
         New,
         Processing,
+        Paid,
         Completed,
         Canceled,
     }
