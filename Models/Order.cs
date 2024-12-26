@@ -20,6 +20,7 @@ namespace PumpPalace.Models
         [Required]
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
+
         [Required]
         public OrderStatus Status { get; set; } = OrderStatus.New;
 

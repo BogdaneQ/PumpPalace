@@ -1,6 +1,8 @@
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using PumpPalace.Controllers;
 using PumpPalace.Models;
 using PumpPalace.Models.ViewModels;
 using SendGrid;
@@ -15,7 +17,6 @@ builder.Services.AddSingleton<EmailSender>();
 builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
 builder.Services.AddSingleton<ISendGridClient>(x =>
         new SendGridClient(builder.Configuration["SendGridSettings:ApiKey"]));
-
 
 
 builder.Services.AddControllersWithViews();
@@ -51,6 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 else
 {

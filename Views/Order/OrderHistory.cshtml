@@ -30,7 +30,14 @@
                     <td>
                         <a href="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" class="btn btn-primary btn-sm">View Details</a>
 
-                        @if (order.OrderStatus == "New" || order.OrderStatus == "Processing" || order.OrderStatus == "Paid")
+                        @if (order.OrderStatus == "Processing")
+                        {
+                            <form action="@Url.Action("PaymentPage", "Cart")" method="get" style="display:inline;">
+                                <input type="hidden" name="orderId" value="@order.OrderId" />
+                                <button type="submit" class="btn btn-success btn-sm">Pay Now</button>
+                            </form>
+                        }
+                        else if (order.OrderStatus == "New" || order.OrderStatus == "Paid")
                         {
                             <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
                                 <input type="hidden" name="orderId" value="@order.OrderId" />
@@ -42,7 +49,6 @@
                             <span>N/A</span>
                         }
                     </td>
-
                 </tr>
             }
         </tbody>

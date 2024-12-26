@@ -314,14 +314,61 @@ namespace PumpPalace.Controllers
             await _dbContext.SaveChangesAsync();
 
             // Przekierowanie do strony płatności
-            return RedirectToAction("PaymentPage", "Cart");
+            return RedirectToAction("PaymentPage", "Cart", new { orderId = order.Id });
+
         }
 
-        public IActionResult PaymentPage()
+        public async Task<IActionResult> PaymentPage(int orderId)
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Pobierz zamówienie
+            var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId && o.CustomerId == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Order not found.";
+                return RedirectToAction("OrderHistory", "Order");
+            }
+
+            // Przekaż `orderId` do widoku
+            var paymentViewModel = new PaymentViewModel
+            {
+                OrderId = order.Id,
+                TotalAmount = order.TotalPrice
+            };
+
+            return View(paymentViewModel);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmPayment(int orderId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LoginPage", "Authentication");
+            }
+
+            // Pobierz zamówienie
+            var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId && o.CustomerId == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Order not found.";
+                return RedirectToAction("OrderHistory", "Order");
+            }
+
+            // Zmień status na "Paid"
+            order.Status = OrderStatus.Paid;
+            await _dbContext.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Payment confirmed. Thank you for your order!";
+            return RedirectToAction("OrderHistory", "Order");
+        }
 
 
 

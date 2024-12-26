@@ -4,7 +4,10 @@
 
 <h2>Payment</h2>
 
-<!-- Payment Method Selection -->
+<form id="paymentForm" action="@Url.Action("ConfirmPayment", "Cart")" method="post">
+    <input type="hidden" name="orderId" value="@Model.OrderId" />
+
+    <!-- Payment Method Selection -->
     <div class="form-group">
         <label for="PaymentMethod"><strong>Select Payment Method</strong></label>
         <select id="PaymentMethod" name="PaymentMethod" class="form-control" required>
@@ -19,17 +22,17 @@
     <div id="creditCardFields" class="payment-method-fields" style="display:none;">
         <div class="form-group">
             <label for="CreditCardNumber"><strong>Credit Card Number</strong></label>
-            <input type="text" id="CreditCardNumber" name="CreditCardNumber" class="form-control" placeholder="1234 5678 9876 5432" required />
+            <input type="text" id="CreditCardNumber" name="CreditCardNumber" class="form-control" placeholder="1234 5678 9876 5432" />
         </div>
 
         <div class="form-group">
             <label for="ExpiryDate"><strong>Expiry Date</strong></label>
-            <input type="text" id="ExpiryDate" name="ExpiryDate" class="form-control" placeholder="MM/YY" required />
+            <input type="text" id="ExpiryDate" name="ExpiryDate" class="form-control" placeholder="MM/YY" />
         </div>
 
         <div class="form-group">
             <label for="CVV"><strong>CVV</strong></label>
-            <input type="text" id="CVV" name="CVV" class="form-control" placeholder="123" required />
+            <input type="text" id="CVV" name="CVV" class="form-control" placeholder="123" />
         </div>
     </div>
 
@@ -37,7 +40,7 @@
     <div id="blikFields" class="payment-method-fields" style="display:none;">
         <div class="form-group">
             <label for="BlikCode"><strong>Blik Code</strong></label>
-            <input type="text" id="BlikCode" name="BlikCode" class="form-control" placeholder="Enter your Blik code" required />
+            <input type="text" id="BlikCode" name="BlikCode" class="form-control" placeholder="Enter your Blik code" />
         </div>
     </div>
 
@@ -45,11 +48,11 @@
     <div id="bankTransferFields" class="payment-method-fields" style="display:none;">
         <div class="form-group">
             <label for="BankAccountNumber"><strong>Bank Account Number</strong></label>
-            <input type="text" id="BankAccountNumber" name="BankAccountNumber" class="form-control" placeholder="PL12345678901234567890123456" required />
+            <input type="text" id="BankAccountNumber" name="BankAccountNumber" class="form-control" placeholder="PL12345678901234567890123456" />
         </div>
         <div class="form-group">
             <label for="BankName"><strong>Bank Name</strong></label>
-            <input type="text" id="BankName" name="BankName" class="form-control" placeholder="Your Bank Name" required />
+            <input type="text" id="BankName" name="BankName" class="form-control" placeholder="Your Bank Name" />
         </div>
     </div>
 
@@ -57,21 +60,19 @@
     <div id="paypalFields" class="payment-method-fields" style="display:none;">
         <div class="form-group">
             <label for="PayPalEmail"><strong>PayPal Email</strong></label>
-            <input type="email" id="PayPalEmail" name="PayPalEmail" class="form-control" required />
+            <input type="email" id="PayPalEmail" name="PayPalEmail" class="form-control" />
         </div>
     </div>
 
     <!-- Payment Confirmation Checkbox -->
     <div class="form-group">
-        <input type="checkbox" id="PaymentConfirmed" name="PaymentConfirmed" value="true" required />
+        <input type="checkbox" id="PaymentConfirmed" name="PaymentConfirmed" value="true" />
         <label for="PaymentConfirmed"><strong>I confirm that the payment information is correct.</strong></label>
     </div>
 
-<form action="@Url.Action("OrderHistory", "Order")" style="display:inline;">
-    <button type="submit" class="btn btn-danger">Proceed to Payment</button>
+    <button type="submit" class="btn btn-success">Confirm Payment</button>
 </form>
 
-<!-- JavaScript to toggle visibility of payment fields based on selected method -->
 <script>
     function togglePaymentFields() {
         var paymentMethod = document.getElementById("PaymentMethod").value;
@@ -90,6 +91,51 @@
         }
     }
 
+    function validatePaymentForm(event) {
+        var paymentMethod = document.getElementById("PaymentMethod").value;
+        var isValid = true;
+
+        if (paymentMethod === "CreditCard") {
+            var creditCardNumber = document.getElementById("CreditCardNumber").value;
+            var expiryDate = document.getElementById("ExpiryDate").value;
+            var cvv = document.getElementById("CVV").value;
+            if (!creditCardNumber || !expiryDate || !cvv) {
+                isValid = false;
+                alert("Please fill out all Credit Card fields.");
+            }
+        } else if (paymentMethod === "Blik") {
+            var blikCode = document.getElementById("BlikCode").value;
+            if (!blikCode) {
+                isValid = false;
+                alert("Please provide a Blik code.");
+            }
+        } else if (paymentMethod === "BankTransfer") {
+            var bankAccountNumber = document.getElementById("BankAccountNumber").value;
+            var bankName = document.getElementById("BankName").value;
+            if (!bankAccountNumber || !bankName) {
+                isValid = false;
+                alert("Please fill out all Bank Transfer fields.");
+            }
+        } else if (paymentMethod === "PayPal") {
+            var paypalEmail = document.getElementById("PayPalEmail").value;
+            if (!paypalEmail) {
+                isValid = false;
+                alert("Please provide a PayPal email.");
+            }
+        }
+
+        var paymentConfirmed = document.getElementById("PaymentConfirmed").checked;
+        if (!paymentConfirmed) {
+            isValid = false;
+            alert("You must confirm that the payment information is correct.");
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission
+        }
+    }
+
     document.getElementById("PaymentMethod").addEventListener("change", togglePaymentFields);
+    document.getElementById("paymentForm").addEventListener("submit", validatePaymentForm);
     window.onload = togglePaymentFields;
 </script>
