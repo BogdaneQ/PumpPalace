@@ -256,6 +256,43 @@ button[type="submit"] {
     button[type="submit"]:hover {
         background-color: #0056b3;
     }
+
+
+    /* Ogólne style dla przycisków w panelu */
+.btn {
+    padding: 8px 16px; /* Uniwersalne odstępy */
+    font-size: 0.9em; /* Spójny rozmiar */
+    border-radius: 4px; /* Zaokrąglone rogi */
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Dodatkowe style dla małych przycisków */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8em;
+}
+
 /* Styl dla tabeli z białym tłem */
 .table-white {
     background-color: #fff;
@@ -294,29 +331,29 @@ button[type="submit"] {
     border-radius: 5px;
 }
 
-/* Przyciski Admin Panelu */
+/* Updated Admin Panel Buttons to display side-by-side */
 .admin-panel-buttons {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 250px; /* Stała szerokość przycisków */
-    margin: 20px 0;
+    flex-wrap: wrap; /* Wrap buttons if screen width is too small */
+    gap: 10px; /* Space between buttons */
+    justify-content: center; /* Center the buttons */
 }
 
     .admin-panel-buttons a {
         display: inline-block;
         text-align: center;
-        background-color: #6c757d; /* Szary kolor */
+        background-color: #6c757d; /* Gray color */
         color: white;
-        padding: 10px 0;
+        padding: 10px 20px; /* Adjust padding for a more button-like appearance */
         border-radius: 5px;
         text-decoration: none;
-        font-size: 1em;
+        font-size: 0.9em; /* Adjust font size */
         transition: background-color 0.3s ease;
+        min-width: 150px; /* Ensure consistent button width */
     }
 
         .admin-panel-buttons a:hover {
-            background-color: #5a6268; /* Ciemniejszy szary przy najechaniu */
+            background-color: #5a6268; /* Darker gray on hover */
         }
 
 /* Tabela Manage Products */
@@ -325,4 +362,48 @@ button[type="submit"] {
     border-radius: 5px;
 }
 
+/* Updated Order History buttons */
+.account-table .btn {
+    padding: 5px 10px; /* Reduced padding */
+    font-size: 0.8em; /* Smaller font size */
+    border-radius: 3px; /* Slightly rounded corners */
+}
 
+.account-table .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+    .account-table .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.account-table .btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+    .account-table .btn-success:hover {
+        background-color: #218838;
+    }
+
+.account-table .btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+    .account-table .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.account-table .btn-primary.btn-sm {
+    padding: 5px 10px; /* Match padding of other buttons */
+    font-size: 0.8em; /* Same font size as other buttons */
+    font-weight: normal; /* Remove bold to match other buttons */
+}
+
+/* Adjust table for better spacing */
+.account-table th, .account-table td {
+    padding: 8px; /* Slightly reduce padding */
+    text-align: center;
+}

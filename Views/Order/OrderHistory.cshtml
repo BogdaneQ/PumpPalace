@@ -28,7 +28,10 @@
                     <td>@order.OrderStatus</td>
                     <td>@order.TotalPrice.ToString("C")</td>
                     <td>
-                        <a href="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" class="btn btn-primary btn-sm">View Details</a>
+
+                        <form action="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-primary btn-sm">View Details</button>
+                        </form>
 
                         @if (order.OrderStatus == "Processing")
                         {
