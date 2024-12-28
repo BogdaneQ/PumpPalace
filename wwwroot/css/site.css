@@ -3,9 +3,18 @@
     align-items: center;
     justify-content: center;
     gap: 20px; /* Odstęp między elementami */
-    backdrop-filter: blur(3px); /* Lekkie rozmycie tła */
+    backdrop-filter: blur(4px); /* Lekkie rozmycie tła */
     background-color: rgba(255, 255, 255, 0.5); /* Lekki przezroczysty kolor tła, aby efekt blur był bardziej widoczny */
 }
+
+
+.navbar {
+    background-color: #eeeeee !important; /* Jasny szary */
+}
+.contact {
+    background-color: #eeeeee !important; /* Jasny szary */
+}
+
 
 
 .logo-image {
@@ -21,14 +30,16 @@
     font-size: 5em;
 }
 body {
-    margin: 0; /* Usuń marginesy */
-    overflow-x: hidden; /* Ukryj przewijanie w poziomie */
-    background-image: url('../Images/SiteBG.jpg'); /* Ścieżka do obrazu */
-    background-size: cover; /* Skalowanie obrazu, aby wypełnił ekran */
-    background-position: center; /* Wyśrodkowanie obrazu */
-    background-repeat: no-repeat; /* Zapobiega powtarzaniu obrazu */
-    background-attachment: fixed; /* Tło pozostaje w miejscu podczas przewijania */
+    margin: 0;
+    overflow-x: hidden;
+    background-image: url('../Images/marm.jpg'); /* Tekstura marmuru */
+    background-repeat: repeat; /* Powtarzanie obrazu */
+    background-blend-mode: multiply; /* Wzmacnia wtopienie obrazów */
+    font-family: 'Georgia', serif;
 }
+
+
+
 .header-image {
     position: relative; /* Pozwala na użycie przesunięć */
     left: 0; /* Zapewnia rozpoczęcie od lewej krawędzi */
@@ -42,6 +53,27 @@ body {
         object-position: center;
         width: 100%; /* Dopasowanie szerokości */
         height: auto; /* Zachowanie proporcji */
+    }
+
+.header-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+    .header-text h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+    .header-text p {
+        font-size: 1.5rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        color: white;
     }
 
 /* Stylizacja sekcji filtrów */
