@@ -4,7 +4,19 @@
     Layout = "Layout";
     <link rel="stylesheet" href="~/css/site.css" />
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <h2>Moje Konto</h2>
 
 <table class="table-white account-table">
@@ -18,6 +30,6 @@
 
 
 <div>
-    <a class="btn btn-primary" href="@Url.Action("ProfileSettings", "Customer")">Edytuj Profil</a>
+    <a class="btn btn-primary" href="@Url.Action("EditProfile", "Customer")">Edytuj Profil</a>
     <a class="btn btn-secondary" href="@Url.Action("OrderHistory", "Order")">Historia Zamówień</a>
 </div>

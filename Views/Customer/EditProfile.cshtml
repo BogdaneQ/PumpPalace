@@ -1,19 +1,26 @@
 ﻿@model PumpPalace.Models.ProfileSettingsViewModel
 @{
-    ViewData["Title"] = "Ustawienia Profilu";
+    ViewData["Title"] = "Edycja Profilu";
     Layout = "Layout";
 }
 
-<h2>Ustawienia Profilu</h2>
+<h2>Edycja Profilu</h2>
 
-@if (TempData["SuccessMessage"] != null)
+@if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
     </div>
 }
 
-<form asp-action="UpdateProfile" asp-controller="Customer" method="post">
+<form asp-action="EditProfile" asp-controller="Customer" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="username">Nazwa użytkownika</label>
+        <input type="text" id="username" name="Username" class="form-control" value="@Model.Username" required />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
     <div class="form-group">
         <label for="firstName">Imię</label>
         <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model.FirstName" required />
@@ -45,4 +52,5 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <a class="btn btn-secondary" href="@Url.Action("MyAccount", "Customer")">Powrót</a>
 </form>

@@ -39,7 +39,8 @@ namespace PumpPalace.Controllers
             return View();
         }
 
-        public IActionResult ProfileSettings()
+        [HttpGet]
+        public IActionResult EditProfile()
         {
             var user = GetLoggedInUser();
             if (user == null)
@@ -61,11 +62,13 @@ namespace PumpPalace.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateProfile(ProfileSettingsViewModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult EditProfile(ProfileSettingsViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View("ProfileSettings", model);  // Jeśli formularz nie jest poprawny, ponownie załaduj formularz
+                TempData["ErrorMessage"] = "Niepoprawne dane w formularzu.";
+                return View(model);
             }
 
             var user = GetLoggedInUser();
@@ -74,18 +77,27 @@ namespace PumpPalace.Controllers
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
-            // Aktualizacja danych użytkownika w bazie danych
+            // Aktualizacja danych użytkownika
+            user.Username = model.Username;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Email = model.Email;
             user.Phone = model.Phone;
             user.Address = model.Address;
 
-            _dbContext.SaveChanges();
-
-            TempData["SuccessMessage"] = "Profil został zaktualizowany!";  // Przekazanie komunikatu sukcesu
-            return RedirectToAction("MyAccount");  // Przekierowanie na stronę "MyAccount"
+            try
+            {
+                _dbContext.SaveChanges();
+                TempData["SuccessMessage"] = "Profil został zaktualizowany!";
+                return RedirectToAction("MyAccount");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Wystąpił błąd podczas zapisywania danych: {ex.Message}";
+                return View(model);
+            }
         }
+
 
 
         public IActionResult Wishlist()
