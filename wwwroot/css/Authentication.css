@@ -42,28 +42,3 @@ form {
     width: 100%;
 }
 
-/* Przyciski */
-button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 1.1em;
-    border-radius: 0;
-    border: none;
-    background-color: #a29a8f;
-    color: white;
-    transition: background-color 0.3s ease;
-}
-
-    button[type="submit"]:hover {
-        background-color: #757069;
-    }
-
-a.link-primary {
-    color: #837d75 !important;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-    a.link-primary:hover {
-        color: #5c5852 !important;
-    }

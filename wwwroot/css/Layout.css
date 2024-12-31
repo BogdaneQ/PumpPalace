@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(7px);
 }
 
 .logo-text-left, .logo-text-right {
@@ -22,12 +22,12 @@
 }
 
 .navbar {
-    background-color: #eeeeee !important;
+    background-color: #f8f9fa !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-nav .nav-item .nav-link {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #000;
     transition: color 0.3s ease;
 }
@@ -61,7 +61,7 @@
 /* CSS for Footer */
 
 .footer {
-    background-color: #eeeeee;
+    background-color: #f8f9fa;
     color: #000;
     padding: 20px 0;
 }
@@ -181,30 +181,45 @@ body {
     }
 }
 
-/* Znaczek nowości */
-.new-badge {
-    position: absolute;
-    top: 15px;
-    left: 10px;
-    background-color: green;
+/* Przyciski */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 0;
+    border: none;
+    background-color: #a29a8f;
     color: white;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 5px;
-    z-index: 1;
-}
-/* Znaczek promocji */
-.badge-promo {
-    position: absolute;
-    top: 15px;
-    right: 10px;
-    background-color: red;
-    color: white;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 5px;
-    z-index: 1;
+    transition: background-color 0.3s ease;
 }
 
+    button[type="submit"]:hover {
+        background-color: #757069;
+    }
+
+a.link-primary {
+    color: #837d75 !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    a.link-primary:hover {
+        color: #5c5852 !important;
+    }
+
+/* Styl dla przycisku Reset */
+.btn-reset {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 0;
+    border: none;
+    background-color: #a29a8f;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-reset:hover {
+        background-color: #757069;
+        color: white;
+    }

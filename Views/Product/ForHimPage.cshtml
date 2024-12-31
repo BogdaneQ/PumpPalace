@@ -17,7 +17,7 @@
 
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })" style="text-decoration: none; color: inherit;">
+                        <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })">
                             @product.Name
                         </a>
                     </h5>
@@ -32,8 +32,6 @@
                     {
                         <span class="badge-promo position-absolute">Promo!</span>
                     }
-
-                    <p class="card-text">@product.Description</p>
 
                     <div class="price">
                         @if (product.DiscountPrice.HasValue && product.DiscountPrice.Value < product.Price)

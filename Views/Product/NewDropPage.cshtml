@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <!-- Nazwa produktu -->
                     <h5 class="card-title">
-                        <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })" style="text-decoration: none; color: inherit;">
+                        <a href="@Url.Action("ProductDetails", "Product", new { id = product.Id })">
                             @product.Name
                         </a>
                     </h5>
@@ -33,9 +33,6 @@
                     {
                         <span class="badge-promo position-absolute">Promo!</span>
                     }
-
-                    <!-- Opis produktu -->
-                    <p class="card-text">@product.Description</p>
 
                     <!-- Cena i cena promocyjna -->
                     <div class="price">
