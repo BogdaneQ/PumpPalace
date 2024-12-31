@@ -1,4 +1,5 @@
 ﻿
+
 /* Stylizacja sekcji filtrów */
 .filter-box {
     position: sticky;
@@ -34,32 +35,7 @@
     object-fit: cover; /* Dopasowanie proporcji zdjęcia */
 }
 
-/* Znaczek nowości */
-.new-badge {
-    position: absolute;
-    top: 15px; /* Pozycja od góry */
-    left: 10px; /* Pozycja od lewej */
-    background-color: green; /* Kolor tła */
-    color: white; /* Kolor tekstu */
-    padding: 5px 10px; /* Odstępy wewnętrzne */
-    font-size: 12px; /* Rozmiar tekstu */
-    font-weight: bold; /* Pogrubienie tekstu */
-    border-radius: 5px; /* Zaokrąglenie rogów */
-    z-index: 1; /* Wyższy priorytet, aby znajdować się nad zdjęciem */
-}
-/* Znaczek promocji */
-.badge-promo {
-    position: absolute;
-    top: 15px; /* Pozycja od góry */
-    right: 10px; /* Pozycja od lewej */
-    background-color: red; /* Kolor tła */
-    color: white; /* Kolor tekstu */
-    padding: 5px 10px; /* Odstępy wewnętrzne */
-    font-size: 12px; /* Rozmiar tekstu */
-    font-weight: bold; /* Pogrubienie tekstu */
-    border-radius: 5px; /* Zaokrąglenie rogów */
-    z-index: 1; /* Wyższy priorytet, aby znajdować się nad zdjęciem */
-}
+
 
 /* Tytuły produktów */
 .card-title a {
@@ -120,49 +96,7 @@ button[type="submit"] {
     color: white;
 }
 
-/* Stylizacja kontenerów formularzy */
-.form-container {
-    display: flex;
-    align-items: stretch; /* Rozciąga zawartość w pionie */
-    justify-content: center;
-    margin: 50px auto;
-    max-width: 900px; /* Stała szerokość formularza */
-    height: 700px; /* Stała wysokość formularza */
-    border: 1px solid #ddd;
-    border-radius: 0; /* Ostre rogi */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
 
-/* Wewnątrz kontenera formularza */
-.form-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column; /* Układ w kolumnie */
-    justify-content: center; /* Centrowanie w pionie */
-}
-
-.image-container {
-    display: flex; /* Ustawia obrazy w jednym wierszu */
-    gap: 10px; /* Odstęp między obrazami */
-    justify-content: space-between; /* Równomierne rozmieszczenie obrazów */
-}
-
-.form-image {
-    flex: 1; /* Zapewnia, że każdy obraz zajmie równą ilość miejsca */
-    height: 100%;
-    width: 420px; /* Stała wysokość */
-    background-size: contain; /* Obraz zachowuje proporcje */
-    background-position: center; /* Obraz jest wyśrodkowany */
-    background-repeat: no-repeat; /* Zapobiega powtarzaniu obrazu */
-}
-
-/* Formularz */
-form {
-    width: 100%;
-}
 
 /* Przyciski */
 button[type="submit"] {

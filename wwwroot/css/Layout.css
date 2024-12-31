@@ -180,3 +180,31 @@ body {
         text-align: center;
     }
 }
+
+/* Znaczek nowości */
+.new-badge {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    z-index: 1;
+}
+/* Znaczek promocji */
+.badge-promo {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    z-index: 1;
+}
+

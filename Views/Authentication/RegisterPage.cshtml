@@ -1,6 +1,6 @@
 ﻿@model PumpPalace.Models.CustomerRegisterViewModel
 @{
-    Layout = "~/Views/Shared/Layout.cshtml";
+    Layout = "Layout";
 }
 
 
@@ -50,13 +50,14 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label for="phone">Telefon</label>
                 <input type="tel" id="phone" name="Phone" class="form-control" value="@Model?.Phone" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+                <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+
         </form>
         <div class="mt-3 text-center">
             <a href="@Url.Action("LoginPage", "Authentication")" class="link-primary">Masz już konto?</a>

@@ -1,0 +1,69 @@
+﻿/* Stylizacja kontenerów formularzy */
+.form-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    margin: 50px auto;
+    max-width: 900px;
+    height: 700px;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Wewnątrz kontenera formularza */
+.form-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.image-container {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.form-image {
+    flex: 1;
+    height: 100%;
+    width: 420px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Formularz */
+form {
+    width: 100%;
+}
+
+/* Przyciski */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 0;
+    border: none;
+    background-color: #a29a8f;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+    button[type="submit"]:hover {
+        background-color: #757069;
+    }
+
+a.link-primary {
+    color: #837d75 !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    a.link-primary:hover {
+        color: #5c5852 !important;
+    }
