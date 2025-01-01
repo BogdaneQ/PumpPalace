@@ -88,3 +88,19 @@
     z-index: 1;
     text-transform: uppercase;
 }
+
+.product-details {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.product-image img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.product-info {
+    flex: 1;
+}

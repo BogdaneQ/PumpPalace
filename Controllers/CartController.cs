@@ -79,8 +79,15 @@ namespace PumpPalace.Controllers
             if (quantity > product.InStock)
             {
                 TempData["ErrorMessage"] = $"Cannot add more than {product.InStock} units of {product.Name} to the cart.";
-                return RedirectToAction("ProductList"); // Powrót do listy produktów
+
+                string returnUrl = Request.Headers["Referer"].ToString();
+                if (!string.IsNullOrEmpty(returnUrl) && returnUrl.Contains("ProductDetails"))
+                {
+                    return RedirectToAction("ProductDetails", "Product", new { id = product.Id });
+                }
+                return RedirectToAction("ProductList", "Product");
             }
+
 
             // Get or create the cart
             var cart = await _dbContext.Carts.Include(c => c.Items)
