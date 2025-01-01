@@ -15,68 +15,16 @@ namespace PumpPalace.Controllers
 
         public IActionResult ProductList(ProductFilterViewModel filters)
         {
-            // Jeśli filtr jest pusty, inicjalizujemy nowy obiekt
             if (filters == null)
             {
                 filters = new ProductFilterViewModel();
             }
 
-            // Pobieramy wszystkie produkty
-            var products = _context.Products.AsQueryable();
-
-            // Filtracja po nazwie produktu (ignorując wielkość liter)
-            if (!string.IsNullOrEmpty(filters.SearchTerm))
-            {
-                string searchTerm = filters.SearchTerm.ToLower(); // Konwersja frazy na małe litery
-                products = products.Where(p => p.Name.ToLower().Contains(searchTerm));
-            }
-
-            // Filtracja po cenie minimalnej
-            if (filters.MinPrice.HasValue)
-            {
-                // Filtrowanie po minimalnej cenie - uwzględniamy rabat, jeśli istnieje
-                products = products.Where(p =>
-                    (p.DiscountPrice.HasValue ? p.DiscountPrice.Value : p.Price) >= filters.MinPrice.Value);
-            }
-
-            // Filtracja po cenie maksymalnej
-            if (filters.MaxPrice.HasValue)
-            {
-                // Filtrowanie po maksymalnej cenie - uwzględniamy rabat, jeśli istnieje
-                products = products.Where(p =>
-                    (p.DiscountPrice.HasValue ? p.DiscountPrice.Value : p.Price) <= filters.MaxPrice.Value);
-            }
-
-            // Filtracja po promocji
-            if (filters.OnDiscount.HasValue && filters.OnDiscount.Value)
-            {
-                // Produkty z rabatem
-                products = products.Where(p => p.DiscountPrice.HasValue);
-            }
-
-            // Filtracja po dostępności
-            if (filters.InStock.HasValue && filters.InStock.Value)
-            {
-                products = products.Where(p => p.InStock > 0);
-            }
-            if (filters.MinPrice == null)
-            {
-                filters.MinPrice = 0;  // Ustawienie domyślnej wartości 0, jeśli nie podano filtra
-            }
-
-            if (filters.MaxPrice == null)
-            {
-                filters.MaxPrice = 10000;  // Ustawienie domyślnej wartości 10000
-            }
-
-
-            // Ustawiamy przefiltrowane produkty w modelu
+            var products = ApplyFilters(_context.Products.AsQueryable(), filters);
             filters.Products = products.ToList();
 
-            // Przekazujemy model do widoku
             return View(filters);
         }
-
 
         public IActionResult ProductDetails(int id)
         {
@@ -104,42 +52,101 @@ namespace PumpPalace.Controllers
             return View(viewModel);
         }
 
-        public IActionResult ForHimPage()
+        public IActionResult ForHimPage(ProductFilterViewModel filters)
         {
+            if (filters == null)
+            {
+                filters = new ProductFilterViewModel();
+            }
+
             int categoryIdForHim = _context.Categories.FirstOrDefault(c => c.Name == "ForHim")?.Id ?? 0;
-            var products = _context.Products
-                .Where(p => p.CategoryId == categoryIdForHim)
-                .ToList();
-            return View(products);
+            var products = ApplyFilters(_context.Products.Where(p => p.CategoryId == categoryIdForHim), filters);
+            filters.Products = products.ToList();
+
+            return View(filters);
         }
 
-        public IActionResult ForHerPage()
+        public IActionResult ForHerPage(ProductFilterViewModel filters)
         {
+            if (filters == null)
+            {
+                filters = new ProductFilterViewModel();
+            }
+
             int categoryIdForHer = _context.Categories.FirstOrDefault(c => c.Name == "ForHer")?.Id ?? 0;
-            var products = _context.Products
-                .Where(p => p.CategoryId == categoryIdForHer)
-                .ToList();
-            return View(products);
+            var products = ApplyFilters(_context.Products.Where(p => p.CategoryId == categoryIdForHer), filters);
+            filters.Products = products.ToList();
+
+            return View(filters);
         }
 
-        public IActionResult AccessoriesPage()
+        public IActionResult AccessoriesPage(ProductFilterViewModel filters)
         {
+            if (filters == null)
+            {
+                filters = new ProductFilterViewModel();
+            }
+
             int categoryIdAccessories = _context.Categories.FirstOrDefault(c => c.Name == "Accessories")?.Id ?? 0;
-            var products = _context.Products
-                .Where(p => p.CategoryId == categoryIdAccessories)
-                .ToList();
-            return View(products);
+            var products = ApplyFilters(_context.Products.Where(p => p.CategoryId == categoryIdAccessories), filters);
+            filters.Products = products.ToList();
+
+            return View(filters);
         }
 
-        public IActionResult NewDropPage()
+        public IActionResult NewDropPage(ProductFilterViewModel filters)
         {
-            var newProducts = _context.Products
-                .Where(p => p.IsNew && p.NewUntil.HasValue && p.NewUntil.Value > DateTime.UtcNow)
-                .ToList();
+            if (filters == null)
+            {
+                filters = new ProductFilterViewModel();
+            }
 
-            return View(newProducts);
+            var products = ApplyFilters(_context.Products.Where(p => p.IsNew && p.NewUntil.HasValue && p.NewUntil.Value > DateTime.UtcNow), filters);
+            filters.Products = products.ToList();
+
+            return View(filters);
         }
 
+        private IQueryable<Product> ApplyFilters(IQueryable<Product> products, ProductFilterViewModel filters)
+        {
+            if (!string.IsNullOrEmpty(filters.SearchTerm))
+            {
+                string searchTerm = filters.SearchTerm.ToLower();
+                products = products.Where(p => p.Name.ToLower().Contains(searchTerm));
+            }
 
+            if (filters.MinPrice.HasValue)
+            {
+                products = products.Where(p =>
+                    (p.DiscountPrice.HasValue ? p.DiscountPrice.Value : p.Price) >= filters.MinPrice.Value);
+            }
+
+            if (filters.MaxPrice.HasValue)
+            {
+                products = products.Where(p =>
+                    (p.DiscountPrice.HasValue ? p.DiscountPrice.Value : p.Price) <= filters.MaxPrice.Value);
+            }
+
+            if (filters.OnDiscount.HasValue && filters.OnDiscount.Value)
+            {
+                products = products.Where(p => p.DiscountPrice.HasValue);
+            }
+
+            if (filters.InStock.HasValue && filters.InStock.Value)
+            {
+                products = products.Where(p => p.InStock > 0);
+            }
+            if (filters.MinPrice == null)
+            {
+                filters.MinPrice = 0;
+            }
+
+            if (filters.MaxPrice == null)
+            {
+                filters.MaxPrice = 10000;
+            }
+
+            return products;
+        }
     }
 }
