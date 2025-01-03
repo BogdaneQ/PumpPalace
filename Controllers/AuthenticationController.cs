@@ -189,6 +189,12 @@ namespace PumpPalace.Controllers
         [HttpGet]
         public IActionResult ResetPasswordPage(string token)
         {
+            if (string.IsNullOrEmpty(token))
+            {
+                TempData["ErrorMessage"] = "Token jest wymagany.";
+                return RedirectToAction("ForgotPasswordPage");
+            }
+
             var user = _dbContext.Customers.FirstOrDefault(c => c.PasswordResetToken == token && c.PasswordResetTokenExpiry > DateTime.UtcNow);
 
             if (user == null)
@@ -203,17 +209,10 @@ namespace PumpPalace.Controllers
 
         // Resetowanie hasła - Przetwarzanie formularza
         [HttpPost]
-        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        public IActionResult ResetPasswordPage(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View("ResetPasswordPage", model);
-            }
-
-            // Sprawdzamy, czy oba hasła są zgodne
-            if (model.Password != model.ConfirmPassword)
-            {
-                ModelState.AddModelError("ConfirmPassword", "Hasła nie są zgodne.");
                 return View("ResetPasswordPage", model);
             }
 
@@ -225,7 +224,7 @@ namespace PumpPalace.Controllers
                 return RedirectToAction("ForgotPasswordPage");
             }
 
-            // Hashujemy nowe hasło
+            // Hashowanie nowego hasła i resetowanie tokena
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
             user.PasswordResetToken = null;
             user.PasswordResetTokenExpiry = null;
