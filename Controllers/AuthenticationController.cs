@@ -74,18 +74,12 @@ namespace PumpPalace.Controllers
             return RedirectToAction("LoginPage");
         }
 
-        // Logowanie - Strona widoku
         [HttpGet]
         public IActionResult LoginPage()
         {
             return View();
         }
 
-
-
-
-
-        // Logowanie - Przetwarzanie formularza
         [HttpPost]
         public async Task<IActionResult> LoginPage(LoginViewModel model)
         {
@@ -102,7 +96,6 @@ namespace PumpPalace.Controllers
                 return View(model);
             }
 
-            // Tworzenie listy claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, customer.Username),                  // Nazwa użytkownika
@@ -122,23 +115,55 @@ namespace PumpPalace.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                TempData["ErrorMessage"] = "Nie znaleziono użytkownika.";
+                return RedirectToAction("LoginPage");
+            }
+
+            var customer = await _dbContext.Customers.FindAsync(int.Parse(userId));
+            if (customer == null)
+            {
+                TempData["ErrorMessage"] = "Nie znaleziono użytkownika.";
+                return RedirectToAction("LoginPage");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(model.OldPassword, customer.Password))
+            {
+                ModelState.AddModelError(string.Empty, "Aktualne hasło jest nieprawidłowe.");
+                return View(model);
+            }
+
+            customer.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+            _dbContext.Customers.Update(customer);
+            await _dbContext.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Hasło zostało pomyślnie zmienione.";
+            return RedirectToAction("MyAccount", "Customer");
+        }
 
 
-
-
-
-
-
-
-
-        // ForgotPassword - Strona widoku
         [HttpGet]
         public IActionResult ForgotPasswordPage()
         {
             return View();
         }
 
-        // ForgotPassword - Przetwarzanie formularza
         [HttpPost]
         public async Task<IActionResult> ForgotPasswordPage(ForgotPasswordViewModel model)
         {
