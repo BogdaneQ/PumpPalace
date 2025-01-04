@@ -37,6 +37,7 @@
     .filter-box button,
     .filter-box a {
         width: 48%;
+        margin: 2px;
         text-align: center;
     }
 

@@ -47,23 +47,43 @@ namespace PumpPalace.Controllers
             return RedirectToAction("OrderHistory");
         }
 
-        public async Task<IActionResult> OrderHistory(int page = 1)
+        public async Task<IActionResult> OrderHistory(int page = 1, int? orderId = null, DateTime? fromDate = null, DateTime? toDate = null, OrderStatus? status = null)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
-            const int PageSize = 6;
+            const int PageSize = 10;
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            // Pobierz historię zamówień użytkownika
+            // Budujemy zapytanie z filtrami
             var ordersQuery = _dbContext.Orders
-                .Where(o => o.CustomerId == userId)
-                .OrderByDescending(o => o.OrderDate);
+                .Where(o => o.CustomerId == userId);
 
-            var totalOrders = await ordersQuery.CountAsync(); // Łączna liczba zamówień
+            if (orderId.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.Id == orderId.Value);
+            }
+
+            if (fromDate.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.OrderDate >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.OrderDate <= toDate.Value);
+            }
+
+            if (status.HasValue)
+            {
+                ordersQuery = ordersQuery.Where(o => o.Status == status.Value);
+            }
+
+            var totalOrders = await ordersQuery.CountAsync();
             var orders = await ordersQuery
+                .OrderByDescending(o => o.OrderDate)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 .Select(o => new OrderHistoryViewModel
@@ -79,11 +99,19 @@ namespace PumpPalace.Controllers
             {
                 Orders = orders ?? new List<OrderHistoryViewModel>(),
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(totalOrders / (double)PageSize)
+                TotalPages = (int)Math.Ceiling(totalOrders / (double)PageSize),
+                Filters = new OrderHistoryFilterViewModel
+                {
+                    OrderId = orderId,
+                    FromDate = fromDate,
+                    ToDate = toDate,
+                    Status = status
+                }
             };
 
             return View(viewModel);
         }
+
 
         public async Task<IActionResult> OrderDetails(int orderId)
         {

@@ -42,17 +42,6 @@
     margin: 0 auto;
 }
 
-/* Styl dla Historia Zamówień */
-.account-container.order-history {
-    max-width: 800px;
-}
-
-.table-modern.order-history-table {
-    width: 100%;
-    margin: 10px auto;
-}
-
-
 /* Dostosowanie przycisków */
 .account-actions a {
     margin: 5px;
@@ -69,34 +58,3 @@
     padding: 5px 8px;
 }
 
-.pagination {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: left;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.page-number {
-    margin: 0 5px;
-    padding: 0; /* Brak wypełnienia wokół numerów */
-    text-decoration: none;
-    color: #333; /* Czarny kolor numerków */
-    font-size: 15px; /* Wymiary numerków */
-    display: inline-block;
-}
-
-    .page-number.current {
-        color: #333; /* Kolor numerka aktywnej strony */
-        font-weight: bold;
-    }
-
-    .page-number:hover {
-        background-color: transparent; /* Brak tła przy najechaniu */
-        text-decoration: underline; /* Podkreślenie przy najechaniu */
-    }
-
-    .page-number.dots {
-        color: #555; /* Kolor kropek w przypadku przerwy między stronami */
-        pointer-events: none;
-    }

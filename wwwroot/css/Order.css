@@ -1,2 +1,145 @@
-﻿body {
+﻿.order-container {
+    width: 950px !important; /* Zmniejsz szerokość kontenera */
+    padding: 10px; /* Lekko zwiększ padding, aby zawartość wyglądała estetyczniej */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; /* Wycentruj kontener */
 }
+
+.table-modern {
+    width: 100% !important; /* Dostosuj szerokość tabeli do kontenera */
+    border-collapse: collapse;
+    margin: 0 auto; /* Wycentruj tabelę */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+    .table-modern th,
+    .table-modern td {
+        padding: 8px 12px; /* Dodaj wypełnienie dla estetyki */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-modern th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .table-modern tr:hover {
+        background-color: #f1f1f1;
+    }
+
+
+/* Styl dla Historia Zamówień */
+.account-container.order-history {
+    max-width: 800px;
+}
+
+.table-modern.order-history-table {
+    width: 100%;
+}
+
+/* Dostosowanie przycisków */
+.action-button {
+    font-size: 12px; /* Zmniejszenie rozmiaru czcionki */
+    padding: 5px 8px; /* Dostosowanie odstępów wewnętrznych */
+    margin: 2px; /* Dodanie odstępów między przyciskami */
+    border-radius: 4px; /* Zaokrąglenie rogów */
+    border: 2px solid; /* Wstępna przezroczysta obramowanie */
+    transition: all 0.3s ease; /* Płynne przejście dla efektów */
+}
+
+.btn-success {
+    background-color: #28a745; /* Zielona barwa tła */
+    color: white;
+}
+
+    .btn-success:hover {
+        background-color: #218838; /* Ciemniejszy zielony na hover */
+        box-shadow: 0 0 8px rgba(40, 167, 69, 0.5); /* Zielona poświata */
+        border-color: #218838; /* Zielona obwódka */
+    }
+
+.btn-danger {
+    background-color: #dc3545; /* Czerwona barwa tła */
+    color: white;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333; /* Ciemniejszy czerwony na hover */
+        box-shadow: 0 0 8px rgba(220, 53, 69, 0.5); /* Czerwona poświata */
+        border-color: #c82333; /* Czerwona obwódka */
+    }
+
+.account-actions a {
+    margin: 5px;
+}
+
+.account-actions .btn-sm {
+    padding: 10px 10px;
+    width: 32%;
+}
+
+.action-buttons .btn-sm {
+    margin-right: 5px;
+    width: 32%;
+    padding: 5px 8px;
+}
+
+.pagination {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: left;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.page-number {
+    margin: 0 5px;
+    padding: 0; /* Brak wypełnienia wokół numerów */
+    text-decoration: none;
+    color: #333; /* Czarny kolor numerków */
+    font-size: 15px; /* Wymiary numerków */
+    display: inline-block;
+}
+
+    .page-number.current {
+        color: #333; /* Kolor numerka aktywnej strony */
+        font-weight: bold;
+    }
+
+    .page-number:hover {
+        background-color: transparent; /* Brak tła przy najechaniu */
+        text-decoration: underline; /* Podkreślenie przy najechaniu */
+    }
+
+    .page-number.dots {
+        color: #555; /* Kolor kropek w przypadku przerwy między stronami */
+        pointer-events: none;
+    }
+
+.filter-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 10px;
+    max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+    .filter-box button,
+    .filter-box a {
+        width: 48%;
+        margin: 2px;
+        text-align: center;
+    }
+
+    .filter-box .form-label {
+        font-weight: bold;
+        font-size: 14px;
+    }

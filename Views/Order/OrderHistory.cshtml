@@ -7,101 +7,145 @@
 
 <h2>Order History</h2>
 
-@if (Model.Orders != null && Model.Orders.Any())
-{
-    <div class="account-container order-history">
-        <table class="table-modern order-history-table">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Total Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var order in Model.Orders)
-                {
+<div class="row">
+    <!-- Sekcja filtrów po lewej stronie -->
+    <div class="col-md-3">
+        <div class="filter-box p-3 bg-light border rounded">
+            <h4>Filters</h4>
+            <form method="get" action="@Url.Action("OrderHistory", "Order")">
+                <div class="mb-3">
+                    <label for="OrderId" class="form-label">Order ID</label>
+                    <input type="number" id="OrderId" name="OrderId" class="form-control" value="@Model.Filters.OrderId" />
+                </div>
+                <div class="mb-3">
+                    <label for="FromDate" class="form-label">From Date</label>
+                    <input type="date" id="FromDate" name="FromDate" class="form-control" value="@(Model.Filters.FromDate?.ToString("yyyy-MM-dd") ?? "")" />
+                </div>
+                <div class="mb-3">
+                    <label for="ToDate" class="form-label">To Date</label>
+                    <input type="date" id="ToDate" name="ToDate" class="form-control" value="@(Model.Filters.ToDate?.ToString("yyyy-MM-dd") ?? "")" />
+                </div>
+                <div class="mb-3">
+                    <label for="Status" class="form-label">Order Status</label>
+                    <select id="Status" name="Status" class="form-control">
+                        <option value="">All</option>
+                        @foreach (var status in Enum.GetValues(typeof(PumpPalace.Models.OrderStatus)))
+                        {
+                            <option value="@status" @(Model.Filters.Status?.ToString() == status.ToString() ? "selected" : "")>
+                                @status
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Przyciski -->
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="@Url.Action("OrderHistory", "Order")" class="btn btn-reset">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista zamówień po prawej stronie -->
+    <div class="order-container">
+        @if (Model.Orders != null && Model.Orders.Any())
+        {
+            <table class="table-modern order-history-table">
+                <thead>
                     <tr>
-                        <td>@order.OrderId</td>
-                        <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
-                        <td>@order.OrderStatus</td>
-                        <td>@order.TotalPrice.ToString("C")</td>
-                        <td>
-                            <div class="action-buttons">
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@order.OrderStatus</td>
+                            <td>@order.TotalPrice.ToString("C")</td>
+                            <td>
                                 <form action="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-primary">Details</button>
+                                    <button type="submit" class="btn btn-primary action-button">View Details</button>
                                 </form>
 
                                 @if (order.OrderStatus == "Processing")
                                 {
                                     <form action="@Url.Action("PaymentPage", "Cart")" method="get" style="display:inline;">
                                         <input type="hidden" name="orderId" value="@order.OrderId" />
-                                        <button type="submit" class="btn btn-success">Pay</button>
+                                        <button type="submit" class="btn btn-success action-button">Pay Now</button>
                                     </form>
                                 }
                                 else if (order.OrderStatus == "New" || order.OrderStatus == "Paid")
                                 {
-                                    <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
+                                    <form id="cancelOrderForm_@order.OrderId" action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
                                         <input type="hidden" name="orderId" value="@order.OrderId" />
-                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                        <button type="submit" class="btn btn-danger action-button" onclick="confirmCancel(event, @order.OrderId)">Cancel Order</button>
                                     </form>
                                 }
                                 else
                                 {
                                     <span>N/A</span>
                                 }
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    }
 
-        <!-- Paginacja -->
-        <div class="pagination">
+                </tbody>
+            </table>
 
-            <!-- Pierwsza strona -->
-            @if (Model.CurrentPage > 2)
-            {
-                <a href="@Url.Action("OrderHistory", "Order", new { page = 1 })" class="page-number">1</a>
-                @if (Model.CurrentPage > 3)
+            <div class="pagination">
+
+                @if (Model.CurrentPage > 2)
                 {
-                    <span class="page-number dots">...</span>
+                    <a href="@Url.Action("OrderHistory", "Order", new { page = 1, orderId = Model.Filters.OrderId, fromDate = Model.Filters.FromDate, toDate = Model.Filters.ToDate, status = Model.Filters.Status })" class="page-number">1</a>
+                    @if (Model.CurrentPage > 3)
+                    {
+                        <span class="page-number dots">...</span>
+                    }
                 }
-            }
 
-            <!-- Lewa strona od bieżącej strony -->
-            @if (Model.CurrentPage > 1)
-            {
-                <a href="@Url.Action("OrderHistory", "Order", new { page = Model.CurrentPage - 1 })" class="page-number">@((Model.CurrentPage - 1).ToString())</a>
-            }
-
-            <!-- Bieżąca strona -->
-            <span class="page-number current">@Model.CurrentPage</span>
-
-            <!-- Prawa strona od bieżącej strony -->
-            @if (Model.CurrentPage < Model.TotalPages)
-            {
-                <a href="@Url.Action("OrderHistory", "Order", new { page = Model.CurrentPage + 1 })" class="page-number">@((Model.CurrentPage + 1).ToString())</a>
-            }
-
-            <!-- Ostatnia strona -->
-            @if (Model.CurrentPage < Model.TotalPages - 1)
-            {
-                @if (Model.CurrentPage < Model.TotalPages - 2)
+                @if (Model.CurrentPage > 1)
                 {
-                    <span class="page-number dots">...</span>
+                    <a href="@Url.Action("OrderHistory", "Order", new { page = Model.CurrentPage - 1, orderId = Model.Filters.OrderId, fromDate = Model.Filters.FromDate, toDate = Model.Filters.ToDate, status = Model.Filters.Status })" class="page-number">@((Model.CurrentPage - 1).ToString())</a>
                 }
-                <a href="@Url.Action("OrderHistory", "Order", new { page = Model.TotalPages })" class="page-number">@Model.TotalPages</a>
-            }
 
-        </div>
+                <span class="page-number current">@Model.CurrentPage</span>
 
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <a href="@Url.Action("OrderHistory", "Order", new { page = Model.CurrentPage + 1, orderId = Model.Filters.OrderId, fromDate = Model.Filters.FromDate, toDate = Model.Filters.ToDate, status = Model.Filters.Status })" class="page-number">@((Model.CurrentPage + 1).ToString())</a>
+                }
+
+                @if (Model.CurrentPage < Model.TotalPages - 1)
+                {
+                    @if (Model.CurrentPage < Model.TotalPages - 2)
+                    {
+                        <span class="page-number dots">...</span>
+                    }
+                    <a href="@Url.Action("OrderHistory", "Order", new { page = Model.TotalPages, orderId = Model.Filters.OrderId, fromDate = Model.Filters.FromDate, toDate = Model.Filters.ToDate, status = Model.Filters.Status })" class="page-number">@Model.TotalPages</a>
+                }
+            </div>
+
+                }
+                else
+                {
+                    <p>You have no orders in your history.</p>
+                }
     </div>
-}
-else
-{
-    <p>You have no orders in your history.</p>
-}
+</div>
+
+<script>
+    function confirmCancel(event, orderId) {
+        event.preventDefault();  // Zatrzymuje domyślne działanie przycisku
+        var confirmation = confirm("Are you sure you want to cancel this order?");
+        if (confirmation) {
+            document.getElementById('cancelOrderForm_' + orderId).submit();
+        }
+    }
+</script>
