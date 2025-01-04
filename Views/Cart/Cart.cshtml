@@ -22,8 +22,13 @@
 
 @if (Model == null || !Model.Any())
 {
-    <div class="alert alert-warning">
+    <div class="alert alert-warning" style="margin:10px">
         <strong>Your cart is empty.</strong>
+    </div>
+    <div class="mt-4">
+        <a href="@Url.Action("ProductList", "Product")" class="btn btn-primary">
+            <i class="bi bi-arrow-left"></i> Go Shopping!
+        </a>
     </div>
 }
 else
