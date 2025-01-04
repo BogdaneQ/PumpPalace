@@ -1,58 +1,61 @@
 ﻿@model PumpPalace.Models.OrderSummaryViewModel
-
 @{
     ViewData["Title"] = "Order Details";
     Layout = "Layout";
 }
 
-<h2>Order Details</h2>
+<div class="order-container">
+    <h2>Order Details</h2>
 
-<div class="card mb-4 shadow-sm">
-    <div class="card-header">
-        <h5><strong>Order Information</strong></h5>
+    <div class="card-order mb-4 shadow-sm">
+        <div class="card-header">
+            <h5><strong>Order Information</strong></h5>
+        </div>
+        <div class="card-order-body">
+            <p><strong>Order ID:</strong> @Model.OrderId</p>
+            <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy")</p>
+            <p><strong>Status:</strong> <span class="badge bg-info">@Model.OrderStatus</span></p>
+            <p><strong>Total Price:</strong> <span class="text-success">@Model.TotalPrice.ToString("C")</span></p>
+        </div>
     </div>
-    <div class="card-body">
-        <p><strong>Order ID:</strong> @Model.OrderId</p>
-        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy")</p>
-        <p><strong>Status:</strong> <span class="badge bg-info">@Model.OrderStatus</span></p>
-        <p><strong>Total Price:</strong> <span class="text-success">@Model.TotalPrice.ToString("C")</span></p>
-    </div>
-</div>
 
-<h4 class="mt-4">Ordered Items</h4>
+    <h4 class="mt-4">Ordered Items</h4>
 
-@if (Model.OrderItems != null && Model.OrderItems.Any())
-{
-    <table class="table table-hover table-striped shadow-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.OrderItems)
-            {
+    @if (Model.OrderItems != null && Model.OrderItems.Any())
+    {
+        <table class="table-modern table-hover table-striped shadow-sm">
+            <thead class="table-dark">
                 <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@item.TotalPrice.ToString("C")</td>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total Price</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="alert alert-warning">
-        <strong>No items found in this order.</strong>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.TotalPrice.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <strong>No items found in this order.</strong>
+        </div>
+    }
+
+    <div class="mt-4">
+        <a href="@Url.Action("OrderHistory", "Order")" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Order History
+        </a>
     </div>
-}
-<div class="mt-4">
-    <a href="@Url.Action("OrderHistory", "Order")" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Back to Order History
-    </a>
 </div>
+

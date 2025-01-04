@@ -4,7 +4,19 @@
     ViewData["Title"] = "Order History";
     Layout = "Layout";
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <h2>Order History</h2>
 
 <div class="row">
