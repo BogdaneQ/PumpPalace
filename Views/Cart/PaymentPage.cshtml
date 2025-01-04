@@ -65,13 +65,18 @@
     </div>
 
     <!-- Payment Confirmation Checkbox -->
-    <div class="form-group">
+    <div class="form-group mb-3">
         <input type="checkbox" id="PaymentConfirmed" name="PaymentConfirmed" value="true" />
         <label for="PaymentConfirmed"><strong>I confirm that the payment information is correct.</strong></label>
     </div>
 
     <button type="submit" class="btn btn-success">Confirm Payment</button>
 </form>
+<div class="mt-4">
+    <a href="@Url.Action("OrderHistory", "Order")" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Pay Later
+    </a>
+</div>
 
 <script>
     function togglePaymentFields() {

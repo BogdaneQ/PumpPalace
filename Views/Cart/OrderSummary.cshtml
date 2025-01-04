@@ -5,86 +5,85 @@
     Layout = "Layout";
 }
 
-<h2 class="mb-4">Order Summary</h2>
+<div class="cart-container">
+    <h2>Order Summary</h2>
 
-<!-- Order Details -->
-<div class="card mb-4 shadow-sm">
-    <div class="card-header">
-        <h5><strong>Order Details</strong></h5>
+    <!-- Order Information -->
+    <div class="card-summary mb-4 shadow-sm">
+        <div class="card-header">
+            <h5><strong>Order Information</strong></h5>
+        </div>
+        <div class="card-summary-body">
+            <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy")</p>
+            <p><strong>Status:</strong> <span class="badge bg-info">@Model.OrderStatus</span></p>
+            <p><strong>Total Price:</strong> <span class="text-success">@Model.TotalPrice.ToString("C")</span></p>
+        </div>
     </div>
-    <div class="card-body">
-        <p><strong>Order ID:</strong> @Model.OrderId</p>
-        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy")</p>
-        <p><strong>Order Status:</strong> <span class="badge bg-info">@Model.OrderStatus</span></p>
-        <p><strong>Total Price:</strong> <span class="text-success">@Model.TotalPrice.ToString("C")</span></p>
-    </div>
-</div>
 
-<!-- Shipping and Billing Address -->
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h5><strong>Shipping Address</strong></h5>
+    <!-- Addresses -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card-summary shadow-sm">
+                <div class="card-header">
+                    <h5><strong>Shipping Address</strong></h5>
+                </div>
+                <div class="card-summary-body">
+                    <p>@Model.ShippingAddress</p>
+                </div>
             </div>
-            <div class="card-body">
-                <p>@Model.ShippingAddress</p>
+        </div>
+        <div class="col-md-6">
+            <div class="card-summary shadow-sm">
+                <div class="card-header">
+                    <h5><strong>Billing Address</strong></h5>
+                </div>
+                <div class="card-summary-body">
+                    <p>@Model.BillingAddress</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h5><strong>Billing Address</strong></h5>
-            </div>
-            <div class="card-body">
-                <p>@Model.BillingAddress</p>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Ordered Items -->
-<h4 class="mb-3">Ordered Items</h4>
-
-@if (Model.OrderItems != null && Model.OrderItems.Any())
-{
-    <table class="table table-hover table-striped shadow-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.OrderItems)
-            {
+    <!-- Ordered Items -->
+    <h4 class="mt-4">Ordered Items</h4>
+    @if (Model.OrderItems != null && Model.OrderItems.Any())
+    {
+        <table class="table-modern table-hover table-striped shadow-sm">
+            <thead class="table-dark">
                 <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@item.TotalPrice.ToString("C")</td>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total Price</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="alert alert-warning" role="alert">
-        <strong>No items found in your order.</strong>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.TotalPrice.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <strong>No items found in this order.</strong>
+        </div>
+    }
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="@Url.Action("Cart", "Cart")" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Cart
+        </a>
+        <form action="@Url.Action("ProceedToPayment", "Cart")" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Proceed to Payment</button>
+        </form>
     </div>
-}
-
-<!-- Action Buttons -->
-<div class="d-flex justify-content-between mt-4">
-    <!-- Back to Cart -->
-    <a href="@Url.Action("Cart", "Cart")" class="btn btn-secondary">Back to Cart</a>
-
-    <!-- Proceed to Payment -->
-    <form action="@Url.Action("ProceedToPayment", "Cart")" method="post" style="display:inline;">
-        <button type="submit" class="btn btn-danger">Proceed to Payment</button>
-    </form>
 </div>

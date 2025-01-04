@@ -32,3 +32,16 @@
     .table-modern tr:hover {
         background-color: #f1f1f1;
     }
+.card-summary {
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.card-summary-body {
+    background-color: #f8f9fa;
+}
