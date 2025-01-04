@@ -47,20 +47,25 @@ namespace PumpPalace.Controllers
             return RedirectToAction("OrderHistory");
         }
 
-        public async Task<IActionResult> OrderHistory()
+        public async Task<IActionResult> OrderHistory(int page = 1)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("LoginPage", "Authentication");
             }
 
-            // Pobierz userId
+            const int PageSize = 6;
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             // Pobierz historię zamówień użytkownika
-            var orders = await _dbContext.Orders
+            var ordersQuery = _dbContext.Orders
                 .Where(o => o.CustomerId == userId)
-                .OrderByDescending(o => o.OrderDate)
+                .OrderByDescending(o => o.OrderDate);
+
+            var totalOrders = await ordersQuery.CountAsync(); // Łączna liczba zamówień
+            var orders = await ordersQuery
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
                 .Select(o => new OrderHistoryViewModel
                 {
                     OrderId = o.Id,
@@ -72,7 +77,9 @@ namespace PumpPalace.Controllers
 
             var viewModel = new OrderHistoryListViewModel
             {
-                Orders = orders ?? new List<OrderHistoryViewModel>()
+                Orders = orders ?? new List<OrderHistoryViewModel>(),
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalOrders / (double)PageSize)
             };
 
             return View(viewModel);

@@ -3,6 +3,7 @@
     ViewData["Title"] = "Moje konto";
     Layout = "Layout";
 }
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success">
@@ -16,20 +17,22 @@
         @TempData["ErrorMessage"]
     </div>
 }
+
 <h2>Moje Konto</h2>
 
-<table class="table-white account-table">
-    <tr><th>Nazwa użytkownika</th><td>@Model.Username</td></tr>
-    <tr><th>Imię</th><td>@Model.FirstName</td></tr>
-    <tr><th>Nazwisko</th><td>@Model.LastName</td></tr>
-    <tr><th>Email</th><td>@Model.Email</td></tr>
-    <tr><th>Telefon</th><td>@Model.Phone</td></tr>
-    <tr><th>Adres</th><td>@Model.Address</td></tr>
-</table>
+<div class="account-container my-account mb-3">
+    <table class="table-modern my-account-table">
+        <tr><th>Nazwa użytkownika</th><td>@Model.Username</td></tr>
+        <tr><th>Imię</th><td>@Model.FirstName</td></tr>
+        <tr><th>Nazwisko</th><td>@Model.LastName</td></tr>
+        <tr><th>Email</th><td>@Model.Email</td></tr>
+        <tr><th>Telefon</th><td>@Model.Phone</td></tr>
+        <tr><th>Adres</th><td>@Model.Address</td></tr>
+    </table>
+</div>
 
-
-<div>
-    <a class="btn btn-primary" href="@Url.Action("ChangePassword", "Authentication")">Zmień Hasło</a>
-    <a class="btn btn-primary" href="@Url.Action("EditProfile", "Customer")">Edytuj Profil</a>
-    <a class="btn btn-secondary" href="@Url.Action("OrderHistory", "Order")">Historia Zamówień</a>
+<div class="account-actions">
+    <a class="btn btn-secondary btn-sm" href="@Url.Action("OrderHistory", "Order")">Historia Zamówień</a>
+    <a class="btn btn-primary btn-sm" href="@Url.Action("EditProfile", "Customer")">Edytuj Profil</a>
+    <a class="btn btn-primary btn-sm" href="@Url.Action("ChangePassword", "Authentication")">Zmień Hasło</a>
 </div>

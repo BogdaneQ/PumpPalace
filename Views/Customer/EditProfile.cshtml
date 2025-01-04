@@ -17,40 +17,40 @@
     @Html.AntiForgeryToken()
     <div class="form-group">
         <label for="username">Nazwa użytkownika</label>
-        <input type="text" id="username" name="Username" class="form-control" value="@Model.Username" required />
+        <input type="text" id="username" name="Username" class="form-control input-half" value="@Model.Username" required />
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="firstName">Imię</label>
-        <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model.FirstName" required />
+        <input type="text" id="firstName" name="FirstName" class="form-control input-half" value="@Model.FirstName" required />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="lastName">Nazwisko</label>
-        <input type="text" id="lastName" name="LastName" class="form-control" value="@Model.LastName" required />
+        <input type="text" id="lastName" name="LastName" class="form-control input-half" value="@Model.LastName" required />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" required />
+        <input type="email" id="email" name="Email" class="form-control input-half" value="@Model.Email" required />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="phone">Telefon</label>
-        <input type="tel" id="phone" name="Phone" class="form-control" value="@Model.Phone" />
+        <input type="tel" id="phone" name="Phone" class="form-control input-half" value="@Model.Phone" />
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label for="address">Adres</label>
-        <input type="text" id="address" name="Address" class="form-control" value="@Model.Address" />
+        <input type="text" id="address" name="Address" class="form-control input-half" value="@Model.Address" />
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <button type="submit" class="btn btn-primary mb-3">Zapisz zmiany</button>
     <a class="btn btn-secondary" href="@Url.Action("MyAccount", "Customer")">Powrót</a>
 </form>

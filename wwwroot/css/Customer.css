@@ -1,2 +1,102 @@
-﻿body {
+﻿/* Minimalistyczny styl tabeli */
+.account-container {
+    margin: 20px left;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.table-modern {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+    .table-modern th,
+    .table-modern td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-modern th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .table-modern tr:hover {
+        background-color: #f1f1f1;
+    }
+
+/* Styl dla Moje Konto */
+.account-container.my-account {
+    max-width: 500px;
+}
+
+.table-modern.my-account-table {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Styl dla Historia Zamówień */
+.account-container.order-history {
+    max-width: 800px;
+}
+
+.table-modern.order-history-table {
+    width: 100%;
+    margin: 10px auto;
+}
+
+
+/* Dostosowanie przycisków */
+.account-actions a {
+    margin: 5px;
+}
+
+.account-actions .btn-sm {
+    padding: 10px 10px;
+    width: 32%;
+}
+
+.action-buttons .btn-sm {
+    margin-right: 5px;
+    width: 32%;
+    padding: 5px 8px;
+}
+
+.pagination {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: left;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.page-number {
+    margin: 0 5px;
+    padding: 0; /* Brak wypełnienia wokół numerów */
+    text-decoration: none;
+    color: #333; /* Czarny kolor numerków */
+    font-size: 15px; /* Wymiary numerków */
+    display: inline-block;
+}
+
+    .page-number.current {
+        color: #333; /* Kolor numerka aktywnej strony */
+        font-weight: bold;
+    }
+
+    .page-number:hover {
+        background-color: transparent; /* Brak tła przy najechaniu */
+        text-decoration: underline; /* Podkreślenie przy najechaniu */
+    }
+
+    .page-number.dots {
+        color: #555; /* Kolor kropek w przypadku przerwy między stronami */
+        pointer-events: none;
+    }

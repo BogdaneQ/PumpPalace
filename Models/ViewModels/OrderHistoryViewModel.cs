@@ -10,6 +10,8 @@
 
     public class OrderHistoryListViewModel
     {
-        public List<OrderHistoryViewModel> Orders { get; set; } = new List<OrderHistoryViewModel>(); // Zainicjalizowana lista
+        public List<OrderHistoryViewModel> Orders { get; set; } = new List<OrderHistoryViewModel>();
+        public int CurrentPage { get; set; } // Obecna strona
+        public int TotalPages { get; set; } // Łączna liczba stron
     }
 }

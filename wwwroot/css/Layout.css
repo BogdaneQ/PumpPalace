@@ -223,3 +223,33 @@ a.link-primary {
         background-color: #757069;
         color: white;
     }
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 0;
+    border: none;
+    background-color: #a29a8f;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #757069;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 0;
+    border: none;
+    background-color: #757069;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-secondary:hover {
+        background-color: #5b5752;
+    }
