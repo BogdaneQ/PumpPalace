@@ -1,2 +1,34 @@
-﻿body {
+﻿.cart-container {
+    width: 950px !important; /* Zmniejsz szerokość kontenera */
+    padding: 20px; /* Lekko zwiększ padding, aby zawartość wyglądała estetyczniej */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
 }
+
+.table-modern {
+    width: 100% !important; /* Dostosuj szerokość tabeli do kontenera */
+    border-collapse: collapse;
+    margin: 0 auto; /* Wycentruj tabelę */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+    .table-modern th,
+    .table-modern td {
+        padding: 8px 12px; /* Dodaj wypełnienie dla estetyki */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-modern th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .table-modern tr:hover {
+        background-color: #f1f1f1;
+    }

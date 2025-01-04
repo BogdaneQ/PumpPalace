@@ -1,11 +1,12 @@
 ﻿.order-container {
+
     width: 950px !important; /* Zmniejsz szerokość kontenera */
-    padding: 10px; /* Lekko zwiększ padding, aby zawartość wyglądała estetyczniej */
+    padding: 20px; /* Lekko zwiększ padding, aby zawartość wyglądała estetyczniej */
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 0 auto; /* Wycentruj kontener */
+    margin: 20px auto; /* Wycentruj kontener */
 }
 
 .table-modern {

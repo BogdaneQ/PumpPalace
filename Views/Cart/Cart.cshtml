@@ -4,7 +4,7 @@
     Layout = "Layout";
 }
 
-<h2>Your Cart</h2>
+
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -20,79 +20,86 @@
     </div>
 }
 
-
 @if (Model == null || !Model.Any())
 {
-    <p>Your cart is empty.</p>
+    <div class="alert alert-warning">
+        <strong>Your cart is empty.</strong>
+    </div>
 }
 else
 {
-    <table class="table-white cart-table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Actions</th> <!-- Column for actions like updating or removing -->
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <table class="table-modern cart-table">
+            <thead>
                 <tr>
-                    <td>@item.ProductName</td>
-                    <td>
-                        <!-- Quantity input with update button -->
-                        <form action="@Url.Action("UpdateQuantity", "Cart")" method="post" style="display:inline;">
-                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
-                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 60px; display: inline-block;" />
-                            <button type="submit" class="btn btn-warning btn-sm">Update Quantity</button>
-                        </form>
-                    </td>
-
-                    <td>
-                        @if (item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price)
-                        {
-                            <span class="text-danger"><del>@item.Price.ToString("C")</del></span>
-                            <span class="text-success">@item.DiscountPrice.Value.ToString("C")</span>
-                        }
-                        else
-                        {
-                            <span>@item.Price.ToString("C")</span>
-                        }
-                    </td>
-
-                    <td>
-                        @{
-                            var totalPrice = item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price
-                            ? item.Quantity * item.DiscountPrice.Value
-                            : item.Quantity * item.Price;
-
-                            var formattedPrice = totalPrice.ToString("C");
-                        }
-                        <span>@formattedPrice</span>
-                    </td>
-
-                    <td>
-                        <!-- Remove item button -->
-                        <form action="@Url.Action("RemoveFromCart", "Cart")" method="post" style="display:inline;">
-                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
-                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                        </form>
-                    </td>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>
+                            <form action="@Url.Action("UpdateQuantity", "Cart")" method="post" style="display:inline;">
+                                <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 60px; display: inline-block;" />
+                                <button type="submit" class="btn btn-primary btn-sm" style="width: 200px;">Update Quantity</button>
+                            </form>
+                        </td>
+                        <td>
+                            @if (item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price)
+                            {
+                                <span class="text-danger"><del>@item.Price.ToString("C")</del></span>
+                                <span class="text-success">@item.DiscountPrice.Value.ToString("C")</span>
+                            }
+                            else
+                            {
+                                <span>@item.Price.ToString("C")</span>
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var totalPrice = item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price
+                                ? item.Quantity * item.DiscountPrice.Value
+                                : item.Quantity * item.Price;
 
-    <!-- Display total price for all items, considering discount -->
-    <h3>
-        Total:
-        @Model.Sum(item => item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price
-                ? item.Quantity * item.DiscountPrice.Value
-                : item.Quantity * item.Price).ToString("C")
-    </h3>
+                                var formattedPrice = totalPrice.ToString("C");
+                            }
+                            <span>@formattedPrice</span>
+                        </td>
+                        <td>
+                            <form action="@Url.Action("RemoveFromCart", "Cart")" method="post" style="display:inline;">
+                                <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <a href="@Url.Action("OrderSummary", "Cart")" class="btn btn-primary">Proceed to Checkout</a>
+        <div class="cart-summary mt-4">
+            <h4>Total:</h4>
+            <p class="h5 text-success">
+                @Model.Sum(item => item.DiscountPrice.HasValue && item.DiscountPrice.Value < item.Price
+                         ? item.Quantity * item.DiscountPrice.Value
+                         : item.Quantity * item.Price).ToString("C")
+            </p>
+        </div>
+
+        <div class="cart-actions d-flex justify-content-between mt-4">
+            <a href="@Url.Action("ProductList", "Product")" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Continue Shopping
+            </a>
+            <a href="@Url.Action("OrderSummary", "Cart")" class="btn btn-primary">
+                Proceed to Checkout
+            </a>
+        </div>
+    </div>
 }
