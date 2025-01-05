@@ -12,7 +12,7 @@ using PumpPalace.Models;
 namespace PumpPalace.Migrations
 {
     [DbContext(typeof(PumpPalaceDbContext))]
-    [Migration("20241126144846_Migracja2")]
+    [Migration("20250105164032_Migracja2")]
     partial class Migracja2
     {
         /// <inheritdoc />
@@ -63,6 +63,8 @@ namespace PumpPalace.Migrations
                     b.HasKey("CartItemId");
 
                     b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartItems");
                 });
@@ -177,7 +179,6 @@ namespace PumpPalace.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordResetToken")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("PasswordResetTokenExpiry")
@@ -305,6 +306,8 @@ namespace PumpPalace.Migrations
 
                     b.HasIndex("OrderId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("OrderItems");
                 });
 
@@ -342,6 +345,9 @@ namespace PumpPalace.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("NewUntil")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
@@ -400,6 +406,22 @@ namespace PumpPalace.Migrations
                     b.ToTable("Skins");
                 });
 
+            modelBuilder.Entity("PumpPalace.Models.ViewsCounter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Counter")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ViewsCounters");
+                });
+
             modelBuilder.Entity("PumpPalace.Models.Cart", b =>
                 {
                     b.HasOne("PumpPalace.Models.Customer", "User")
@@ -419,7 +441,15 @@ namespace PumpPalace.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PumpPalace.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Cart");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("PumpPalace.Models.Category", b =>
@@ -443,6 +473,14 @@ namespace PumpPalace.Migrations
                     b.HasOne("PumpPalace.Models.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("PumpPalace.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("PumpPalace.Models.Product", b =>

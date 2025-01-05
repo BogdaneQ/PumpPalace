@@ -23,6 +23,7 @@ namespace PumpPalace.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductStats> ProductStats { get; set; }
         public DbSet<Skin> Skins { get; set; }
+        public DbSet<ViewsCounter> ViewsCounters { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

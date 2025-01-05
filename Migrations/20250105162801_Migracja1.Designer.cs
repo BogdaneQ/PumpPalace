@@ -12,8 +12,8 @@ using PumpPalace.Models;
 namespace PumpPalace.Migrations
 {
     [DbContext(typeof(PumpPalaceDbContext))]
-    [Migration("20250104123825_Migracja31")]
-    partial class Migracja31
+    [Migration("20250105162801_Migracja1")]
+    partial class Migracja1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -404,6 +404,22 @@ namespace PumpPalace.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skins");
+                });
+
+            modelBuilder.Entity("PumpPalace.Models.ViewsCounter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Counter")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ViewsCounters");
                 });
 
             modelBuilder.Entity("PumpPalace.Models.Cart", b =>

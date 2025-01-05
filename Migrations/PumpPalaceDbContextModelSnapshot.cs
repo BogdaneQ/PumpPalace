@@ -403,6 +403,22 @@ namespace PumpPalace.Migrations
                     b.ToTable("Skins");
                 });
 
+            modelBuilder.Entity("PumpPalace.Models.ViewsCounter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Counter")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ViewsCounters");
+                });
+
             modelBuilder.Entity("PumpPalace.Models.Cart", b =>
                 {
                     b.HasOne("PumpPalace.Models.Customer", "User")
