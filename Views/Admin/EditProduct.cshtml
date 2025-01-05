@@ -4,71 +4,74 @@
     Layout = "Layout";
 }
 
-<h2>Edit Product</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Product</h2>
 
-<form asp-action="EditProduct" asp-controller="Admin" method="post">
-    <div>
+    <form asp-action="EditProduct" asp-controller="Admin" method="post" class="needs-validation">
         <input type="hidden" name="Id" value="@Model.Id" />
-        <label for="Name">Name:</label>
-        <input type="text" id="Name" name="Name" value="@Model.Name" placeholder="Enter product name" required />
-    </div>
 
-    <div>
-        <label for="Description">Description:</label>
-        <textarea id="Description" name="Description" placeholder="Enter product description" required>@Model.Description</textarea>
-    </div>
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name:</label>
+            <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" placeholder="Enter product name" required />
+        </div>
 
-    <div>
-        <label for="Price">Price:</label>
-        <input type="number" id="Price" name="Price" value="@Model.Price" step="0.01" placeholder="Enter product price" required />
-    </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label">Description:</label>
+            <textarea id="Description" name="Description" class="form-control" placeholder="Enter product description" required>@Model.Description</textarea>
+        </div>
 
-    <div>
-        <label for="DiscountPrice">Discount Price:</label>
-        <input type="number" id="DiscountPrice" name="DiscountPrice" value="@Model.DiscountPrice" step="0.01" placeholder="Enter discounted price (optional)" />
-    </div>
+        <div class="mb-3">
+            <label for="Price" class="form-label">Price:</label>
+            <input type="number" id="Price" name="Price" class="form-control" value="@Model.Price" step="0.01" placeholder="Enter product price" required />
+        </div>
 
-    <div>
-        <label for="Currency">Currency:</label>
-        <select id="Currency" name="Currency" required>
-            <option value="">-- Select a currency --</option>
-            @foreach (var currency in ViewBag.Currencies as List<SelectListItem>)
-            {
-                <option value="@currency.Value" @(currency.Value == Model.Currency ? "selected" : "")>@currency.Text</option>
-            }
-        </select>
-    </div>
+        <div class="mb-3">
+            <label for="DiscountPrice" class="form-label">Discount Price:</label>
+            <input type="number" id="DiscountPrice" name="DiscountPrice" class="form-control" value="@Model.DiscountPrice" step="0.01" placeholder="Enter discounted price (optional)" />
+        </div>
 
-    <div>
-        <label for="PictureUrl">Picture URL:</label>
-        <input type="text" id="PictureUrl" name="PictureUrl" value="@Model.PictureUrl" placeholder="Enter picture URL" />
-    </div>
+        <div class="mb-3">
+            <label for="Currency" class="form-label">Currency:</label>
+            <select id="Currency" name="Currency" class="form-select" required>
+                <option value="">-- Select a currency --</option>
+                @foreach (var currency in ViewBag.Currencies as List<SelectListItem>)
+                {
+                    <option value="@currency.Value" @(currency.Value == Model.Currency ? "selected" : "")>@currency.Text</option>
+                }
+            </select>
+        </div>
 
-    <div>
-        <label for="InStock">In Stock:</label>
-        <input type="number" id="InStock" name="InStock" value="@Model.InStock" placeholder="Enter stock quantity" required />
-    </div>
+        <div class="mb-3">
+            <label for="PictureUrl" class="form-label">Picture URL:</label>
+            <input type="text" id="PictureUrl" name="PictureUrl" class="form-control" value="@Model.PictureUrl" placeholder="Enter picture URL" />
+        </div>
 
-    <div>
-        <label for="CategoryId">Category:</label>
-        <select id="CategoryId" name="CategoryId" required>
-            <option value="">-- Select a category --</option>
-            @foreach (var category in ViewBag.Categories as List<SelectListItem>)
-            {
-                <option value="@category.Value" @(category.Value == Model.CategoryId.ToString() ? "selected" : "")>@category.Text</option>
-            }
-        </select>
-    </div>
+        <div class="mb-3">
+            <label for="InStock" class="form-label">In Stock:</label>
+            <input type="number" id="InStock" name="InStock" class="form-control" value="@Model.InStock" placeholder="Enter stock quantity" required />
+        </div>
 
-    <div>
-        <label for="IsNew">Is New:</label>
-        <input type="checkbox" id="IsNew" name="IsNew" value="true" @(Model.IsNew ? "checked" : "") />
-    </div>
+        <div class="mb-3">
+            <label for="CategoryId" class="form-label">Category:</label>
+            <select id="CategoryId" name="CategoryId" class="form-select" required>
+                <option value="">-- Select a category --</option>
+                @foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                {
+                    <option value="@category.Value" @(category.Value == Model.CategoryId.ToString() ? "selected" : "")>@category.Text</option>
+                }
+            </select>
+        </div>
 
-    <div>
-        <label for="IsPromotion">Is Promotion:</label>
-        <input type="checkbox" id="IsPromotion" name="IsPromotion" value="true" @(Model.IsPromotion ? "checked" : "") />
-    </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" id="IsNew" name="IsNew" value="true" class="form-check-input" @(Model.IsNew ? "checked" : "") />
+            <label for="IsNew" class="form-check-label">Is New</label>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Update Product</button>
-</form>
+        <div class="form-check mb-3">
+            <input type="checkbox" id="IsPromotion" name="IsPromotion" value="true" class="form-check-input" @(Model.IsPromotion ? "checked" : "") />
+            <label for="IsPromotion" class="form-check-label">Is Promotion</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Product</button>
+    </form>
+</div>
